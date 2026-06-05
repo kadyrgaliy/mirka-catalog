@@ -1,0 +1,2171 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AURORA SPA — Luxury Wellness</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #080808;
+      --surface: #111111;
+      --card: #181818;
+      --card-hover: #202020;
+      --gold: #C9A96E;
+      --gold-lt: #E8C98A;
+      --gold-dk: #A07840;
+      --text: #F2EDE4;
+      --muted: #888880;
+      --border: rgba(201,169,110,0.18);
+      --ff-head: 'Playfair Display', Georgia, serif;
+      --ff-body: 'Inter', sans-serif;
+      --transition: 0.4s cubic-bezier(.25,.8,.25,1);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--ff-body);
+      font-size: 16px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--gold-dk); border-radius: 3px; }
+
+    /* ── UTILS ── */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .section { padding: 100px 0; }
+    .section-label {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-family: var(--ff-head);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 24px;
+    }
+    .section-subtitle {
+      font-size: 1rem;
+      color: var(--muted);
+      max-width: 560px;
+      line-height: 1.8;
+    }
+    .gold { color: var(--gold); }
+    .text-center { text-align: center; }
+    .text-center .section-subtitle { margin: 0 auto; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 32px;
+      border-radius: 2px;
+      font-family: var(--ff-body);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      border: none;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    .btn-gold {
+      background: linear-gradient(135deg, var(--gold-dk), var(--gold), var(--gold-lt));
+      background-size: 200% 200%;
+      background-position: 0% 50%;
+      color: #000;
+    }
+    .btn-gold:hover { background-position: 100% 50%; transform: translateY(-2px); box-shadow: 0 10px 40px rgba(201,169,110,0.3); }
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+
+    /* ── FADE-IN ANIMATION ── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .fade-up.delay-1 { transition-delay: 0.1s; }
+    .fade-up.delay-2 { transition-delay: 0.2s; }
+    .fade-up.delay-3 { transition-delay: 0.3s; }
+    .fade-up.delay-4 { transition-delay: 0.4s; }
+    .fade-up.delay-5 { transition-delay: 0.5s; }
+    .fade-up.delay-6 { transition-delay: 0.6s; }
+
+    /* ── DIVIDER ── */
+    .gold-line {
+      display: block;
+      width: 60px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+      margin: 20px auto 0;
+    }
+    .gold-line-left {
+      display: block;
+      width: 60px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+      margin: 20px 0;
+    }
+
+    /* ══════════════════════════════
+       NAVBAR
+    ══════════════════════════════ */
+    #navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      padding: 20px 0;
+      transition: var(--transition);
+    }
+    #navbar.scrolled {
+      background: rgba(8,8,8,0.95);
+      backdrop-filter: blur(20px);
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: var(--ff-head);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: 2px;
+    }
+    .nav-logo span { color: var(--gold); }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.3s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0;
+      width: 0; height: 1px;
+      background: var(--gold);
+      transition: width 0.3s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .lang-switch {
+      display: flex;
+      gap: 4px;
+    }
+    .lang-btn {
+      background: none;
+      border: 1px solid transparent;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      padding: 4px 10px;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: var(--ff-body);
+    }
+    .lang-btn.active, .lang-btn:hover {
+      color: var(--gold);
+      border-color: var(--border);
+    }
+    .nav-cta {
+      padding: 10px 24px;
+      font-size: 11px;
+      letter-spacing: 2px;
+    }
+    /* Mobile */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--gold);
+      transition: var(--transition);
+    }
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: var(--bg);
+      z-index: 999;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-family: var(--ff-head);
+      font-size: 2rem;
+      color: var(--text);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .mobile-menu a:hover { color: var(--gold); }
+    .mobile-close {
+      position: absolute;
+      top: 24px; right: 24px;
+      font-size: 2rem;
+      color: var(--muted);
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+
+    /* ══════════════════════════════
+       HERO
+    ══════════════════════════════ */
+    #hero {
+      position: relative;
+      height: 100vh;
+      min-height: 700px;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 40%, rgba(201,169,110,0.06) 0%, transparent 70%),
+        linear-gradient(180deg, rgba(8,8,8,0) 0%, rgba(8,8,8,0.8) 100%),
+        url('https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?w=1600&q=80') center/cover no-repeat;
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(8,8,8,0.85) 0%, rgba(8,8,8,0.5) 100%);
+    }
+    .hero-particles {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 720px;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid var(--border);
+      padding: 8px 20px;
+      border-radius: 40px;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 32px;
+      animation: fadeInDown 1s ease 0.3s both;
+    }
+    .hero-badge::before {
+      content: '';
+      display: block;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      animation: pulse 2s ease infinite;
+    }
+    .hero-title {
+      font-family: var(--ff-head);
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 24px;
+      animation: fadeInUp 1s ease 0.5s both;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: var(--gold);
+      display: block;
+    }
+    .hero-desc {
+      font-size: 1.05rem;
+      color: rgba(242,237,228,0.7);
+      max-width: 540px;
+      margin-bottom: 40px;
+      line-height: 1.9;
+      animation: fadeInUp 1s ease 0.7s both;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      animation: fadeInUp 1s ease 0.9s both;
+    }
+    .hero-scroll {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      z-index: 2;
+      animation: fadeIn 1.5s ease 1.2s both;
+    }
+    .hero-scroll span {
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .scroll-line {
+      width: 1px; height: 60px;
+      background: linear-gradient(180deg, transparent, var(--gold), transparent);
+      animation: scrollLine 2s ease infinite;
+    }
+
+    @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+    @keyframes scrollLine { 0%,100% { opacity: 0; transform: scaleY(0) translateY(-30px); } 50% { opacity: 1; transform: scaleY(1) translateY(0); } }
+
+    /* ══════════════════════════════
+       STATS
+    ══════════════════════════════ */
+    #stats {
+      padding: 0;
+      position: relative;
+      z-index: 2;
+      margin-top: -1px;
+    }
+    .stats-bar {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      divide-x: 1px solid var(--border);
+    }
+    .stat-item {
+      padding: 48px 32px;
+      text-align: center;
+      border-right: 1px solid var(--border);
+      position: relative;
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-num {
+      font-family: var(--ff-head);
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .stat-num .suffix { font-size: 1.5rem; }
+    .stat-label {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ══════════════════════════════
+       SERVICES
+    ══════════════════════════════ */
+    #services { background: var(--bg); }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin-top: 64px;
+    }
+    .service-card {
+      background: var(--card);
+      padding: 48px 40px;
+      position: relative;
+      overflow: hidden;
+      transition: var(--transition);
+      cursor: default;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 100%; height: 3px;
+      background: linear-gradient(90deg, var(--gold-dk), var(--gold-lt));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+    .service-card:hover { background: var(--card-hover); transform: translateY(-4px); }
+    .service-card:hover::before { transform: scaleX(1); }
+    .service-icon {
+      font-size: 2.5rem;
+      margin-bottom: 24px;
+      display: block;
+      filter: grayscale(0.3);
+      transition: filter 0.3s;
+    }
+    .service-card:hover .service-icon { filter: none; }
+    .service-name {
+      font-family: var(--ff-head);
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .service-desc {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.8;
+      margin-bottom: 24px;
+    }
+    .service-price {
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: var(--gold);
+    }
+    .service-num {
+      position: absolute;
+      top: 24px; right: 28px;
+      font-family: var(--ff-head);
+      font-size: 4rem;
+      font-weight: 700;
+      color: rgba(201,169,110,0.06);
+      line-height: 1;
+    }
+
+    /* ══════════════════════════════
+       ABOUT
+    ══════════════════════════════ */
+    #about {
+      background: var(--surface);
+      overflow: hidden;
+    }
+    .about-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .about-images {
+      position: relative;
+      height: 600px;
+    }
+    .about-img {
+      position: absolute;
+      border-radius: 2px;
+      overflow: hidden;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+    }
+    .about-img-main {
+      width: 70%;
+      height: 80%;
+      top: 0; left: 0;
+    }
+    .about-img-main img,
+    .about-img-sm img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.8s ease;
+    }
+    .about-img:hover img { transform: scale(1.05); }
+    .about-img-sm {
+      width: 55%;
+      height: 55%;
+      bottom: 0; right: 0;
+      border: 4px solid var(--surface);
+    }
+    .about-badge-img {
+      position: absolute;
+      top: 50%; left: 65%;
+      transform: translate(-50%, -50%);
+      background: var(--gold);
+      color: #000;
+      width: 100px; height: 100px;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--ff-head);
+      font-weight: 700;
+      box-shadow: 0 20px 50px rgba(201,169,110,0.4);
+      z-index: 3;
+    }
+    .about-badge-img .num { font-size: 1.6rem; line-height: 1; }
+    .about-badge-img .lbl { font-size: 0.55rem; letter-spacing: 1px; text-transform: uppercase; text-align: center; padding: 0 8px; }
+    .about-text .section-subtitle { margin-bottom: 32px; }
+    .about-feats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 40px;
+    }
+    .about-feat {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .about-feat-icon {
+      font-size: 1.4rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .about-feat-text h4 {
+      font-size: 0.92rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .about-feat-text p {
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ══════════════════════════════
+       WHY US
+    ══════════════════════════════ */
+    #why { background: var(--bg); }
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 40px;
+      margin-top: 64px;
+    }
+    .why-card {
+      text-align: center;
+      padding: 48px 24px;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .why-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 100%, rgba(201,169,110,0.08), transparent 70%);
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+    .why-card:hover { border-color: var(--gold); transform: translateY(-6px); }
+    .why-card:hover::after { opacity: 1; }
+    .why-icon {
+      font-size: 2.8rem;
+      display: block;
+      margin-bottom: 20px;
+    }
+    .why-title {
+      font-family: var(--ff-head);
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .why-desc {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    /* ══════════════════════════════
+       PRICING
+    ══════════════════════════════ */
+    #pricing { background: var(--surface); }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 64px;
+      align-items: start;
+    }
+    .price-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 48px 36px;
+      position: relative;
+      transition: var(--transition);
+    }
+    .price-card.popular {
+      background: var(--card-hover);
+      border-color: var(--gold);
+      transform: scale(1.03);
+      box-shadow: 0 30px 80px rgba(201,169,110,0.15);
+    }
+    .price-card:hover { transform: scale(1.02); box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+    .price-card.popular:hover { transform: scale(1.05); }
+    .popular-badge {
+      position: absolute;
+      top: -14px; left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(90deg, var(--gold-dk), var(--gold-lt));
+      color: #000;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 6px 20px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+    .price-plan {
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+    .price-amount {
+      font-family: var(--ff-head);
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .price-amount span { font-size: 1rem; color: var(--muted); }
+    .price-duration {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 32px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--border);
+    }
+    .price-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 36px;
+    }
+    .price-features li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+    .price-features li::before {
+      content: '✦';
+      color: var(--gold);
+      font-size: 0.6rem;
+      flex-shrink: 0;
+    }
+
+    /* ══════════════════════════════
+       GALLERY
+    ══════════════════════════════ */
+    #gallery { background: var(--bg); }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: 280px 280px;
+      gap: 4px;
+      margin-top: 64px;
+    }
+    .gallery-item {
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+    }
+    .gallery-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+    .gallery-item:nth-child(4) { grid-column: span 2; }
+    .gallery-item img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.7s ease;
+      filter: brightness(0.85);
+    }
+    .gallery-item:hover img { transform: scale(1.08); filter: brightness(1); }
+    .gallery-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+      opacity: 0;
+      transition: opacity 0.4s;
+      display: flex;
+      align-items: flex-end;
+      padding: 24px;
+    }
+    .gallery-item:hover .gallery-overlay { opacity: 1; }
+    .gallery-overlay span {
+      font-family: var(--ff-head);
+      font-size: 1rem;
+      font-style: italic;
+      color: var(--gold-lt);
+    }
+
+    /* ══════════════════════════════
+       TESTIMONIALS
+    ══════════════════════════════ */
+    #reviews { background: var(--surface); }
+    .reviews-slider-wrap {
+      overflow: hidden;
+      margin-top: 64px;
+    }
+    .reviews-slider {
+      display: flex;
+      gap: 24px;
+      transition: transform 0.6s cubic-bezier(.4,0,.2,1);
+    }
+    .review-card {
+      flex: 0 0 calc(33.333% - 16px);
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 40px;
+      border-radius: 2px;
+    }
+    .review-stars { color: var(--gold); font-size: 0.85rem; letter-spacing: 3px; margin-bottom: 20px; }
+    .review-text {
+      font-family: var(--ff-head);
+      font-style: italic;
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: var(--text);
+      margin-bottom: 28px;
+    }
+    .review-author {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .review-avatar {
+      width: 46px; height: 46px;
+      border-radius: 50%;
+      background: var(--gold-dk);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--ff-head);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #000;
+    }
+    .review-name { font-size: 0.9rem; font-weight: 600; }
+    .review-role { font-size: 0.78rem; color: var(--muted); }
+    .slider-dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 40px;
+    }
+    .slider-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--muted);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .slider-dot.active {
+      width: 24px;
+      border-radius: 3px;
+      background: var(--gold);
+    }
+
+    /* ══════════════════════════════
+       BOOKING
+    ══════════════════════════════ */
+    #booking {
+      background: var(--bg);
+      position: relative;
+      overflow: hidden;
+    }
+    #booking::before {
+      content: '';
+      position: absolute;
+      top: -200px; right: -200px;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(201,169,110,0.05), transparent 70%);
+      pointer-events: none;
+    }
+    .booking-inner {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .booking-info h2 { margin-bottom: 20px; }
+    .booking-info .section-subtitle { margin-bottom: 40px; }
+    .booking-perks {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .booking-perk {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+    .perk-icon {
+      font-size: 1.3rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .perk-text h4 { font-size: 0.92rem; font-weight: 600; margin-bottom: 2px; }
+    .perk-text p { font-size: 0.82rem; color: var(--muted); }
+    .booking-form {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 48px;
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .form-group.full { grid-column: 1/-1; }
+    .form-group label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 14px 18px;
+      border-radius: 2px;
+      font-family: var(--ff-body);
+      font-size: 0.9rem;
+      transition: border-color 0.3s;
+      outline: none;
+      width: 100%;
+    }
+    .form-group select option { background: var(--card); }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus { border-color: var(--gold); }
+    .form-group textarea { min-height: 100px; resize: vertical; }
+    .form-submit { width: 100%; justify-content: center; padding: 16px; font-size: 13px; }
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 40px;
+    }
+    .form-success .checkmark {
+      font-size: 3rem;
+      display: block;
+      margin-bottom: 16px;
+    }
+    .form-success h3 {
+      font-family: var(--ff-head);
+      font-size: 1.5rem;
+      margin-bottom: 12px;
+      color: var(--gold);
+    }
+    .form-success p { color: var(--muted); font-size: 0.9rem; }
+
+    /* ══════════════════════════════
+       CONTACT
+    ══════════════════════════════ */
+    #contact { background: var(--surface); }
+    .contact-inner {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 64px;
+      align-items: start;
+    }
+    .contact-info { display: flex; flex-direction: column; gap: 32px; }
+    .contact-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+    .contact-icon {
+      font-size: 1.4rem;
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
+    .contact-text h4 {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .contact-text p, .contact-text a {
+      font-size: 0.95rem;
+      color: var(--text);
+      text-decoration: none;
+      line-height: 1.7;
+    }
+    .contact-text a:hover { color: var(--gold); }
+    .hours-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+    .hours-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      padding: 6px 0;
+      border-bottom: 1px solid var(--border);
+      color: var(--muted);
+    }
+    .hours-row .day { color: var(--text); font-weight: 500; }
+    .map-wrap {
+      overflow: hidden;
+      border-radius: 2px;
+      height: 360px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    .map-placeholder {
+      text-align: center;
+    }
+    .map-placeholder .map-icon { font-size: 3rem; display: block; margin-bottom: 12px; color: var(--gold); }
+
+    /* ══════════════════════════════
+       FOOTER
+    ══════════════════════════════ */
+    footer {
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      padding: 64px 0 32px;
+    }
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 48px;
+      padding-bottom: 48px;
+      border-bottom: 1px solid var(--border);
+    }
+    .footer-brand .nav-logo { display: block; margin-bottom: 16px; font-size: 1.4rem; }
+    .footer-brand p { font-size: 0.85rem; color: var(--muted); line-height: 1.8; max-width: 260px; }
+    .footer-socials { display: flex; gap: 12px; margin-top: 20px; }
+    .social-btn {
+      width: 38px; height: 38px;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    .social-btn:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-3px); }
+    .footer-col h4 {
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col ul li a {
+      font-size: 0.85rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .footer-col ul li a:hover { color: var(--text); }
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    /* ══════════════════════════════
+       FLOATING BUTTONS
+    ══════════════════════════════ */
+    .float-btn {
+      position: fixed;
+      bottom: 32px;
+      z-index: 999;
+      width: 54px; height: 54px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      text-decoration: none;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+      transition: var(--transition);
+    }
+    .float-btn:hover { transform: scale(1.1) translateY(-3px); }
+    .whatsapp-btn { right: 32px; background: #25D366; }
+    .scroll-top-btn {
+      right: 96px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--gold);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s, transform 0.3s;
+    }
+    .scroll-top-btn.visible { opacity: 1; pointer-events: auto; }
+
+    /* ══════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════ */
+    @media (max-width: 1024px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .services-grid { grid-template-columns: repeat(2, 1fr); }
+      .why-grid { grid-template-columns: repeat(2, 1fr); }
+      .about-inner { grid-template-columns: 1fr; gap: 48px; }
+      .about-images { height: 400px; }
+      .booking-inner { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr 1fr; gap: 32px; }
+      .contact-inner { grid-template-columns: 1fr; }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); grid-template-rows: auto; }
+      .gallery-item:nth-child(1) { grid-column: span 1; grid-row: span 1; }
+      .gallery-item:nth-child(4) { grid-column: span 1; }
+    }
+    @media (max-width: 768px) {
+      .section { padding: 72px 0; }
+      .nav-links, .nav-cta { display: none; }
+      .hamburger { display: flex; }
+      .services-grid { grid-template-columns: 1fr; }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .price-card.popular { transform: none; }
+      .why-grid { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .form-row { grid-template-columns: 1fr; }
+      .review-card { flex: 0 0 calc(100% - 12px); }
+      .footer-top { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+      .about-images { height: 320px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════ NAVBAR ══════════════ -->
+<nav id="navbar">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="#hero" class="nav-logo">AURORA <span>SPA</span></a>
+      <ul class="nav-links">
+        <li><a href="#services" data-i18n="nav.services">Қызметтер</a></li>
+        <li><a href="#about" data-i18n="nav.about">Біз туралы</a></li>
+        <li><a href="#pricing" data-i18n="nav.pricing">Бағалар</a></li>
+        <li><a href="#gallery" data-i18n="nav.gallery">Галерея</a></li>
+        <li><a href="#reviews" data-i18n="nav.reviews">Пікірлер</a></li>
+        <li><a href="#contact" data-i18n="nav.contact">Байланыс</a></li>
+      </ul>
+      <div class="nav-right">
+        <div class="lang-switch">
+          <button class="lang-btn active" onclick="setLang('kz')">KZ</button>
+          <button class="lang-btn" onclick="setLang('ru')">RU</button>
+        </div>
+        <a href="#booking" class="btn btn-gold nav-cta" data-i18n="nav.cta">Жазылу</a>
+        <div class="hamburger" onclick="toggleMenu()">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" onclick="toggleMenu()">✕</button>
+  <a href="#services" onclick="toggleMenu()" data-i18n="nav.services">Қызметтер</a>
+  <a href="#pricing" onclick="toggleMenu()" data-i18n="nav.pricing">Бағалар</a>
+  <a href="#gallery" onclick="toggleMenu()" data-i18n="nav.gallery">Галерея</a>
+  <a href="#reviews" onclick="toggleMenu()" data-i18n="nav.reviews">Пікірлер</a>
+  <a href="#booking" onclick="toggleMenu()" data-i18n="nav.cta" class="btn btn-gold" style="font-family:var(--ff-head);font-style:italic;">Жазылу</a>
+</div>
+
+<!-- ══════════════ HERO ══════════════ -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <canvas class="hero-particles" id="particleCanvas"></canvas>
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-badge" data-i18n="hero.badge">✦ Luxury Wellness Experience</div>
+      <h1 class="hero-title">
+        <span data-i18n="hero.title1">Денеңіздің</span>
+        <em data-i18n="hero.title2">жаңаруы басталады</em>
+        <span data-i18n="hero.title3">осы жерден</span>
+      </h1>
+      <p class="hero-desc" data-i18n="hero.desc">
+        Толық SPA кешені — массаж, косметология, ванналар және релаксация. Сіздің тыныштығыңыз — біздің басымдығымыз.
+      </p>
+      <div class="hero-actions">
+        <a href="#booking" class="btn btn-gold" data-i18n="hero.cta1">✦ Жазылу</a>
+        <a href="#services" class="btn btn-outline" data-i18n="hero.cta2">Қызметтер →</a>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span data-i18n="hero.scroll">Төмен</span>
+  </div>
+</section>
+
+<!-- ══════════════ STATS ══════════════ -->
+<section id="stats">
+  <div class="stats-bar">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-item fade-up">
+          <div class="stat-num"><span class="counter" data-target="8">0</span><span class="suffix">+</span></div>
+          <div class="stat-label" data-i18n="stats.years">Жыл тәжірибе</div>
+        </div>
+        <div class="stat-item fade-up delay-1">
+          <div class="stat-num"><span class="counter" data-target="3200">0</span><span class="suffix">+</span></div>
+          <div class="stat-label" data-i18n="stats.clients">Клиенттер</div>
+        </div>
+        <div class="stat-item fade-up delay-2">
+          <div class="stat-num"><span class="counter" data-target="18">0</span><span class="suffix"></span></div>
+          <div class="stat-label" data-i18n="stats.masters">Шебер маман</div>
+        </div>
+        <div class="stat-item fade-up delay-3">
+          <div class="stat-num"><span class="counter" data-target="4">0</span><span class="suffix">.9★</span></div>
+          <div class="stat-label" data-i18n="stats.rating">Рейтинг</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ SERVICES ══════════════ -->
+<section id="services" class="section">
+  <div class="container">
+    <div class="text-center fade-up">
+      <span class="section-label" data-i18n="services.label">Қызметтер</span>
+      <h2 class="section-title" data-i18n="services.title">Біздің <span class="gold">SPA кешені</span></h2>
+      <span class="gold-line"></span>
+      <p class="section-subtitle" style="margin-top:20px" data-i18n="services.subtitle">Денсаулықтың әр аспектісіне жан-жақты күтім — барлығы бір шаңырақ астында.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card fade-up delay-1">
+        <span class="service-num">01</span>
+        <span class="service-icon">🫶</span>
+        <h3 class="service-name" data-i18n="srv1.name">Классикалық Массаж</h3>
+        <p class="service-desc" data-i18n="srv1.desc">Бұлшықет кернеуін жазу, қан айналымын жақсарту. Толық тыныштық пен демалу сезімі.</p>
+        <div class="service-price" data-i18n="srv1.price">12 000 ₸ — ден / 60 мин</div>
+      </div>
+      <div class="service-card fade-up delay-2">
+        <span class="service-num">02</span>
+        <span class="service-icon">🪨</span>
+        <h3 class="service-name" data-i18n="srv2.name">Тас Терапиясы</h3>
+        <p class="service-desc" data-i18n="srv2.desc">Жылы базальт тастарымен дене терапиясы — тереңдей демалу, стрессті жою.</p>
+        <div class="service-price" data-i18n="srv2.price">18 000 ₸ — ден / 90 мин</div>
+      </div>
+      <div class="service-card fade-up delay-3">
+        <span class="service-num">03</span>
+        <span class="service-icon">🌸</span>
+        <h3 class="service-name" data-i18n="srv3.name">Косметология</h3>
+        <p class="service-desc" data-i18n="srv3.desc">Бет терісін тазалау, ылғалдандыру, лифтинг маскалар. Сертификатталған косметологтар.</p>
+        <div class="service-price" data-i18n="srv3.price">15 000 ₸ — ден / 60 мин</div>
+      </div>
+      <div class="service-card fade-up delay-1">
+        <span class="service-num">04</span>
+        <span class="service-icon">💆</span>
+        <h3 class="service-name" data-i18n="srv4.name">Аромотерапия</h3>
+        <p class="service-desc" data-i18n="srv4.desc">Эфир майлармен массаж — жүйке жүйесін тыныштандыру, ұйқыны жақсарту.</p>
+        <div class="service-price" data-i18n="srv4.price">16 000 ₸ — ден / 90 мин</div>
+      </div>
+      <div class="service-card fade-up delay-2">
+        <span class="service-num">05</span>
+        <span class="service-icon">🛁</span>
+        <h3 class="service-name" data-i18n="srv5.name">Релакс Ванналары</h3>
+        <p class="service-desc" data-i18n="srv5.desc">Тұз, сүт, гүл петалдарымен ванналар. Дене мен жанды қалпына келтіру.</p>
+        <div class="service-price" data-i18n="srv5.price">14 000 ₸ — ден / 45 мин</div>
+      </div>
+      <div class="service-card fade-up delay-3">
+        <span class="service-num">06</span>
+        <span class="service-icon">✂️</span>
+        <h3 class="service-name" data-i18n="srv6.name">Шаш Күтімі</h3>
+        <p class="service-desc" data-i18n="srv6.desc">Шаш басына арналған маска, массаж және терең күтім процедуралары.</p>
+        <div class="service-price" data-i18n="srv6.price">10 000 ₸ — ден / 45 мин</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ ABOUT ══════════════ -->
+<section id="about" class="section">
+  <div class="container">
+    <div class="about-inner">
+      <div class="about-images fade-up">
+        <div class="about-img about-img-main">
+          <img src="https://images.unsplash.com/photo-1560750588-73207b1ef5b8?w=800&q=80" alt="SPA interior" loading="lazy" />
+        </div>
+        <div class="about-img about-img-sm">
+          <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=600&q=80" alt="Massage" loading="lazy" />
+        </div>
+        <div class="about-badge-img">
+          <span class="num">8</span>
+          <span class="lbl" data-i18n="about.badge">Жыл жетістік</span>
+        </div>
+      </div>
+      <div class="about-text fade-up delay-2">
+        <span class="section-label" data-i18n="about.label">Біз туралы</span>
+        <h2 class="section-title" data-i18n="about.title">Тыныштық пен <span class="gold">сұлулықтың</span> мекені</h2>
+        <span class="gold-line-left"></span>
+        <p class="section-subtitle" data-i18n="about.desc1">2016 жылдан бері AURORA SPA — Алматының ең сенімді лакшери велнес орталығы. Бізде тек кәсіби шеберлер, сапалы косметика және жеке тәсіл.</p>
+        <p class="section-subtitle" style="margin-top:16px" data-i18n="about.desc2">Әрбір клиентіміз ерекше сезінуі керек — бұл біздің философиямыз. Сізді қарсы алуға әрдайым дайынбыз.</p>
+        <div class="about-feats">
+          <div class="about-feat">
+            <span class="about-feat-icon">🏆</span>
+            <div class="about-feat-text">
+              <h4 data-i18n="feat1.title">Сертификатталған</h4>
+              <p data-i18n="feat1.desc">Халықаралық стандарттар</p>
+            </div>
+          </div>
+          <div class="about-feat">
+            <span class="about-feat-icon">🌿</span>
+            <div class="about-feat-text">
+              <h4 data-i18n="feat2.title">Табиғи косметика</h4>
+              <p data-i18n="feat2.desc">Зиянды заттарсыз</p>
+            </div>
+          </div>
+          <div class="about-feat">
+            <span class="about-feat-icon">👑</span>
+            <div class="about-feat-text">
+              <h4 data-i18n="feat3.title">VIP кабиналар</h4>
+              <p data-i18n="feat3.desc">Жеке, таза, тыныш</p>
+            </div>
+          </div>
+          <div class="about-feat">
+            <span class="about-feat-icon">❤️</span>
+            <div class="about-feat-text">
+              <h4 data-i18n="feat4.title">Жеке тәсіл</h4>
+              <p data-i18n="feat4.desc">Сіздің қажеттілігіңізге сай</p>
+            </div>
+          </div>
+        </div>
+        <a href="#booking" class="btn btn-gold" style="margin-top:40px" data-i18n="about.cta">Жазылу →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ WHY US ══════════════ -->
+<section id="why" class="section">
+  <div class="container">
+    <div class="text-center fade-up">
+      <span class="section-label" data-i18n="why.label">Неліктен біз?</span>
+      <h2 class="section-title" data-i18n="why.title">AURORA SPA-ны <span class="gold">ерекше</span> ететін</h2>
+      <span class="gold-line"></span>
+    </div>
+    <div class="why-grid">
+      <div class="why-card fade-up delay-1">
+        <span class="why-icon">⭐</span>
+        <h3 class="why-title" data-i18n="why1.title">Кәсіби шеберлер</h3>
+        <p class="why-desc" data-i18n="why1.desc">Барлық маманымыз халықаралық сертификатқа ие, жыл сайын оқуды жаңартады.</p>
+      </div>
+      <div class="why-card fade-up delay-2">
+        <span class="why-icon">🌿</span>
+        <h3 class="why-title" data-i18n="why2.title">Табиғи өнімдер</h3>
+        <p class="why-desc" data-i18n="why2.desc">Тек органикалық және сертификатталған косметикалық өнімдерді қолданамыз.</p>
+      </div>
+      <div class="why-card fade-up delay-3">
+        <span class="why-icon">🏛️</span>
+        <h3 class="why-title" data-i18n="why3.title">Люкс атмосфера</h3>
+        <p class="why-desc" data-i18n="why3.desc">Арнайы дизайн жасалған кабиналар, тыныш музыка, жарықтандыру — толық демалу.</p>
+      </div>
+      <div class="why-card fade-up delay-4">
+        <span class="why-icon">🔒</span>
+        <h3 class="why-title" data-i18n="why4.title">Конфиденциалдылық</h3>
+        <p class="why-desc" data-i18n="why4.desc">Жеке кабиналар, деректеріңіздің қорғалуы — сізге тек демалыс.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ PRICING ══════════════ -->
+<section id="pricing" class="section">
+  <div class="container">
+    <div class="text-center fade-up">
+      <span class="section-label" data-i18n="pricing.label">Бағалар</span>
+      <h2 class="section-title" data-i18n="pricing.title">Сізге арналған <span class="gold">пакеттер</span></h2>
+      <span class="gold-line"></span>
+      <p class="section-subtitle" style="margin-top:20px" data-i18n="pricing.subtitle">Кез келген бюджетке арналған толыққанды SPA тәжірибесі.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="price-card fade-up delay-1">
+        <p class="price-plan" data-i18n="plan1.name">RELAX</p>
+        <div class="price-amount">25 000<span> ₸</span></div>
+        <p class="price-duration" data-i18n="plan1.dur">2 сағат | Жеке сеанс</p>
+        <ul class="price-features">
+          <li data-i18n="plan1.f1">Классикалық массаж (60 мин)</li>
+          <li data-i18n="plan1.f2">Аромотерапия сеансы</li>
+          <li data-i18n="plan1.f3">Шай / кофе кешені</li>
+          <li data-i18n="plan1.f4">Демалыс бөлмесі</li>
+        </ul>
+        <a href="#booking" class="btn btn-outline" style="width:100%;justify-content:center" data-i18n="pricing.btn">Жазылу</a>
+      </div>
+      <div class="price-card popular fade-up delay-2">
+        <div class="popular-badge" data-i18n="plan2.badge">✦ Танымал таңдау</div>
+        <p class="price-plan" data-i18n="plan2.name">PREMIUM</p>
+        <div class="price-amount">45 000<span> ₸</span></div>
+        <p class="price-duration" data-i18n="plan2.dur">4 сағат | Толық бағдарлама</p>
+        <ul class="price-features">
+          <li data-i18n="plan2.f1">Тас терапиясы (90 мин)</li>
+          <li data-i18n="plan2.f2">Косметология (60 мин)</li>
+          <li data-i18n="plan2.f3">Аромованна (45 мин)</li>
+          <li data-i18n="plan2.f4">Шаш күтімі маскасы</li>
+          <li data-i18n="plan2.f5">Кешкі тағам</li>
+        </ul>
+        <a href="#booking" class="btn btn-gold" style="width:100%;justify-content:center" data-i18n="pricing.btn">Жазылу</a>
+      </div>
+      <div class="price-card fade-up delay-3">
+        <p class="price-plan" data-i18n="plan3.name">VIP</p>
+        <div class="price-amount">80 000<span> ₸</span></div>
+        <p class="price-duration" data-i18n="plan3.dur">Күн бойы | Жеке бағдарлама</p>
+        <ul class="price-features">
+          <li data-i18n="plan3.f1">Барлық PREMIUM қызметтер</li>
+          <li data-i18n="plan3.f2">Жеке ниша кабина</li>
+          <li data-i18n="plan3.f3">Персональды шебер</li>
+          <li data-i18n="plan3.f4">Шампан / шай рәсімі</li>
+          <li data-i18n="plan3.f5">Трансфер (Алматы ішінде)</li>
+        </ul>
+        <a href="#booking" class="btn btn-outline" style="width:100%;justify-content:center" data-i18n="pricing.btn">Жазылу</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ GALLERY ══════════════ -->
+<section id="gallery" class="section">
+  <div class="container">
+    <div class="text-center fade-up">
+      <span class="section-label" data-i18n="gallery.label">Галерея</span>
+      <h2 class="section-title" data-i18n="gallery.title">Атмосфера мен <span class="gold">сұлулық</span></h2>
+      <span class="gold-line"></span>
+    </div>
+    <div class="gallery-grid fade-up delay-1">
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?w=800&q=80" alt="SPA pool" loading="lazy"/>
+        <div class="gallery-overlay"><span data-i18n="gal1">Релакс бассейн</span></div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=600&q=80" alt="Massage" loading="lazy"/>
+        <div class="gallery-overlay"><span data-i18n="gal2">Массаж кабина</span></div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&q=80" alt="Skincare" loading="lazy"/>
+        <div class="gallery-overlay"><span data-i18n="gal3">Косметология</span></div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1507652313519-d4e9174996dd?w=800&q=80" alt="Bath ritual" loading="lazy"/>
+        <div class="gallery-overlay"><span data-i18n="gal4">Гүл ваннасы</span></div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=600&q=80" alt="Interior" loading="lazy"/>
+        <div class="gallery-overlay"><span data-i18n="gal5">VIP лобби</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ TESTIMONIALS ══════════════ -->
+<section id="reviews" class="section">
+  <div class="container">
+    <div class="text-center fade-up">
+      <span class="section-label" data-i18n="reviews.label">Пікірлер</span>
+      <h2 class="section-title" data-i18n="reviews.title">Клиенттеріміз <span class="gold">не дейді</span></h2>
+      <span class="gold-line"></span>
+    </div>
+    <div class="reviews-slider-wrap fade-up delay-1">
+      <div class="reviews-slider" id="reviewsSlider">
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text" data-i18n="rev1.text">"Тіпті күттен де жақсы болды! Тас терапиясы после ұзақ жұмыс аптасынан кейін денемді толық жаңартты. Ертең қайта барамын."</p>
+          <div class="review-author">
+            <div class="review-avatar">А</div>
+            <div>
+              <div class="review-name" data-i18n="rev1.name">Айгүл Бекова</div>
+              <div class="review-role" data-i18n="rev1.role">Тұрақты клиент • 2 жыл</div>
+            </div>
+          </div>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text" data-i18n="rev2.text">"AURORA SPA — Алматыдағы ең жоғары деңгейлі орын. Персонал өте мейірімді, кабиналар таза. PREMIUM пакет 100% тұрарлық."</p>
+          <div class="review-author">
+            <div class="review-avatar">Д</div>
+            <div>
+              <div class="review-name" data-i18n="rev2.name">Данияр Сейтқали</div>
+              <div class="review-role" data-i18n="rev2.role">VIP клиент • 1 жыл</div>
+            </div>
+          </div>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text" data-i18n="rev3.text">"Туылған күнімде VIP пакетті сыйлады. Барлығы өте мінсіз — шампан, жеке шебер, гүл ваннасы. Өмірдегі ең жақсы кешім!"</p>
+          <div class="review-author">
+            <div class="review-avatar">М</div>
+            <div>
+              <div class="review-name" data-i18n="rev3.name">Мадина Қасымова</div>
+              <div class="review-role" data-i18n="rev3.role">VIP клиент • 6 ай</div>
+            </div>
+          </div>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text" data-i18n="rev4.text">"Аромотерапия сеансынан кейін ұйқым толық қалпына келді. Шеберлердің кәсіптілігі жоғары деңгейде. Ұсынамын!"</p>
+          <div class="review-author">
+            <div class="review-avatar">С</div>
+            <div>
+              <div class="review-name" data-i18n="rev4.name">Санжар Мухамедов</div>
+              <div class="review-role" data-i18n="rev4.role">Тұрақты клиент • 8 ай</div>
+            </div>
+          </div>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text" data-i18n="rev5.text">"Косметология кабинасы өте таза, маманшы барлықты түсіндіреді. Терім күрт жақсарды 3 сеанстан кейін. Рақмет!"</p>
+          <div class="review-author">
+            <div class="review-avatar">Ж</div>
+            <div>
+              <div class="review-name" data-i18n="rev5.name">Жұлдыз Ахметова</div>
+              <div class="review-role" data-i18n="rev5.role">Тұрақты клиент • 1 жыл</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slider-dots" id="sliderDots"></div>
+  </div>
+</section>
+
+<!-- ══════════════ BOOKING ══════════════ -->
+<section id="booking" class="section">
+  <div class="container">
+    <div class="booking-inner">
+      <div class="booking-info fade-up">
+        <span class="section-label" data-i18n="booking.label">Жазылу</span>
+        <h2 class="section-title" data-i18n="booking.title">Бүгін <span class="gold">жазылыңыз</span></h2>
+        <span class="gold-line-left"></span>
+        <p class="section-subtitle" data-i18n="booking.subtitle">Алдын ала жазылу тек 5 минутты алады. Растауды 30 минут ішінде аласыз.</p>
+        <div class="booking-perks" style="margin-top:40px">
+          <div class="booking-perk">
+            <span class="perk-icon">📱</span>
+            <div class="perk-text">
+              <h4 data-i18n="perk1.t">Тез растау</h4>
+              <p data-i18n="perk1.d">WhatsApp немесе телефон арқылы растаймыз</p>
+            </div>
+          </div>
+          <div class="booking-perk">
+            <span class="perk-icon">🎁</span>
+            <div class="perk-text">
+              <h4 data-i18n="perk2.t">Алғаш рет — 15% жеңілдік</h4>
+              <p data-i18n="perk2.d">Жаңа клиенттерге арнайы ұсыныс</p>
+            </div>
+          </div>
+          <div class="booking-perk">
+            <span class="perk-icon">🔄</span>
+            <div class="perk-text">
+              <h4 data-i18n="perk3.t">Ыңғайлы уақыт өзгерту</h4>
+              <p data-i18n="perk3.d">Сеансты 24 сағат бұрын өзгертуге болады</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="booking-form fade-up delay-2">
+        <div id="bookingFormWrap">
+          <div class="form-row">
+            <div class="form-group">
+              <label data-i18n="form.name">Атыңыз</label>
+              <input type="text" id="fName" placeholder="Айгүл" />
+            </div>
+            <div class="form-group">
+              <label data-i18n="form.phone">Телефон</label>
+              <input type="tel" id="fPhone" placeholder="+7 (777) 000-00-00" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label data-i18n="form.service">Қызмет</label>
+            <select id="fService">
+              <option value="" data-i18n="form.svc0">— Таңдаңыз —</option>
+              <option value="massage" data-i18n="form.svc1">Классикалық Массаж</option>
+              <option value="stones" data-i18n="form.svc2">Тас Терапиясы</option>
+              <option value="cosmetology" data-i18n="form.svc3">Косметология</option>
+              <option value="aroma" data-i18n="form.svc4">Аромотерапия</option>
+              <option value="bath" data-i18n="form.svc5">Релакс Ваннасы</option>
+              <option value="hair" data-i18n="form.svc6">Шаш Күтімі</option>
+              <option value="premium" data-i18n="form.svc7">PREMIUM Пакет</option>
+              <option value="vip" data-i18n="form.svc8">VIP Пакет</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label data-i18n="form.date">Күн</label>
+              <input type="date" id="fDate" />
+            </div>
+            <div class="form-group">
+              <label data-i18n="form.time">Уақыт</label>
+              <select id="fTime">
+                <option value="">— Уақыт —</option>
+                <option>10:00</option><option>11:00</option><option>12:00</option>
+                <option>13:00</option><option>14:00</option><option>15:00</option>
+                <option>16:00</option><option>17:00</option><option>18:00</option>
+                <option>19:00</option><option>20:00</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label data-i18n="form.note">Қосымша тілек (міндетті емес)</label>
+            <textarea id="fNote" placeholder="..."></textarea>
+          </div>
+          <button class="btn btn-gold form-submit" onclick="submitBooking()" data-i18n="form.submit">✦ Жазылуды растау</button>
+        </div>
+        <div class="form-success" id="formSuccess">
+          <span class="checkmark">✦</span>
+          <h3 data-i18n="form.ok.title">Сізді күтеміз!</h3>
+          <p data-i18n="form.ok.desc">Өтінішіңіз қабылданды. 30 минут ішінде WhatsApp-қа растауды жіберіп аламыз.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ CONTACT ══════════════ -->
+<section id="contact" class="section">
+  <div class="container">
+    <div class="text-center fade-up" style="margin-bottom:64px">
+      <span class="section-label" data-i18n="contact.label">Байланыс</span>
+      <h2 class="section-title" data-i18n="contact.title">Бізді <span class="gold">табыңыз</span></h2>
+      <span class="gold-line"></span>
+    </div>
+    <div class="contact-inner">
+      <div class="contact-info fade-up">
+        <div class="contact-item">
+          <span class="contact-icon">📍</span>
+          <div class="contact-text">
+            <h4 data-i18n="contact.addr">Мекенжай</h4>
+            <p>Алматы қ., Абай д., 150<br/>«Медеу» метро жанында</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <span class="contact-icon">📞</span>
+          <div class="contact-text">
+            <h4 data-i18n="contact.phone">Телефон</h4>
+            <a href="tel:+77001234567">+7 (700) 123-45-67</a><br/>
+            <a href="tel:+77271234567">+7 (727) 123-45-67</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <span class="contact-icon">⏰</span>
+          <div class="contact-text">
+            <h4 data-i18n="contact.hours">Жұмыс уақыты</h4>
+            <div class="hours-grid">
+              <div class="hours-row"><span class="day" data-i18n="days.mf">Дүйс–Жұма</span><span>09:00–21:00</span></div>
+              <div class="hours-row"><span class="day" data-i18n="days.ss">Сенбі–Жексенбі</span><span>10:00–22:00</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <span class="contact-icon">💬</span>
+          <div class="contact-text">
+            <h4 data-i18n="contact.social">Әлеуметтік желілер</h4>
+            <div style="display:flex;gap:12px;margin-top:8px">
+              <a href="#" class="social-btn">📷</a>
+              <a href="#" class="social-btn">✉️</a>
+              <a href="#" class="social-btn">💬</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="map-wrap fade-up delay-2">
+        <div class="map-placeholder">
+          <span class="map-icon">📍</span>
+          <p style="color:var(--muted);font-size:0.85rem;letter-spacing:2px;text-transform:uppercase" data-i18n="map.text">Алматы, Абай д., 150</p>
+          <a href="https://maps.google.com" target="_blank" class="btn btn-outline" style="margin-top:20px;font-size:11px" data-i18n="map.btn">Google Maps →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ FOOTER ══════════════ -->
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand fade-up">
+        <a href="#hero" class="nav-logo">AURORA <span>SPA</span></a>
+        <p data-i18n="footer.desc">Алматының ең сенімді лакшери wellness орталығы. Сіздің тыныштығыңыз — біздің мақсатымыз.</p>
+        <div class="footer-socials">
+          <a href="#" class="social-btn">📷</a>
+          <a href="#" class="social-btn">✉️</a>
+          <a href="#" class="social-btn">💬</a>
+        </div>
+      </div>
+      <div class="footer-col fade-up delay-1">
+        <h4 data-i18n="footer.menu">Мәзір</h4>
+        <ul>
+          <li><a href="#services" data-i18n="nav.services">Қызметтер</a></li>
+          <li><a href="#about" data-i18n="nav.about">Біз туралы</a></li>
+          <li><a href="#pricing" data-i18n="nav.pricing">Бағалар</a></li>
+          <li><a href="#gallery" data-i18n="nav.gallery">Галерея</a></li>
+        </ul>
+      </div>
+      <div class="footer-col fade-up delay-2">
+        <h4 data-i18n="footer.services">Қызметтер</h4>
+        <ul>
+          <li><a href="#services" data-i18n="srv1.name">Классикалық Массаж</a></li>
+          <li><a href="#services" data-i18n="srv2.name">Тас Терапиясы</a></li>
+          <li><a href="#services" data-i18n="srv3.name">Косметология</a></li>
+          <li><a href="#services" data-i18n="srv5.name">Релакс Ванналары</a></li>
+        </ul>
+      </div>
+      <div class="footer-col fade-up delay-3">
+        <h4 data-i18n="footer.contact">Байланыс</h4>
+        <ul>
+          <li><a href="tel:+77001234567">+7 (700) 123-45-67</a></li>
+          <li><a href="mailto:info@aurora-spa.kz">info@aurora-spa.kz</a></li>
+          <li><a href="#contact" data-i18n="footer.addr2">Алматы, Абай д., 150</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span data-i18n="footer.copy">© 2024 AURORA SPA. Барлық құқықтар қорғалған.</span>
+      <span data-i18n="footer.made">Luxury Wellness · Almaty, Kazakhstan</span>
+    </div>
+  </div>
+</footer>
+
+<!-- Floating Buttons -->
+<a href="https://wa.me/77001234567" target="_blank" class="float-btn whatsapp-btn" title="WhatsApp">💬</a>
+<button class="float-btn scroll-top-btn" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="↑">↑</button>
+
+<!-- ══════════════ SCRIPTS ══════════════ -->
+<script>
+// ── TRANSLATIONS ──
+const T = {
+  kz: {
+    "nav.services": "Қызметтер",
+    "nav.about": "Біз туралы",
+    "nav.pricing": "Бағалар",
+    "nav.gallery": "Галерея",
+    "nav.reviews": "Пікірлер",
+    "nav.contact": "Байланыс",
+    "nav.cta": "Жазылу",
+    "hero.badge": "✦ Luxury Wellness тәжірибесі",
+    "hero.title1": "Денеңіздің",
+    "hero.title2": "жаңаруы басталады",
+    "hero.title3": "осы жерден",
+    "hero.desc": "Толық SPA кешені — массаж, косметология, ванналар және релаксация. Сіздің тыныштығыңыз — біздің басымдығымыз.",
+    "hero.cta1": "✦ Жазылу",
+    "hero.cta2": "Қызметтер →",
+    "hero.scroll": "Төмен",
+    "stats.years": "Жыл тәжірибе",
+    "stats.clients": "Клиенттер",
+    "stats.masters": "Шебер маман",
+    "stats.rating": "Рейтинг",
+    "services.label": "Қызметтер",
+    "services.title": "Біздің SPA кешені",
+    "services.subtitle": "Денсаулықтың әр аспектісіне жан-жақты күтім — барлығы бір шаңырақ астында.",
+    "srv1.name": "Классикалық Массаж",
+    "srv1.desc": "Бұлшықет кернеуін жазу, қан айналымын жақсарту. Толық тыныштық пен демалу сезімі.",
+    "srv1.price": "12 000 ₸ — ден / 60 мин",
+    "srv2.name": "Тас Терапиясы",
+    "srv2.desc": "Жылы базальт тастарымен дене терапиясы — тереңдей демалу, стрессті жою.",
+    "srv2.price": "18 000 ₸ — ден / 90 мин",
+    "srv3.name": "Косметология",
+    "srv3.desc": "Бет терісін тазалау, ылғалдандыру, лифтинг маскалар. Сертификатталған косметологтар.",
+    "srv3.price": "15 000 ₸ — ден / 60 мин",
+    "srv4.name": "Аромотерапия",
+    "srv4.desc": "Эфир майлармен массаж — жүйке жүйесін тыныштандыру, ұйқыны жақсарту.",
+    "srv4.price": "16 000 ₸ — ден / 90 мин",
+    "srv5.name": "Релакс Ванналары",
+    "srv5.desc": "Тұз, сүт, гүл петалдарымен ванналар. Дене мен жанды қалпына келтіру.",
+    "srv5.price": "14 000 ₸ — ден / 45 мин",
+    "srv6.name": "Шаш Күтімі",
+    "srv6.desc": "Шаш басына арналған маска, массаж және терең күтім процедуралары.",
+    "srv6.price": "10 000 ₸ — ден / 45 мин",
+    "about.label": "Біз туралы",
+    "about.title": "Тыныштық пен сұлулықтың мекені",
+    "about.badge": "Жыл жетістік",
+    "about.desc1": "2016 жылдан бері AURORA SPA — Алматының ең сенімді лакшери велнес орталығы. Бізде тек кәсіби шеберлер, сапалы косметика және жеке тәсіл.",
+    "about.desc2": "Әрбір клиентіміз ерекше сезінуі керек — бұл біздің философиямыз. Сізді қарсы алуға әрдайым дайынбыз.",
+    "feat1.title": "Сертификатталған",
+    "feat1.desc": "Халықаралық стандарттар",
+    "feat2.title": "Табиғи косметика",
+    "feat2.desc": "Зиянды заттарсыз",
+    "feat3.title": "VIP кабиналар",
+    "feat3.desc": "Жеке, таза, тыныш",
+    "feat4.title": "Жеке тәсіл",
+    "feat4.desc": "Сіздің қажеттілігіңізге сай",
+    "about.cta": "Жазылу →",
+    "why.label": "Неліктен біз?",
+    "why.title": "AURORA SPA-ны ерекше ететін",
+    "why1.title": "Кәсіби шеберлер",
+    "why1.desc": "Барлық маманымыз халықаралық сертификатқа ие, жыл сайын оқуды жаңартады.",
+    "why2.title": "Табиғи өнімдер",
+    "why2.desc": "Тек органикалық және сертификатталған косметикалық өнімдерді қолданамыз.",
+    "why3.title": "Люкс атмосфера",
+    "why3.desc": "Арнайы дизайн жасалған кабиналар, тыныш музыка, жарықтандыру — толық демалу.",
+    "why4.title": "Конфиденциалдылық",
+    "why4.desc": "Жеке кабиналар, деректеріңіздің қорғалуы — сізге тек демалыс.",
+    "pricing.label": "Бағалар",
+    "pricing.title": "Сізге арналған пакеттер",
+    "pricing.subtitle": "Кез келген бюджетке арналған толыққанды SPA тәжірибесі.",
+    "plan1.name": "RELAX",
+    "plan1.dur": "2 сағат | Жеке сеанс",
+    "plan1.f1": "Классикалық массаж (60 мин)",
+    "plan1.f2": "Аромотерапия сеансы",
+    "plan1.f3": "Шай / кофе кешені",
+    "plan1.f4": "Демалыс бөлмесі",
+    "plan2.name": "PREMIUM",
+    "plan2.badge": "✦ Танымал таңдау",
+    "plan2.dur": "4 сағат | Толық бағдарлама",
+    "plan2.f1": "Тас терапиясы (90 мин)",
+    "plan2.f2": "Косметология (60 мин)",
+    "plan2.f3": "Аромованна (45 мин)",
+    "plan2.f4": "Шаш күтімі маскасы",
+    "plan2.f5": "Кешкі тағам",
+    "plan3.name": "VIP",
+    "plan3.dur": "Күн бойы | Жеке бағдарлама",
+    "plan3.f1": "Барлық PREMIUM қызметтер",
+    "plan3.f2": "Жеке ниша кабина",
+    "plan3.f3": "Персональды шебер",
+    "plan3.f4": "Шампан / шай рәсімі",
+    "plan3.f5": "Трансфер (Алматы ішінде)",
+    "pricing.btn": "Жазылу",
+    "gallery.label": "Галерея",
+    "gallery.title": "Атмосфера мен сұлулық",
+    "gal1": "Релакс бассейн",
+    "gal2": "Массаж кабина",
+    "gal3": "Косметология",
+    "gal4": "Гүл ваннасы",
+    "gal5": "VIP лобби",
+    "reviews.label": "Пікірлер",
+    "reviews.title": "Клиенттеріміз не дейді",
+    "rev1.text": '"Тіпті күттен де жақсы болды! Тас терапиясы ұзақ жұмыс аптасынан кейін денемді толық жаңартты. Ертең қайта барамын."',
+    "rev1.name": "Айгүл Бекова",
+    "rev1.role": "Тұрақты клиент • 2 жыл",
+    "rev2.text": '"AURORA SPA — Алматыдағы ең жоғары деңгейлі орын. Персонал өте мейірімді, кабиналар таза. PREMIUM пакет 100% тұрарлық."',
+    "rev2.name": "Данияр Сейтқали",
+    "rev2.role": "VIP клиент • 1 жыл",
+    "rev3.text": '"Туылған күнімде VIP пакетті сыйлады. Барлығы өте мінсіз — шампан, жеке шебер, гүл ваннасы. Өмірдегі ең жақсы кешім!"',
+    "rev3.name": "Мадина Қасымова",
+    "rev3.role": "VIP клиент • 6 ай",
+    "rev4.text": '"Аромотерапия сеансынан кейін ұйқым толық қалпына келді. Шеберлердің кәсіптілігі жоғары деңгейде. Ұсынамын!"',
+    "rev4.name": "Санжар Мухамедов",
+    "rev4.role": "Тұрақты клиент • 8 ай",
+    "rev5.text": '"Косметология кабинасы өте таза, маманшы барлықты түсіндіреді. Терім күрт жақсарды 3 сеанстан кейін. Рақмет!"',
+    "rev5.name": "Жұлдыз Ахметова",
+    "rev5.role": "Тұрақты клиент • 1 жыл",
+    "booking.label": "Жазылу",
+    "booking.title": "Бүгін жазылыңыз",
+    "booking.subtitle": "Алдын ала жазылу тек 5 минутты алады. Растауды 30 минут ішінде аласыз.",
+    "perk1.t": "Тез растау",
+    "perk1.d": "WhatsApp немесе телефон арқылы растаймыз",
+    "perk2.t": "Алғаш рет — 15% жеңілдік",
+    "perk2.d": "Жаңа клиенттерге арнайы ұсыныс",
+    "perk3.t": "Ыңғайлы уақыт өзгерту",
+    "perk3.d": "Сеансты 24 сағат бұрын өзгертуге болады",
+    "form.name": "Атыңыз",
+    "form.phone": "Телефон",
+    "form.service": "Қызмет",
+    "form.svc0": "— Таңдаңыз —",
+    "form.svc1": "Классикалық Массаж",
+    "form.svc2": "Тас Терапиясы",
+    "form.svc3": "Косметология",
+    "form.svc4": "Аромотерапия",
+    "form.svc5": "Релакс Ваннасы",
+    "form.svc6": "Шаш Күтімі",
+    "form.svc7": "PREMIUM Пакет",
+    "form.svc8": "VIP Пакет",
+    "form.date": "Күн",
+    "form.time": "Уақыт",
+    "form.note": "Қосымша тілек (міндетті емес)",
+    "form.submit": "✦ Жазылуды растау",
+    "form.ok.title": "Сізді күтеміз!",
+    "form.ok.desc": "Өтінішіңіз қабылданды. 30 минут ішінде WhatsApp-қа растауды жіберіп аламыз.",
+    "contact.label": "Байланыс",
+    "contact.title": "Бізді табыңыз",
+    "contact.addr": "Мекенжай",
+    "contact.phone": "Телефон",
+    "contact.hours": "Жұмыс уақыты",
+    "contact.social": "Әлеуметтік желілер",
+    "days.mf": "Дүйс–Жұма",
+    "days.ss": "Сенбі–Жексенбі",
+    "map.text": "Алматы, Абай д., 150",
+    "map.btn": "Google Maps →",
+    "footer.desc": "Алматының ең сенімді лакшери wellness орталығы. Сіздің тыныштығыңыз — біздің мақсатымыз.",
+    "footer.menu": "Мәзір",
+    "footer.services": "Қызметтер",
+    "footer.contact": "Байланыс",
+    "footer.addr2": "Алматы, Абай д., 150",
+    "footer.copy": "© 2024 AURORA SPA. Барлық құқықтар қорғалған.",
+    "footer.made": "Luxury Wellness · Алматы, Қазақстан",
+  },
+  ru: {
+    "nav.services": "Услуги",
+    "nav.about": "О нас",
+    "nav.pricing": "Цены",
+    "nav.gallery": "Галерея",
+    "nav.reviews": "Отзывы",
+    "nav.contact": "Контакты",
+    "nav.cta": "Записаться",
+    "hero.badge": "✦ Luxury Wellness Experience",
+    "hero.title1": "Обновление вашего",
+    "hero.title2": "тела и духа",
+    "hero.title3": "начинается здесь",
+    "hero.desc": "Полный SPA-комплекс — массаж, косметология, ванны и релаксация. Ваш покой — наш главный приоритет.",
+    "hero.cta1": "✦ Записаться",
+    "hero.cta2": "Услуги →",
+    "hero.scroll": "Вниз",
+    "stats.years": "Лет опыта",
+    "stats.clients": "Клиентов",
+    "stats.masters": "Мастеров",
+    "stats.rating": "Рейтинг",
+    "services.label": "Услуги",
+    "services.title": "Наш SPA-комплекс",
+    "services.subtitle": "Комплексный уход за каждым аспектом здоровья — всё под одной крышей.",
+    "srv1.name": "Классический Массаж",
+    "srv1.desc": "Снятие мышечного напряжения, улучшение кровообращения. Полное ощущение покоя и расслабления.",
+    "srv1.price": "12 000 ₸ — от / 60 мин",
+    "srv2.name": "Стоун Терапия",
+    "srv2.desc": "Телесная терапия тёплыми базальтовыми камнями — глубокое расслабление, снятие стресса.",
+    "srv2.price": "18 000 ₸ — от / 90 мин",
+    "srv3.name": "Косметология",
+    "srv3.desc": "Очищение, увлажнение кожи лица, лифтинг-маски. Сертифицированные косметологи.",
+    "srv3.price": "15 000 ₸ — от / 60 мин",
+    "srv4.name": "Ароматерапия",
+    "srv4.desc": "Массаж с эфирными маслами — успокоение нервной системы, улучшение сна.",
+    "srv4.price": "16 000 ₸ — от / 90 мин",
+    "srv5.name": "Релакс Ванны",
+    "srv5.desc": "Ванны с солью, молоком, лепестками цветов. Восстановление тела и духа.",
+    "srv5.price": "14 000 ₸ — от / 45 мин",
+    "srv6.name": "Уход за волосами",
+    "srv6.desc": "Маски для волос, массаж головы и глубокие восстановительные процедуры.",
+    "srv6.price": "10 000 ₸ — от / 45 мин",
+    "about.label": "О нас",
+    "about.title": "Место покоя и красоты",
+    "about.badge": "Лет успеха",
+    "about.desc1": "С 2016 года AURORA SPA — самый надёжный luxury wellness-центр Алматы. Только профессиональные мастера, качественная косметика и индивидуальный подход.",
+    "about.desc2": "Каждый клиент должен чувствовать себя особенным — это наша философия. Мы всегда рады вас встретить.",
+    "feat1.title": "Сертифицированные",
+    "feat1.desc": "Международные стандарты",
+    "feat2.title": "Натуральная косметика",
+    "feat2.desc": "Без вредных веществ",
+    "feat3.title": "VIP кабинеты",
+    "feat3.desc": "Личные, чистые, тихие",
+    "feat4.title": "Индивидуальный подход",
+    "feat4.desc": "Под ваши потребности",
+    "about.cta": "Записаться →",
+    "why.label": "Почему мы?",
+    "why.title": "Что делает AURORA SPA особенным",
+    "why1.title": "Профи мастера",
+    "why1.desc": "Все наши специалисты имеют международные сертификаты и ежегодно обновляют обучение.",
+    "why2.title": "Натуральные продукты",
+    "why2.desc": "Используем только органическую и сертифицированную косметику.",
+    "why3.title": "Люкс атмосфера",
+    "why3.desc": "Специально разработанные кабинеты, тихая музыка, освещение — полный релакс.",
+    "why4.title": "Конфиденциальность",
+    "why4.desc": "Личные кабинеты, защита ваших данных — только отдых для вас.",
+    "pricing.label": "Цены",
+    "pricing.title": "Пакеты для вас",
+    "pricing.subtitle": "Полноценный SPA-опыт для любого бюджета.",
+    "plan1.name": "RELAX",
+    "plan1.dur": "2 часа | Индивидуальный сеанс",
+    "plan1.f1": "Классический массаж (60 мин)",
+    "plan1.f2": "Сеанс ароматерапии",
+    "plan1.f3": "Чай / кофе церемония",
+    "plan1.f4": "Комната отдыха",
+    "plan2.name": "PREMIUM",
+    "plan2.badge": "✦ Популярный выбор",
+    "plan2.dur": "4 часа | Полная программа",
+    "plan2.f1": "Стоун терапия (90 мин)",
+    "plan2.f2": "Косметология (60 мин)",
+    "plan2.f3": "Аромованна (45 мин)",
+    "plan2.f4": "Маска для волос",
+    "plan2.f5": "Лёгкий ужин",
+    "plan3.name": "VIP",
+    "plan3.dur": "Весь день | Личная программа",
+    "plan3.f1": "Все PREMIUM услуги",
+    "plan3.f2": "Личная ниша-кабина",
+    "plan3.f3": "Персональный мастер",
+    "plan3.f4": "Шампанское / чайная церемония",
+    "plan3.f5": "Трансфер (в пределах Алматы)",
+    "pricing.btn": "Записаться",
+    "gallery.label": "Галерея",
+    "gallery.title": "Атмосфера и красота",
+    "gal1": "Релакс бассейн",
+    "gal2": "Массажный кабинет",
+    "gal3": "Косметология",
+    "gal4": "Цветочная ванна",
+    "gal5": "VIP лобби",
+    "reviews.label": "Отзывы",
+    "reviews.title": "Что говорят клиенты",
+    "rev1.text": '"Даже лучше, чем ожидала! Стоун терапия после долгой рабочей недели полностью обновила моё тело. Приду снова завтра."',
+    "rev1.name": "Айгуль Бекова",
+    "rev1.role": "Постоянный клиент • 2 года",
+    "rev2.text": '"AURORA SPA — самое высококлассное место в Алматы. Персонал очень дружелюбный, кабинеты чистые. Пакет PREMIUM однозначно стоит своих денег."',
+    "rev2.name": "Данияр Сейткали",
+    "rev2.role": "VIP клиент • 1 год",
+    "rev3.text": '"Подарили VIP пакет на день рождения. Всё безупречно — шампанское, личный мастер, цветочная ванна. Лучший вечер в моей жизни!"',
+    "rev3.name": "Мадина Касымова",
+    "rev3.role": "VIP клиент • 6 месяцев",
+    "rev4.text": '"После сеанса ароматерапии сон полностью восстановился. Профессионализм мастеров на высочайшем уровне. Рекомендую!"',
+    "rev4.name": "Санжар Мухамедов",
+    "rev4.role": "Постоянный клиент • 8 месяцев",
+    "rev5.text": '"Косметологический кабинет очень чистый, специалист всё объясняет. Кожа заметно улучшилась после 3 сеансов. Спасибо!"',
+    "rev5.name": "Жулдыз Ахметова",
+    "rev5.role": "Постоянный клиент • 1 год",
+    "booking.label": "Запись",
+    "booking.title": "Запишитесь сегодня",
+    "booking.subtitle": "Предварительная запись займёт всего 5 минут. Подтверждение получите в течение 30 минут.",
+    "perk1.t": "Быстрое подтверждение",
+    "perk1.d": "Подтвердим по WhatsApp или телефону",
+    "perk2.t": "Первый раз — скидка 15%",
+    "perk2.d": "Специальное предложение для новых клиентов",
+    "perk3.t": "Гибкое изменение времени",
+    "perk3.d": "Можно перенести сеанс за 24 часа",
+    "form.name": "Ваше имя",
+    "form.phone": "Телефон",
+    "form.service": "Услуга",
+    "form.svc0": "— Выберите —",
+    "form.svc1": "Классический Массаж",
+    "form.svc2": "Стоун Терапия",
+    "form.svc3": "Косметология",
+    "form.svc4": "Ароматерапия",
+    "form.svc5": "Релакс Ванна",
+    "form.svc6": "Уход за волосами",
+    "form.svc7": "Пакет PREMIUM",
+    "form.svc8": "Пакет VIP",
+    "form.date": "Дата",
+    "form.time": "Время",
+    "form.note": "Пожелания (необязательно)",
+    "form.submit": "✦ Подтвердить запись",
+    "form.ok.title": "Ждём вас!",
+    "form.ok.desc": "Ваша заявка принята. Подтверждение придёт в WhatsApp в течение 30 минут.",
+    "contact.label": "Контакты",
+    "contact.title": "Найдите нас",
+    "contact.addr": "Адрес",
+    "contact.phone": "Телефон",
+    "contact.hours": "Часы работы",
+    "contact.social": "Социальные сети",
+    "days.mf": "Пн–Пт",
+    "days.ss": "Сб–Вс",
+    "map.text": "Алматы, пр. Абая, 150",
+    "map.btn": "Google Maps →",
+    "footer.desc": "Самый надёжный luxury wellness-центр Алматы. Ваш покой — наша цель.",
+    "footer.menu": "Меню",
+    "footer.services": "Услуги",
+    "footer.contact": "Контакты",
+    "footer.addr2": "Алматы, пр. Абая, 150",
+    "footer.copy": "© 2024 AURORA SPA. Все права защищены.",
+    "footer.made": "Luxury Wellness · Алматы, Казахстан",
+  }
+};
+
+let currentLang = 'kz';
+
+function setLang(lang) {
+  currentLang = lang;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (T[lang][key] !== undefined) el.textContent = T[lang][key];
+  });
+  document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+  document.querySelector(`.lang-btn[onclick="setLang('${lang}')"]`).classList.add('active');
+  document.documentElement.lang = lang === 'kz' ? 'kk' : 'ru';
+}
+
+// ── NAVBAR SCROLL ──
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 60);
+  document.getElementById('scrollTopBtn').classList.toggle('visible', window.scrollY > 400);
+});
+
+// ── MOBILE MENU ──
+function toggleMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+
+// ── INTERSECTION OBSERVER (fade-up) ──
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+// ── COUNTER ANIMATION ──
+const counterObs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    const el = entry.target;
+    const target = +el.dataset.target;
+    const duration = 1800;
+    const step = target / (duration / 16);
+    let current = 0;
+    const timer = setInterval(() => {
+      current = Math.min(current + step, target);
+      el.textContent = Math.floor(current).toLocaleString();
+      if (current >= target) clearInterval(timer);
+    }, 16);
+    counterObs.unobserve(el);
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('.counter').forEach(el => counterObs.observe(el));
+
+// ── TESTIMONIALS SLIDER ──
+(function() {
+  const slider = document.getElementById('reviewsSlider');
+  const dotsWrap = document.getElementById('sliderDots');
+  const cards = slider.querySelectorAll('.review-card');
+  const perSlide = window.innerWidth < 768 ? 1 : 3;
+  const total = Math.ceil(cards.length / perSlide);
+  let current = 0;
+
+  for (let i = 0; i < total; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'slider-dot' + (i === 0 ? ' active' : '');
+    dot.onclick = () => goTo(i);
+    dotsWrap.appendChild(dot);
+  }
+
+  function goTo(idx) {
+    current = idx;
+    const w = slider.parentElement.offsetWidth;
+    const cardW = cards[0].offsetWidth + 24;
+    slider.style.transform = `translateX(-${idx * perSlide * cardW}px)`;
+    dotsWrap.querySelectorAll('.slider-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
+  }
+
+  setInterval(() => goTo((current + 1) % total), 4000);
+})();
+
+// ── PARTICLES ──
+(function() {
+  const canvas = document.getElementById('particleCanvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [];
+
+  function resize() {
+    W = canvas.width = canvas.offsetWidth;
+    H = canvas.height = canvas.offsetHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  class Particle {
+    constructor() { this.reset(); }
+    reset() {
+      this.x = Math.random() * W;
+      this.y = Math.random() * H;
+      this.r = Math.random() * 1.5 + 0.3;
+      this.vx = (Math.random() - 0.5) * 0.3;
+      this.vy = -Math.random() * 0.4 - 0.1;
+      this.alpha = Math.random() * 0.5 + 0.1;
+    }
+    draw() {
+      ctx.save();
+      ctx.globalAlpha = this.alpha;
+      ctx.fillStyle = '#C9A96E';
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+    update() {
+      this.x += this.vx; this.y += this.vy;
+      if (this.y < -5) this.reset();
+    }
+  }
+
+  for (let i = 0; i < 60; i++) particles.push(new Particle());
+
+  function animate() {
+    ctx.clearRect(0, 0, W, H);
+    particles.forEach(p => { p.update(); p.draw(); });
+    requestAnimationFrame(animate);
+  }
+  animate();
+})();
+
+// ── BOOKING FORM ──
+function submitBooking() {
+  const name = document.getElementById('fName').value.trim();
+  const phone = document.getElementById('fPhone').value.trim();
+  const service = document.getElementById('fService').value;
+  const date = document.getElementById('fDate').value;
+  const time = document.getElementById('fTime').value;
+
+  if (!name || !phone || !service || !date || !time) {
+    const msg = currentLang === 'kz' ? 'Барлық міндетті өрістерді толтырыңыз.' : 'Пожалуйста, заполните все обязательные поля.';
+    alert(msg);
+    return;
+  }
+
+  document.getElementById('bookingFormWrap').style.display = 'none';
+  document.getElementById('formSuccess').style.display = 'block';
+}
+
+// ── SET MIN DATE ──
+document.getElementById('fDate').min = new Date().toISOString().split('T')[0];
+</script>
+</body>
+</html>

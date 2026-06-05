@@ -1,0 +1,2097 @@
+<!DOCTYPE html>
+<html lang="ru" data-lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bodrum — Кафе в Актобе</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:         #FFF8F0;
+  --bg-card:    #FFFDF9;
+  --gold:       #B8860B;
+  --gold-light: #D4A842;
+  --green:      #4A6741;
+  --text:       #2C2218;
+  --text-muted: #7A6E64;
+  --border:     #EAE0D5;
+  --shadow:     0 6px 32px rgba(44,34,24,0.09);
+  --radius:     16px;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ══════════════════════════════
+   NAVBAR
+══════════════════════════════ */
+.navbar {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 200;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 48px;
+  background: rgba(255,248,240,0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  transition: box-shadow 0.3s;
+}
+.navbar.scrolled { box-shadow: 0 2px 24px rgba(44,34,24,0.08); }
+
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.75rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.nav-center {
+  display: flex;
+  gap: 40px;
+  list-style: none;
+}
+.nav-center a {
+  font-size: 0.78rem;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  text-decoration: none;
+  position: relative;
+  transition: color 0.2s;
+}
+.nav-center a::after {
+  content:'';
+  position:absolute;
+  bottom:-3px; left:0;
+  width:0; height:1px;
+  background: var(--gold);
+  transition: width 0.3s ease;
+}
+.nav-center a:hover { color: var(--gold); }
+.nav-center a:hover::after { width:100%; }
+
+.lang-toggle {
+  display: flex;
+  background: var(--border);
+  border-radius: 20px;
+  padding: 3px;
+  gap: 3px;
+}
+.lang-btn {
+  padding: 5px 16px;
+  border: none;
+  background: transparent;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-radius: 16px;
+  transition: all 0.22s;
+}
+.lang-btn.active {
+  background: var(--gold);
+  color: #fff;
+}
+
+/* ══════════════════════════════
+   HERO
+══════════════════════════════ */
+.hero {
+  position: relative;
+  height: 100vh;
+  min-height: 560px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background-image: url('https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=1920&q=85');
+  background-size: cover;
+  background-position: center 40%;
+  transform: scale(1.03);
+  transition: transform 8s ease;
+}
+.hero:hover .hero-bg { transform: scale(1); }
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(10,5,2,0.55) 0%,
+    rgba(10,5,2,0.72) 60%,
+    rgba(10,5,2,0.85) 100%
+  );
+}
+
+.hero-grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+.hero-content {
+  position: relative;
+  text-align: center;
+  color: #fff;
+  padding: 24px;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+.hero-content.show { opacity: 1; }
+
+.hero-eyebrow {
+  font-size: 0.72rem;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  opacity: 0;
+  margin-bottom: 20px;
+  transform: translateY(20px);
+  transition: opacity 0.9s ease 0.1s, transform 0.9s ease 0.1s;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.6);
+}
+.hero-content.show .hero-eyebrow { opacity: 0.85; transform: translateY(0); }
+
+.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(5.5rem, 15vw, 12rem);
+  font-weight: 300;
+  letter-spacing: 0.28em;
+  line-height: 0.88;
+  text-transform: uppercase;
+  text-shadow: 0 4px 40px rgba(0,0,0,0.5), 0 0 80px rgba(0,0,0,0.3);
+  opacity: 0;
+  transform: translateY(28px);
+  filter: blur(12px);
+  transition: opacity 1s cubic-bezier(0.16,1,0.3,1) 0.22s,
+              transform 1s cubic-bezier(0.16,1,0.3,1) 0.22s,
+              filter 1s cubic-bezier(0.16,1,0.3,1) 0.22s;
+}
+.hero-content.show .hero-title { opacity: 1; transform: translateY(0); filter: blur(0); }
+
+.hero-ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin: 28px auto;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.9s ease 0.38s, transform 0.9s ease 0.38s;
+}
+.hero-content.show .hero-ornament { opacity: 1; transform: translateY(0); }
+.hero-ornament-line {
+  width: 48px; height: 1px;
+  background: var(--gold-light);
+  opacity: 0.8;
+}
+.hero-ornament-diamond {
+  width: 6px; height: 6px;
+  background: var(--gold-light);
+  transform: rotate(45deg);
+}
+
+.hero-tagline {
+  font-size: 0.95rem;
+  font-weight: 300;
+  letter-spacing: 0.18em;
+  opacity: 0;
+  transform: translateY(14px);
+  text-shadow: 0 2px 16px rgba(0,0,0,0.5);
+  transition: opacity 0.9s ease 0.52s, transform 0.9s ease 0.52s;
+}
+.hero-content.show .hero-tagline { opacity: 0.9; transform: translateY(0); }
+
+.hero-scroll-hint {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%) translateY(0);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  color: rgba(255,255,255,0.5);
+  font-size: 0.65rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  opacity: 0;
+  transition: opacity 0.8s ease 1s;
+  animation: none;
+}
+.hero-scroll-hint.show {
+  opacity: 1;
+  animation: scrollBounce 2.4s ease-in-out 1s infinite;
+}
+.hero-scroll-hint svg {
+  width: 18px; height: 18px;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  fill: none;
+}
+
+/* ── INTRO ── */
+#intro {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  background: #FFF8F0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.7s ease, visibility 0.7s ease;
+}
+#intro.hide { opacity: 0; visibility: hidden; pointer-events: none; }
+.intro-letters { display: flex; gap: 0.03em; }
+.intro-letter {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 600;
+  font-size: calc((100vw - 64px) / 6);
+  color: var(--text);
+  line-height: 1;
+  opacity: 0;
+  filter: blur(28px);
+  transform: translateY(36px);
+  transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1),
+              filter 0.7s cubic-bezier(0.16,1,0.3,1),
+              transform 0.7s cubic-bezier(0.16,1,0.3,1);
+}
+.intro-letter.in  { opacity: 1; filter: blur(0); transform: translateY(0); }
+.intro-letter.out {
+  opacity: 0; filter: blur(18px); transform: translateY(-14px);
+  transition-duration: 0.42s;
+  transition-timing-function: cubic-bezier(0.4,0,1,1);
+}
+
+/* ── COFFEE STEAM ── */
+.steam-wrap {
+  position: absolute;
+  bottom: 28%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 200px;
+  pointer-events: none;
+  z-index: 2;
+}
+.steam {
+  position: absolute;
+  bottom: 0;
+  width: 10px;
+  border-radius: 50% 50% 20% 20%;
+  background: radial-gradient(ellipse at center,
+    rgba(255,252,245,0.55) 0%,
+    rgba(255,252,245,0) 70%);
+  filter: blur(6px);
+  animation: steamRise var(--sdur, 3s) var(--sdel, 0s) ease-in-out infinite;
+  opacity: 0;
+  transform-origin: bottom center;
+}
+.steam:nth-child(1) { left: 28px;  width: 14px; height: 80px;  --sdur:3.2s; --sdel:0s;    --swx:12px; }
+.steam:nth-child(2) { left: 50px;  width: 18px; height: 100px; --sdur:2.8s; --sdel:0.6s;  --swx:-10px; }
+.steam:nth-child(3) { left: 72px;  width: 14px; height: 85px;  --sdur:3.5s; --sdel:1.1s;  --swx:8px; }
+.steam:nth-child(4) { left: 38px;  width: 10px; height: 70px;  --sdur:4s;   --sdel:1.8s;  --swx:-14px; }
+.steam:nth-child(5) { left: 62px;  width: 10px; height: 65px;  --sdur:3s;   --sdel:0.3s;  --swx:6px; }
+
+@keyframes steamRise {
+  0%   { opacity: 0;    transform: translateY(0)    translateX(0)            scaleX(1); }
+  15%  { opacity: 0.55; }
+  50%  { opacity: 0.35; transform: translateY(-55%)  translateX(var(--swx))   scaleX(1.4); }
+  85%  { opacity: 0.1; }
+  100% { opacity: 0;    transform: translateY(-100%) translateX(calc(var(--swx) * -0.5)) scaleX(0.8); }
+}
+
+@keyframes scrollBounce {
+  0%,100% { transform:translateX(-50%) translateY(0); }
+  50%      { transform:translateX(-50%) translateY(8px); }
+}
+
+/* ══════════════════════════════
+   INFO SECTION
+══════════════════════════════ */
+.info-section {
+  padding: 88px 48px;
+}
+.info-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+.section-label {
+  font-size: 0.78rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 500;
+  margin-bottom: 14px;
+  text-align: center;
+}
+.section-heading {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.6rem, 6vw, 4rem);
+  font-weight: 400;
+  text-align: center;
+  margin-bottom: 56px;
+  color: var(--text);
+}
+
+.info-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.info-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 40px 28px;
+  text-align: center;
+  transition: transform 0.25s, box-shadow 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+.info-card::before {
+  content:'';
+  position:absolute;
+  top:0; left:50%; transform:translateX(-50%);
+  width:40px; height:2px;
+  background: var(--gold);
+  border-radius:0 0 2px 2px;
+  transition: width 0.3s;
+}
+.info-card:hover { transform:translateY(-5px); box-shadow:var(--shadow); }
+.info-card:hover::before { width:80px; }
+
+.info-icon {
+  font-size: 1.9rem;
+  margin-bottom: 18px;
+  display: block;
+}
+.info-card-label {
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+.info-card-value {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.45rem;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1.45;
+}
+.info-card-sub {
+  margin-top: 8px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+.info-card-sub a {
+  color: var(--gold);
+  text-decoration: none;
+}
+.info-card-sub a:hover { text-decoration: underline; }
+
+/* ══════════════════════════════
+   DIVIDER
+══════════════════════════════ */
+.divider {
+  max-width: 1080px;
+  margin: 0 auto;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--border), transparent);
+}
+
+/* ══════════════════════════════
+   MENU SECTION
+══════════════════════════════ */
+.menu-section {
+  padding: 88px 48px 110px;
+}
+.menu-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.category-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 52px;
+}
+.cat-btn {
+  padding: 10px 22px;
+  border: 1px solid var(--border);
+  background: transparent;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-radius: 24px;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.cat-btn:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(184,134,11,0.05);
+}
+.cat-btn.active {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: #fff;
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.menu-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px 22px;
+  transition: transform 0.22s, box-shadow 0.22s, border-color 0.22s;
+  animation: cardIn 0.35s ease both;
+}
+.menu-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow);
+  border-color: rgba(184,134,11,0.3);
+}
+
+.card-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.card-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--text);
+  flex: 1;
+}
+.card-price {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--gold);
+  white-space: nowrap;
+  padding-top: 2px;
+}
+.card-size {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+  margin-bottom: 9px;
+}
+.card-desc {
+  font-size: 0.86rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+@keyframes cardIn {
+  from { opacity:0; transform:translateY(12px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+.menu-empty {
+  grid-column: 1/-1;
+  text-align: center;
+  padding: 60px 0;
+  color: var(--text-muted);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem;
+}
+
+/* ══════════════════════════════
+   FOOTER
+══════════════════════════════ */
+footer {
+  background: #2C2218;
+  color: rgba(255,248,240,0.65);
+  padding: 68px 48px 40px;
+}
+.footer-grid {
+  max-width: 1080px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 48px;
+  padding-bottom: 48px;
+  border-bottom: 1px solid rgba(255,248,240,0.1);
+}
+.footer-brand-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.1rem;
+  font-weight: 300;
+  letter-spacing: 0.26em;
+  color: rgba(255,248,240,0.92);
+  margin-bottom: 8px;
+}
+.footer-brand-sub {
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  opacity: 0.5;
+}
+.footer-col h4 {
+  font-size: 0.66rem;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  font-weight: 500;
+  margin-bottom: 18px;
+}
+.footer-col p, .footer-col a {
+  display: block;
+  font-size: 0.84rem;
+  line-height: 1.95;
+  color: rgba(255,248,240,0.65);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-col a:hover { color: var(--gold-light); }
+
+.footer-bottom {
+  max-width: 1080px;
+  margin: 28px auto 0;
+  font-size: 0.72rem;
+  opacity: 0.35;
+  letter-spacing: 0.06em;
+}
+
+/* ══════════════════════════════
+   CART BUTTON ON CARD
+══════════════════════════════ */
+.card-add {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+.card-qty {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+.card-qty.visible { opacity: 1; pointer-events: all; }
+.qty-btn {
+  width: 28px; height: 28px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  border-radius: 50%;
+  font-size: 1rem;
+  color: var(--text);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.18s;
+  line-height: 1;
+}
+.qty-btn:hover { background: var(--gold); border-color: var(--gold); color: #fff; }
+.qty-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  min-width: 18px;
+  text-align: center;
+  color: var(--text);
+}
+.btn-add-cart {
+  padding: 7px 16px;
+  background: var(--gold);
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  white-space: nowrap;
+}
+.btn-add-cart:hover { background: #9a700a; transform: scale(1.03); }
+.btn-add-cart[data-ru] { }
+
+/* ══════════════════════════════
+   FLOATING CART FAB
+══════════════════════════════ */
+.cart-fab {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 300;
+  width: 58px; height: 58px;
+  border-radius: 50%;
+  background: var(--gold);
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 6px 24px rgba(184,134,11,0.45);
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.cart-fab:hover { transform: scale(1.08); box-shadow: 0 8px 32px rgba(184,134,11,0.55); }
+.cart-fab svg { width: 24px; height: 24px; stroke: #fff; fill: none; stroke-width: 2; }
+.cart-fab-badge {
+  position: absolute;
+  top: -4px; right: -4px;
+  width: 22px; height: 22px;
+  background: #2C2218;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 600;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0;
+  transform: scale(0);
+  transition: opacity 0.2s, transform 0.25s cubic-bezier(0.34,1.56,0.64,1);
+}
+.cart-fab-badge.show { opacity: 1; transform: scale(1); }
+
+/* ══════════════════════════════
+   CART PANEL
+══════════════════════════════ */
+.cart-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(20,12,4,0.45);
+  z-index: 400;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+.cart-backdrop.open { opacity: 1; pointer-events: all; }
+
+.cart-panel {
+  position: fixed;
+  top: 0; right: 0; bottom: 0;
+  width: min(420px, 100vw);
+  background: var(--bg);
+  z-index: 410;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
+  box-shadow: -8px 0 40px rgba(44,34,24,0.15);
+}
+.cart-panel.open { transform: translateX(0); }
+
+.cart-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 24px;
+  border-bottom: 1px solid var(--border);
+}
+.cart-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--text);
+}
+.cart-close {
+  width: 36px; height: 36px;
+  border: 1px solid var(--border);
+  background: transparent;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.cart-close:hover { background: var(--border); }
+
+.cart-items {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 24px;
+}
+.cart-empty-msg {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-muted);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+  animation: cardIn 0.25s ease both;
+}
+.ci-info { flex: 1; }
+.ci-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.3;
+}
+.ci-size {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+.ci-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ci-price {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--gold);
+  min-width: 80px;
+  text-align: right;
+}
+
+.cart-footer {
+  padding: 20px 24px;
+  border-top: 1px solid var(--border);
+  background: var(--bg-card);
+}
+.cart-total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 16px;
+}
+.cart-total-label {
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.cart-total-sum {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.7rem;
+  font-weight: 600;
+  color: var(--text);
+}
+.btn-whatsapp {
+  width: 100%;
+  padding: 15px;
+  background: #25D366;
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: background 0.2s, transform 0.15s;
+  text-decoration: none;
+  margin-bottom: 10px;
+}
+.btn-whatsapp:hover { background: #1ebe5d; transform: scale(1.01); }
+.btn-whatsapp svg { width: 20px; height: 20px; fill: #fff; flex-shrink: 0; }
+.btn-clear-cart {
+  width: 100%;
+  padding: 10px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.06em;
+}
+.btn-clear-cart:hover { border-color: #c0392b; color: #c0392b; }
+
+/* ══════════════════════════════
+   PAYMENT SECTION
+══════════════════════════════ */
+.pay-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 14px;
+  background: var(--border);
+  border-radius: 12px;
+  padding: 3px;
+}
+.pay-tab {
+  flex: 1;
+  padding: 9px 4px;
+  border: none;
+  background: transparent;
+  border-radius: 9px;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.22s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+.pay-tab.active {
+  background: #fff;
+  color: var(--text);
+  box-shadow: 0 2px 8px rgba(44,34,24,0.1);
+  font-weight: 500;
+}
+.pay-tab-kaspi.active { color: #F14635; }
+
+.kaspi-qr-block {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 0 6px;
+  animation: cardIn 0.3s ease both;
+}
+.kaspi-qr-block.show { display: flex; }
+
+.kaspi-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #F14635;
+  color: #fff;
+  border-radius: 10px;
+  padding: 6px 14px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+.kaspi-badge svg { width: 18px; height: 18px; fill: #fff; }
+
+.qr-frame {
+  position: relative;
+  width: 180px; height: 180px;
+  border: 2px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.qr-frame img {
+  width: 100%; height: 100%;
+  object-fit: contain;
+  padding: 8px;
+}
+.qr-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  text-align: center;
+  padding: 16px;
+}
+.qr-placeholder svg { width: 60px; height: 60px; opacity: 0.25; }
+
+.kaspi-amount {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 0.02em;
+}
+.kaspi-hint {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-align: center;
+  line-height: 1.5;
+}
+
+.cash-block {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 20px 0 8px;
+  animation: cardIn 0.3s ease both;
+}
+.cash-block.show { display: flex; }
+.cash-icon { font-size: 2.8rem; }
+.cash-note {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  text-align: center;
+  line-height: 1.6;
+}
+
+/* ══════════════════════════════
+   ORDER FORM IN CART
+══════════════════════════════ */
+.order-type-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 14px;
+  background: var(--border);
+  border-radius: 12px;
+  padding: 3px;
+}
+.order-tab {
+  flex: 1;
+  padding: 9px 6px;
+  border: none;
+  background: transparent;
+  border-radius: 9px;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.22s;
+  letter-spacing: 0.04em;
+}
+.order-tab.active {
+  background: #fff;
+  color: var(--text);
+  box-shadow: 0 2px 8px rgba(44,34,24,0.1);
+  font-weight: 500;
+}
+.order-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.order-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.order-field label {
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+.order-field input,
+.order-field select {
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.9rem;
+  color: var(--text);
+  background: var(--bg);
+  outline: none;
+  transition: border-color 0.2s;
+  -webkit-appearance: none;
+}
+.order-field input:focus,
+.order-field select:focus { border-color: var(--gold); }
+.order-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.booking-fields { display: none; }
+.booking-fields.show { display: contents; }
+
+/* Tips */
+.tips-section {
+  border-top: 1px solid var(--border);
+  padding-top: 14px;
+  margin-top: 4px;
+}
+.tips-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.tips-label span { font-size: 1rem; }
+.tips-btns {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+.tip-btn {
+  padding: 8px 14px;
+  border: 1px solid var(--border);
+  background: transparent;
+  border-radius: 20px;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.tip-btn:hover { border-color: var(--gold); color: var(--gold); }
+.tip-btn.active { background: var(--gold); border-color: var(--gold); color: #fff; }
+.tip-custom-wrap {
+  display: none;
+  align-items: center;
+  gap: 8px;
+}
+.tip-custom-wrap.show { display: flex; }
+.tip-custom-wrap input {
+  flex: 1;
+  padding: 9px 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.9rem;
+  color: var(--text);
+  background: var(--bg);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.tip-custom-wrap input:focus { border-color: var(--gold); }
+.tip-custom-wrap span { font-size: 0.85rem; color: var(--text-muted); white-space: nowrap; }
+.tips-total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  padding-top: 8px;
+}
+.tips-total-row strong { color: var(--gold); font-weight: 600; }
+
+/* Instagram icon */
+.ig-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px; height: 36px;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.ig-link:hover { border-color: #E1306C; color: #E1306C; background: rgba(225,48,108,0.05); }
+.ig-link svg { width: 16px; height: 16px; fill: currentColor; }
+
+/* ══════════════════════════════
+   HAMBURGER (mobile menu)
+══════════════════════════════ */
+.burger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 6px;
+  background: none;
+  border: none;
+}
+.burger span {
+  display: block;
+  width: 22px; height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: all 0.28s ease;
+}
+.burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.burger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+.mobile-menu {
+  display: none;
+  position: fixed;
+  inset: 70px 0 0 0;
+  background: rgba(255,248,240,0.97);
+  backdrop-filter: blur(20px);
+  z-index: 190;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.4rem;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  color: var(--text);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.mobile-menu a:hover { color: var(--gold); }
+.mobile-menu-lang {
+  display: flex;
+  gap: 6px;
+  background: var(--border);
+  border-radius: 20px;
+  padding: 4px;
+}
+
+/* ══════════════════════════════
+   RESPONSIVE — TABLET 960px
+══════════════════════════════ */
+@media (max-width: 960px) {
+  .navbar { padding: 0 20px; }
+  .nav-center { display: none; }
+  .burger { display: flex; }
+  .ig-link { width: 32px; height: 32px; }
+
+  .info-section { padding: 56px 20px 48px; }
+  .menu-section  { padding: 56px 20px 80px; }
+  footer         { padding: 52px 20px 32px; }
+
+  .info-cards    { grid-template-columns: 1fr; gap: 14px; }
+  .menu-grid     { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .footer-grid   { grid-template-columns: 1fr; gap: 28px; }
+  .section-heading { margin-bottom: 36px; }
+
+  .category-filter {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    justify-content: flex-start;
+    padding-bottom: 8px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .category-filter::-webkit-scrollbar { display: none; }
+
+  /* Cart panel full-height on tablet */
+  .cart-panel { width: 100vw; }
+}
+
+/* ══════════════════════════════
+   RESPONSIVE — MOBILE 480px
+══════════════════════════════ */
+@media (max-width: 480px) {
+  /* Hero */
+  .hero-title    { letter-spacing: 0.1em; }
+  .hero-eyebrow  { font-size: 0.65rem; letter-spacing: 0.24em; }
+  .hero-tagline  { font-size: 0.82rem; letter-spacing: 0.1em; }
+  .steam-wrap    { display: none; }
+
+  /* Intro */
+  .intro-letter  { font-size: calc((100vw - 32px) / 6); }
+
+  /* Navbar */
+  .navbar        { height: 56px; padding: 0 16px; }
+  .nav-logo      { font-size: 1.4rem; }
+  .mobile-menu   { inset: 56px 0 0 0; }
+  .mobile-menu a { font-size: 1.9rem; gap: 28px; }
+  .lang-toggle   { padding: 2px; }
+  .lang-btn      { padding: 4px 12px; font-size: 0.72rem; }
+
+  /* Sections */
+  .section-label   { font-size: 0.7rem; }
+  .section-heading { font-size: 2.2rem; }
+  .info-section    { padding: 48px 16px 40px; }
+  .menu-section    { padding: 48px 16px 80px; }
+  .info-card       { padding: 24px 18px; }
+  .info-icon       { font-size: 1.6rem; margin-bottom: 12px; }
+  .info-card-value { font-size: 1.2rem; }
+  .info-card-sub   { font-size: 0.82rem; }
+
+  /* Menu */
+  .menu-grid  { grid-template-columns: 1fr; gap: 10px; }
+  .card-name  { font-size: 1.1rem; }
+  .card-price { font-size: 0.95rem; }
+  .card-desc  { font-size: 0.8rem; }
+  .cat-btn    { font-size: 0.82rem; padding: 8px 16px; }
+
+  /* Cart FAB */
+  .cart-fab  { bottom: 20px; right: 16px; width: 52px; height: 52px; }
+  .cart-fab svg { width: 20px; height: 20px; }
+
+  /* Cart panel */
+  .cart-panel  { width: 100vw; }
+  .cart-head   { padding: 18px 16px; }
+  .cart-title  { font-size: 1.3rem; }
+  .cart-items  { padding: 12px 16px; }
+  .cart-footer { padding: 16px; }
+  .ci-name     { font-size: 0.95rem; }
+  .ci-price    { font-size: 0.85rem; min-width: 70px; }
+  .cart-total-sum { font-size: 1.5rem; }
+
+  /* Order form */
+  .order-row   { grid-template-columns: 1fr; gap: 8px; }
+  .order-field input,
+  .order-field select { font-size: 1rem; padding: 11px 12px; }
+
+  /* Pay tabs */
+  .pay-tab     { font-size: 0.72rem; padding: 8px 4px; }
+
+  /* Kaspi block */
+  .qr-frame    { width: 160px; height: 160px; }
+  .kaspi-amount { font-size: 1.35rem; }
+  .kaspi-hint  { font-size: 0.7rem; }
+
+  /* Tips */
+  .tip-btn     { font-size: 0.78rem; padding: 7px 12px; }
+  .tips-label  { font-size: 0.7rem; }
+
+  /* WhatsApp btn */
+  .btn-whatsapp { font-size: 0.88rem; padding: 13px; }
+  .btn-clear-cart { font-size: 0.78rem; }
+
+  /* Footer */
+  footer             { padding: 40px 16px 28px; }
+  .footer-brand-name { font-size: 1.5rem; }
+  .footer-col h4     { font-size: 0.65rem; }
+  .footer-col p,
+  .footer-col a      { font-size: 0.88rem; }
+  .footer-bottom     { font-size: 0.68rem; }
+  .divider           { margin: 0 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ INTRO ═══ -->
+<div id="intro">
+  <div class="intro-letters">
+    <span class="intro-letter">B</span>
+    <span class="intro-letter">O</span>
+    <span class="intro-letter">D</span>
+    <span class="intro-letter">R</span>
+    <span class="intro-letter">U</span>
+    <span class="intro-letter">M</span>
+  </div>
+</div>
+
+<!-- ═══ NAVBAR ═══ -->
+<nav class="navbar" id="navbar">
+  <a href="#" class="nav-logo">BODRUM</a>
+  <ul class="nav-center">
+    <li><a href="#menu"  data-ru="Меню"    data-kz="Мәзір">Меню</a></li>
+    <li><a href="#info"  data-ru="О нас"   data-kz="Біз туралы">О нас</a></li>
+  </ul>
+  <div style="display:flex;align-items:center;gap:10px;">
+    <a href="https://instagram.com/bodrum.aktobe" target="_blank" class="ig-link" title="Instagram">
+      <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+    </a>
+    <div class="lang-toggle">
+      <button class="lang-btn active" id="btn-ru" onclick="setLang('ru')">RU</button>
+      <button class="lang-btn"        id="btn-kz" onclick="setLang('kz')">KZ</button>
+    </div>
+    <button class="burger" id="burger" onclick="toggleMenu()" aria-label="Меню">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ═══ MOBILE MENU ═══ -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#menu"  onclick="toggleMenu()" data-ru="Меню"    data-kz="Мәзір">Меню</a>
+  <a href="#info"  onclick="toggleMenu()" data-ru="О нас"   data-kz="Біз туралы">О нас</a>
+  <div class="mobile-menu-lang">
+    <button class="lang-btn active" id="btn-ru2" onclick="setLang('ru');toggleMenu()">RU</button>
+    <button class="lang-btn"        id="btn-kz2" onclick="setLang('kz');toggleMenu()">KZ</button>
+  </div>
+</div>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-grain"></div>
+  <div class="steam-wrap">
+    <div class="steam"></div>
+    <div class="steam"></div>
+    <div class="steam"></div>
+    <div class="steam"></div>
+    <div class="steam"></div>
+  </div>
+  <div class="hero-content">
+    <p class="hero-eyebrow" data-ru="Кафе · Актобе" data-kz="Кафе · Ақтөбе">Кафе · Актобе</p>
+    <h1 class="hero-title">BODRUM</h1>
+    <div class="hero-ornament">
+      <span class="hero-ornament-line"></span>
+      <span class="hero-ornament-diamond"></span>
+      <span class="hero-ornament-line"></span>
+    </div>
+    <p class="hero-tagline"
+       data-ru="Уютная атмосфера. Вкусная еда. Настоящий кофе."
+       data-kz="Жайлы атмосфера. Дәмді тамақ. Шынайы кофе.">
+      Уютная атмосфера. Вкусная еда. Настоящий кофе.
+    </p>
+  </div>
+  <div class="hero-scroll-hint">
+    <span data-ru="Листать" data-kz="Төмен">Листать</span>
+    <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+  </div>
+</section>
+
+<!-- ═══ INFO ═══ -->
+<section class="info-section" id="info">
+  <div class="info-inner">
+    <p class="section-label" data-ru="Всё, что нужно знать" data-kz="Білу керек нәрселер">Всё, что нужно знать</p>
+    <h2 class="section-heading" data-ru="О нас" data-kz="Біз туралы">О нас</h2>
+    <div class="info-cards">
+      <div class="info-card">
+        <span class="info-icon">🕐</span>
+        <div class="info-card-label" data-ru="Часы работы" data-kz="Жұмыс уақыты">Часы работы</div>
+        <div class="info-card-value">09:00 – 23:00</div>
+        <div class="info-card-sub" data-ru="Ежедневно" data-kz="Күн сайын">Ежедневно</div>
+      </div>
+      <div class="info-card">
+        <span class="info-icon">📍</span>
+        <div class="info-card-label" data-ru="Адрес" data-kz="Мекенжай">Адрес</div>
+        <div class="info-card-value"
+             data-ru="Актобе, ул. Есетбатыра"
+             data-kz="Ақтөбе, Есетбатыр к.">Актобе, ул. Есетбатыра</div>
+        <div class="info-card-sub" data-ru="Казахстан" data-kz="Қазақстан">Казахстан</div>
+      </div>
+      <div class="info-card">
+        <span class="info-icon">📱</span>
+        <div class="info-card-label" data-ru="Контакты" data-kz="Байланыс">Контакты</div>
+        <div class="info-card-value">+7 (705) 123-45-67</div>
+        <div class="info-card-sub">
+          <a href="https://instagram.com/bodrum.aktobe" target="_blank">@bodrum.aktobe</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider" style="margin:0 48px;max-width:none;"></div>
+
+<!-- ═══ MENU ═══ -->
+<section class="menu-section" id="menu">
+  <div class="menu-inner">
+    <p class="section-label" data-ru="Наше меню" data-kz="Біздің мәзір">Наше меню</p>
+    <h2 class="section-heading" data-ru="Меню" data-kz="Мәзір">Меню</h2>
+    <div class="category-filter" id="categoryFilter"></div>
+    <div class="menu-grid" id="menuGrid"></div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand-name">BODRUM</div>
+      <div class="footer-brand-sub" data-ru="Кафе в Актобе" data-kz="Ақтөбедегі кафе">Кафе в Актобе</div>
+    </div>
+    <div class="footer-col">
+      <h4 data-ru="Контакты" data-kz="Байланыс">Контакты</h4>
+      <p>+7 (705) 123-45-67</p>
+      <a href="https://instagram.com/bodrum.aktobe" target="_blank">@bodrum.aktobe</a>
+      <p data-ru="Актобе, ул. Есетбатыра" data-kz="Ақтөбе, Есетбатыр к.">Актобе, ул. Есетбатыра</p>
+    </div>
+    <div class="footer-col">
+      <h4 data-ru="Часы работы" data-kz="Жұмыс уақыты">Часы работы</h4>
+      <p>09:00 – 23:00</p>
+      <p data-ru="Ежедневно" data-kz="Күн сайын">Ежедневно</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span data-ru="© 2025 Bodrum Cafe. Все права защищены."
+          data-kz="© 2025 Bodrum Cafe. Барлық құқықтар қорғалған.">
+      © 2025 Bodrum Cafe. Все права защищены.
+    </span>
+  </div>
+</footer>
+
+<!-- ═══ CART FAB ═══ -->
+<button class="cart-fab" id="cartFab" onclick="openCart()">
+  <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+  <span class="cart-fab-badge" id="cartBadge">0</span>
+</button>
+
+<!-- ═══ CART PANEL ═══ -->
+<div class="cart-backdrop" id="cartBackdrop" onclick="closeCart()"></div>
+<div class="cart-panel" id="cartPanel">
+  <div class="cart-head">
+    <span class="cart-title" data-ru="Корзина" data-kz="Себет">Корзина</span>
+    <button class="cart-close" onclick="closeCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-footer" id="cartFooter" style="display:none;">
+    <div class="cart-total-row">
+      <span class="cart-total-label" data-ru="Итого" data-kz="Барлығы">Итого</span>
+      <span class="cart-total-sum" id="cartTotal">0 ₸</span>
+    </div>
+
+    <!-- Order type tabs -->
+    <div class="order-type-tabs">
+      <button class="order-tab active" id="tab-takeaway" onclick="setOrderType('takeaway')"
+              data-ru="С собой" data-kz="Алып кету">С собой</button>
+      <button class="order-tab" id="tab-booking" onclick="setOrderType('booking')"
+              data-ru="Бронь стола" data-kz="Үстел брондау">Бронь стола</button>
+    </div>
+
+    <!-- Order form -->
+    <div class="order-form">
+      <div class="order-row">
+        <div class="order-field">
+          <label data-ru="Ваше имя" data-kz="Атыңыз">Ваше имя</label>
+          <input type="text" id="orderName" placeholder="Имя" />
+        </div>
+        <div class="order-field">
+          <label data-ru="Телефон" data-kz="Телефон">Телефон</label>
+          <input type="tel" id="orderPhone" placeholder="+7 (___) ___-__-__" />
+        </div>
+      </div>
+      <div class="order-row">
+        <div class="order-field">
+          <label data-ru="Время" data-kz="Уақыт">Время</label>
+          <select id="orderTime"></select>
+        </div>
+        <div class="order-field booking-fields" id="bookingDate">
+          <label data-ru="Дата" data-kz="Күні">Дата</label>
+          <input type="date" id="orderDate" />
+        </div>
+      </div>
+      <div class="order-field booking-fields" id="bookingGuests">
+        <label data-ru="Количество гостей" data-kz="Қонақтар саны">Количество гостей</label>
+        <select id="orderGuests">
+          <option value="1">1</option><option value="2">2</option>
+          <option value="3">3</option><option value="4">4</option>
+          <option value="5">5</option><option value="6">6</option>
+          <option value="7+">7+</option>
+        </select>
+      </div>
+      <div class="order-field" style="grid-column:1/-1;">
+        <label data-ru="Имя официанта (необязательно)" data-kz="Даяшының аты (міндетті емес)">Имя официанта (необязательно)</label>
+        <input type="text" id="waiterName" placeholder="Имя" />
+      </div>
+    </div>
+
+    <!-- Tips -->
+    <div class="tips-section">
+      <div class="tips-label"><span>🤍</span> <span data-ru="Чаевые официанту" data-kz="Даяшыға чаевые">Чаевые официанту</span></div>
+      <div class="tips-btns">
+        <button class="tip-btn active" onclick="setTip(0)"    data-ru="Без чаевых" data-kz="Жоқ">Без чаевых</button>
+        <button class="tip-btn"        onclick="setTip(5)"    >5%</button>
+        <button class="tip-btn"        onclick="setTip(10)"   >10%</button>
+        <button class="tip-btn"        onclick="setTip(15)"   >15%</button>
+        <button class="tip-btn"        onclick="setTip('custom')" data-ru="Другое" data-kz="Өзге">Другое</button>
+      </div>
+      <div class="tip-custom-wrap" id="tipCustomWrap">
+        <input type="number" id="tipCustomInput" placeholder="0" min="0" oninput="recalcTips()" />
+        <span>₸</span>
+      </div>
+      <div class="tips-total-row" id="tipsTotalRow" style="display:none;">
+        <span data-ru="Чаевые:" data-kz="Чаевые:">Чаевые:</span>
+        <strong id="tipAmountDisplay">0 ₸</strong>
+      </div>
+    </div>
+
+    <!-- Payment method -->
+    <div class="pay-tabs">
+      <button class="pay-tab pay-tab-kaspi active" id="ptab-kaspi" onclick="setPayMethod('kaspi')">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M2 5a2 2 0 012-2h16a2 2 0 012 2v14a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm2 0v14h16V5H4zm2 3h4v2H6V8zm0 4h8v2H6v-2z"/></svg>
+        Kaspi QR
+      </button>
+      <button class="pay-tab" id="ptab-cash" onclick="setPayMethod('cash')"
+              data-ru="Наличные" data-kz="Қолма-қол">Наличные</button>
+      <button class="pay-tab" id="ptab-wa" onclick="setPayMethod('wa')"
+              data-ru="WhatsApp" data-kz="WhatsApp">WhatsApp</button>
+    </div>
+
+    <!-- Kaspi QR block -->
+    <div class="kaspi-qr-block show" id="kaspiBlock">
+      <div class="kaspi-badge">
+        <svg viewBox="0 0 24 24"><path d="M3 3h7v7H3V3zm2 2v3h3V5H5zm9-2h7v7h-7V3zm2 2v3h3V5h-3zM3 14h7v7H3v-7zm2 2v3h3v-3H5zm11 1h2v2h-2v-2zm-4-1h2v2h-2v-2zm4-4h2v2h-2v-2zm-4 0h2v2h-2v-2zm2 4h2v2h-2v-2zm2 2h2v2h-2v-2z"/></svg>
+        Kaspi Pay
+      </div>
+      <div class="qr-frame">
+        <img src="kaspi-qr.png" id="kaspiQrImg"
+             onerror="this.style.display='none';document.getElementById('qrPlaceholder').style.display='flex';"
+             alt="Kaspi QR" />
+        <div class="qr-placeholder" id="qrPlaceholder" style="display:none;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+            <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+            <rect x="3" y="14" width="7" height="7" rx="1"/>
+            <rect x="5" y="5" width="3" height="3"/><rect x="16" y="5" width="3" height="3"/>
+            <rect x="5" y="16" width="3" height="3"/>
+            <path d="M14 14h3v3h-3zm3 3h3v3h-3zm-3 3h3v3h-3z"/>
+          </svg>
+          <span data-ru="Добавьте файл kaspi-qr.png" data-kz="kaspi-qr.png файлын қосыңыз">Добавьте файл kaspi-qr.png</span>
+        </div>
+      </div>
+      <div class="kaspi-amount" id="kaspiAmountDisplay">0 ₸</div>
+      <div class="kaspi-hint" data-ru="Отсканируйте QR-код в приложении Kaspi" data-kz="Kaspi қосымшасында QR-кодты сканерлеңіз">Отсканируйте QR-код в приложении Kaspi</div>
+    </div>
+
+    <!-- Cash block -->
+    <div class="cash-block" id="cashBlock">
+      <div class="cash-icon">💵</div>
+      <div class="kaspi-amount" id="cashAmountDisplay">0 ₸</div>
+      <div class="cash-note" data-ru="Оплата наличными при получении" data-kz="Алған кезде қолма-қол төлем">Оплата наличными при получении</div>
+    </div>
+
+    <a class="btn-whatsapp" id="waBtn" href="#" target="_blank"
+       onclick="return buildWaLink()" style="display:none;">
+      <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.122.554 4.122 1.524 5.854L.057 23.927l6.26-1.642A11.942 11.942 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.836 9.836 0 0 1-5.011-1.371l-.36-.214-3.724.977.994-3.635-.235-.374A9.818 9.818 0 0 1 2.182 12c0-5.42 4.398-9.818 9.818-9.818 5.42 0 9.818 4.398 9.818 9.818 0 5.42-4.398 9.818-9.818 9.818z"/></svg>
+      <span data-ru="Отправить заказ" data-kz="Тапсырыс жіберу">Отправить заказ</span>
+    </a>
+    <button class="btn-clear-cart" onclick="clearCart()" data-ru="Очистить корзину" data-kz="Себетті тазарту">Очистить корзину</button>
+  </div>
+</div>
+
+<script>
+/* ── DATA ── */
+const CATS = [
+  { id:'all',       ru:'Все',              kz:'Барлығы'       },
+  { id:'coffee',    ru:'Классика',         kz:'Классика'      },
+  { id:'icecoffee', ru:'Ice Coffee',       kz:'Ice Coffee'    },
+  { id:'matcha',    ru:'Матча',            kz:'Матча'         },
+  { id:'tea',       ru:'Авторский чай',    kz:'Авторлық шай'  },
+  { id:'lemonade',  ru:'Лимонады',         kz:'Лимонадтар'    },
+  { id:'smoothie',  ru:'Смузи',            kz:'Смузи'         },
+  { id:'milkshake', ru:'Милкшейки',        kz:'Милкшейктер'   },
+  { id:'breakfast', ru:'Завтраки',         kz:'Таңғы ас'      },
+  { id:'hot',       ru:'Горячие блюда',    kz:'Ыстық тамақ'   },
+  { id:'salad',     ru:'Салаты',           kz:'Салаттар'      },
+  { id:'soup',      ru:'Супы',             kz:'Сорпалар'      },
+  { id:'pasta',     ru:'Пасты',            kz:'Паста'         },
+  { id:'fastfood',  ru:'Фаст-фуд',         kz:'Фаст-фуд'      },
+  { id:'dessert',   ru:'Десерты',          kz:'Десерттер'     },
+  { id:'porridge',  ru:'Каши',             kz:'Ботқа'         },
+  { id:'side',      ru:'Гарниры',          kz:'Гарнир'        },
+];
+
+const ITEMS = [
+  /* ── Классика ── */
+  { c:'coffee',    n:'Американо',                       s:'300мл', p:2045,  d:'Молотый кофе, вода' },
+  { c:'coffee',    n:'Американо',                       s:'400мл', p:2420,  d:'Молотый кофе, вода' },
+  { c:'coffee',    n:'Капучино',                        s:'300мл', p:2610,  d:'Эспрессо, молоко, молочная пена' },
+  { c:'coffee',    n:'Капучино',                        s:'400мл', p:2795,  d:'Эспрессо, молоко, молочная пена' },
+  { c:'coffee',    n:'Капучино',                        s:'500мл', p:3360,  d:'Эспрессо, молоко, молочная пена' },
+  { c:'coffee',    n:'Латте',                           s:'300мл', p:2610,  d:'Эспрессо, молоко, молочная пена' },
+  { c:'coffee',    n:'Латте',                           s:'400мл', p:2795,  d:'Эспрессо, молоко, молочная пена' },
+  { c:'coffee',    n:'Латте',                           s:'500мл', p:3175,  d:'Эспрессо, молоко, молочная пена' },
+  { c:'coffee',    n:'Латте',                           s:'700мл', p:3740,  d:'Эспрессо, молоко, молочная пена' },
+  { c:'coffee',    n:'Моккачино',                       s:'300мл', p:2795,  d:'Эспрессо, молоко, шоколадный сироп' },
+  { c:'coffee',    n:'Моккачино',                       s:'400мл', p:3360,  d:'Эспрессо, молоко, шоколадный сироп' },
+  { c:'coffee',    n:'Раф',                             s:'300мл', p:3175,  d:'Эспрессо, сливки, молоко, ванильный сахар' },
+  { c:'coffee',    n:'Раф',                             s:'400мл', p:3550,  d:'Эспрессо, сливки, молоко, ванильный сахар' },
+  { c:'coffee',    n:'Flat White',                      s:'250мл', p:2610,  d:'Двойной эспрессо, молоко, тонкая пена' },
+  { c:'coffee',    n:'Горячий Шоколад',                 s:'300мл', p:2420,  d:'Какао, молоко, сахар' },
+  { c:'coffee',    n:'Горячий Шоколад',                 s:'400мл', p:2610,  d:'Какао, молоко, сахар' },
+
+  /* ── Ice Coffee ── */
+  { c:'icecoffee', n:'Ice Американо',                   s:'400мл', p:1870,  d:'Эспрессо, вода, лёд' },
+  { c:'icecoffee', n:'Ice Капучино',                    s:'500мл', p:2450,  d:'Эспрессо, молоко, лёд, молочная пена' },
+  { c:'icecoffee', n:'Ice Латте',                       s:'500мл', p:2450,  d:'Эспрессо, молоко, лёд' },
+  { c:'icecoffee', n:'Frappe',                          s:'500мл', p:2885,  d:'Эспрессо, молоко, сахар, лёд' },
+  { c:'icecoffee', n:'Эспрессо Тоник',                  s:'500мл', p:2740,  d:'Эспрессо, тоник, лёд' },
+  { c:'icecoffee', n:'Бамбл Кофе',                      s:'400мл', p:2450,  d:'Эспрессо, апельсиновый сок, карамельный сироп, лёд' },
+
+  /* ── Матча ── */
+  { c:'matcha',    n:'Зелёная Матча',                   s:'250мл', p:2015,  d:'Порошок матча, молоко, вода, сахар' },
+  { c:'matcha',    n:'Голубая Матча',                   s:'250мл', p:2015,  d:'Голубая матча, молоко, вода, сироп' },
+  { c:'matcha',    n:'Ice Матча',                       s:'500мл', p:2305,  d:'Порошок матча, молоко, лёд, сироп' },
+  { c:'matcha',    n:'Frappe Матча',                    s:'500мл', p:3030,  d:'Порошок матча, молоко, лёд, сахар' },
+  { c:'matcha',    n:'Гранатовый Тоник',                s:'500мл', p:2450,  d:'Гранатовый сироп, тоник, лёд' },
+
+  /* ── Авторский чай ── */
+  { c:'tea',       n:'Ташкентский',                     s:'450мл', p:2160,  d:'Ассам + Сенча, лимон, апельсин, мёд, мята' },
+  { c:'tea',       n:'Ягодный',                         s:'450мл', p:2160,  d:'Ассам, пюре малины, клубники, голубики, ежевики, лимон, мята' },
+  { c:'tea',       n:'Марокканский',                    s:'450мл', p:2160,  d:'Пряный чай, апельсин, лимон, мята, бадьян, корица, гвоздика' },
+  { c:'tea',       n:'Малиновый',                       s:'450мл', p:2160,  d:'Ассам, пюре малины, мёд, лимон, мята' },
+  { c:'tea',       n:'Облепиховый',                     s:'450мл', p:2160,  d:'Ассам, пюре облепихи, мёд, апельсин, мята' },
+  { c:'tea',       n:'Имбирный С Мёдом И Розмарином',   s:'450мл', p:2160,  d:'Свежий имбирь, лимон, мёд, розмарин' },
+
+  /* ── Лимонады ── */
+  { c:'lemonade',  n:'Мохито',                          s:'500мл', p:2595,  d:'Лайм, сироп мохито, мята, лёд, газированная вода' },
+  { c:'lemonade',  n:'Мохито Клубника',                 s:'500мл', p:2595,  d:'Лайм, клубничное пюре, сироп мохито, мята, лёд, газированная вода' },
+  { c:'lemonade',  n:'Ягодный Микс',                    s:'500мл', p:2595,  d:'Ягодное пюре, клубничный сироп, лимон, мята, лёд, газированная вода' },
+
+  /* ── Смузи ── */
+  { c:'smoothie',  n:'Клубника Чиа',                    s:'400мл', p:2740,  d:'Клубника, семена чиа, банан, сок' },
+  { c:'smoothie',  n:'Вишня Малина',                    s:'400мл', p:2740,  d:'Вишня, малина, банан, сок, лёд' },
+  { c:'smoothie',  n:'Сезонный Ягодный',                s:'400мл', p:2740,  d:'Ягоды, банан, сок, лёд' },
+  { c:'smoothie',  n:'Тропический',                     s:'400мл', p:2740,  d:'Ананас, манго, банан, сок, лёд' },
+
+  /* ── Милкшейки ── */
+  { c:'milkshake', n:'Клубничный',                      s:'400мл', p:2305,  d:'Молоко, клубничное мороженое, сироп' },
+  { c:'milkshake', n:'Банановый',                       s:'400мл', p:2740,  d:'Молоко, банан, ванильное мороженое' },
+  { c:'milkshake', n:'Шоколадный',                      s:'400мл', p:2305,  d:'Молоко, шоколадное мороженое, сироп' },
+  { c:'milkshake', n:'Ванильный',                       s:'400мл', p:2450,  d:'Молоко, ванильное мороженое, сироп' },
+
+  /* ── Завтраки ── */
+  { c:'breakfast', n:'Деревенский Завтрак',             s:'540г',  p:5435,  d:'Яйца глазунья, говяжьи колбаски, картофельные дольки, шампиньоны, сыр сулугуни, корнишоны, чиабатта' },
+  { c:'breakfast', n:'Французский Завтрак',             s:'300г',  p:6015,  d:'Яйца глазунья, микс салата, шпинат, огурцы, редис, сёмга, творожный сыр, круассан' },
+  { c:'breakfast', n:'Английский Завтрак',              s:'475г',  p:5435,  d:'Яйца глазунья, говяжьи колбаски, картофельные дольки, куриная ветчина, черри, шампиньоны, фасоль, чиабатта' },
+  { c:'breakfast', n:'Греческий Завтрак',               s:'350г',  p:5145,  d:'Яйца глазунья, микс салата, шпинат, болгарский перец, огурцы, помидоры, сыр сулугуни, куриное филе, чиабатта' },
+  { c:'breakfast', n:'Завтрак Бодрум',                  s:'500г',  p:5725,  d:'Яйца глазунья, говяжьи колбаски, куриное филе, шампиньоны, черри, сырная кесадилья, соус тар-тар' },
+  { c:'breakfast', n:'Скрэмбл С Авокадо',              s:'500г',  p:7030,  d:'Скрэмбл, лосось, авокадо, красный лук, микс салата, черри, сыр сулугуни, лимонная заправка' },
+  { c:'breakfast', n:'Турецкий Завтрак',                s:'500г',  p:5435,  d:'Яйца глазунья + варёное яйцо, говяжьи колбаски, микс салата, картофельные дольки, огурцы, болгарский перец, чиабатта' },
+
+  /* ── Горячие блюда ── */
+  { c:'hot',       n:'Кесадилья С Курицей И Грибами',   s:'245г',  p:4275,  d:'Тортилья, куриная грудка, шампиньоны, сливочный соус с сыром' },
+  { c:'hot',       n:'Курица Катцу-Карри',               s:'170г',  p:4855,  d:'Куриная грудка в панировке, соус карри, подаётся с рисом' },
+  { c:'hot',       n:'Куриное Филе С Шампиньонами',     s:'553г',  p:5435,  d:'Куриная грудка, шампиньоны, сливочный соус, картофельные дольки, черри' },
+
+  /* ── Салаты ── */
+  { c:'salad',     n:'Салат С Баклажанами',             s:'410г',  p:5290,  d:'Баклажаны, творожный сыр, помидоры, соус терияки, красный перец, кинза, кунжут' },
+  { c:'salad',     n:'Гриль-Салат С Креветками',        s:'437г',  p:5145,  d:'Кабачки, баклажаны, болгарский перец, шампиньоны, креветки, крем-бальзамик, кунжут' },
+  { c:'salad',     n:'Греческий Салат',                  s:'195г',  p:3695,  d:'Микс салата, огурцы, помидоры, болгарский перец, сыр сулугуни, маслины, лимонная заправка' },
+  { c:'salad',     n:'Цезарь С Курицей',                s:'275г',  p:3985,  d:'Микс салата, цезарь-соус, куриное филе, черри, багетные сухари, сыр пармезан' },
+  { c:'salad',     n:'Салат С Сёмгой',                  s:'215г',  p:4275,  d:'Микс салата, огурцы, редис, сёмга, лимонная заправка' },
+
+  /* ── Супы ── */
+  { c:'soup',      n:'Грибной Крем-Суп',                s:'315г',  p:2535,  d:'Грибы, картофель, сливки, лук, специи' },
+  { c:'soup',      n:'Том Ям',                           s:'283г',  p:5145,  d:'Рыбный бульон, лемонграсс, лук-шалот, галангал, тамаринд, перец чили, кокосовые сливки, креветки' },
+  { c:'soup',      n:'Куриный Суп',                     s:'117г',  p:2390,  d:'Куриный бульон, картофель, морковь, яичная лапша, куриное филе' },
+  { c:'soup',      n:'Чечевичный Крем-Суп',             s:'315г',  p:2535,  d:'Чечевица, овощной бульон, сливки, лук, специи' },
+
+  /* ── Пасты ── */
+  { c:'pasta',     n:'Спагетти С Говяжьей Вырезкой',   s:'235г',  p:5435,  d:'Спагетти, говяжья вырезка, говяжий бульон, сливки, сыр пармезан' },
+  { c:'pasta',     n:'Медальоны Из Говяжьей Вырезки',  s:'502г',  p:7970,  d:'Говяжья вырезка, печёный болгарский перец, черри, соус вишнёвый демиглас' },
+  { c:'pasta',     n:'Фарфале С Сёмгой',               s:'258г',  p:5435,  d:'Фарфале, сёмга, сливки, сыр пармезан' },
+
+  /* ── Фаст-фуд ── */
+  { c:'fastfood',  n:'Крепы С Курицей И Грибами',      s:'270г',  p:3405,  d:'Крепы, куриная грудка, шампиньоны, сливочный соус с сыром' },
+  { c:'fastfood',  n:'Крепы С Сёмгой И Творожным Сыром',s:'220г', p:4420,  d:'Крепы, сёмга слабосолёная, сыр творожный' },
+  { c:'fastfood',  n:'Круассан С Сёмгой',              s:'350г',  p:5145,  d:'Круассан, сёмга, яйцо пашот, творожный сыр, руккола' },
+  { c:'fastfood',  n:'Круассан С Куриной Грудкой',     s:'400г',  p:3840,  d:'Круассан, куриная грудка, огурец, помидор, сыр чеддер, соус тар-тар' },
+  { c:'fastfood',  n:'Сэндвич С Курицей',              s:'180г',  p:3985,  d:'Тостовый хлеб, соус тар-тар, огурцы, помидоры, салат, куриное филе, картофель фри' },
+  { c:'fastfood',  n:'Сэндвич С Сёмгой',              s:'175г',  p:4640,  d:'Тостовый хлеб, соус тар-тар, огурцы, салат, сёмга, картофель фри' },
+  { c:'fastfood',  n:'Крафт-Бургер С Курицей',         s:'605г',  p:6015,  d:'Булочка бриошь, помидоры, салат, куриная котлета в панировке, фирменный соус, картофель фри' },
+  { c:'fastfood',  n:'Крафт-Бургер С Говядиной',       s:'570г',  p:6305,  d:'Булочка бриошь, помидоры, салат, говяжья котлета, фирменный соус, картофель фри' },
+
+  /* ── Десерты ── */
+  { c:'dessert',   n:'Испанский Чизкейк',              s:'150г',  p:3260,  d:'Песочное тесто, сливочный сыр, сахар' },
+  { c:'dessert',   n:'Торт Банановый',                 s:'175г',  p:3260,  d:'Бисквит, банан, сливочный крем, сахар' },
+  { c:'dessert',   n:'Панкейки С Бананом В Тёмном Шоколаде', s:'430г', p:3985, d:'Панкейки, банан, тёмный шоколад' },
+  { c:'dessert',   n:'Трайфл Банановый',               s:'200г',  p:2390,  d:'Бисквит, банан, сливки, сахар, карамель' },
+  { c:'dessert',   n:'Вафли С Бананом И Карамелью',    s:'350г',  p:3695,  d:'Вафли, бананы, мороженое, карамель' },
+  { c:'dessert',   n:'Наполеон',                        s:'230г',  p:3260,  d:'Слоёное тесто, крем, сахар' },
+
+  /* ── Каши ── */
+  { c:'porridge',  n:'Рисовая Каша На Кокосовом Молоке',  s:'350г', p:2535, d:'Рис, кокосовое молоко, сахар, соль' },
+  { c:'porridge',  n:'Овсяная Каша На Банановом Молоке',  s:'300г', p:2535, d:'Овсяные хлопья, банановое молоко, сахар, соль' },
+  { c:'porridge',  n:'Манная Каша На Кокосовом Молоке',   s:'240г', p:2535, d:'Манная крупа, кокосовое молоко, сахар, соль' },
+
+  /* ── Гарниры ── */
+  { c:'side',      n:'Картофельные Дольки',             s:'150г',  p:1520,  d:'Картофель, растительное масло, специи, соль' },
+  { c:'side',      n:'Картофель Фри',                   s:'150г',  p:1665,  d:'Картофель, растительное масло, соль' },
+  { c:'side',      n:'Сырные Палочки',                  s:'250г',  p:3405,  d:'Сыр, панировочные сухари, яйца, мука, масло' },
+  { c:'side',      n:'Рис Припущенный',                 s:'150г',  p:1380,  d:'Рис, вода, сливочное масло, соль' },
+];
+
+/* ── STATE ── */
+let lang     = 'ru';
+let activeCat = 'all';
+
+/* ── MOBILE MENU ── */
+function toggleMenu() {
+  const burger = document.getElementById('burger');
+  const menu   = document.getElementById('mobileMenu');
+  burger.classList.toggle('open');
+  menu.classList.toggle('open');
+  document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
+}
+
+/* ── LANGUAGE ── */
+function setLang(l) {
+  lang = l;
+  document.documentElement.setAttribute('data-lang', l);
+  document.querySelectorAll('[data-ru][data-kz]').forEach(el => {
+    el.textContent = el.getAttribute('data-' + l);
+  });
+  ['btn-ru','btn-ru2'].forEach(id => { const el=document.getElementById(id); if(el) el.classList.toggle('active', l==='ru'); });
+  ['btn-kz','btn-kz2'].forEach(id => { const el=document.getElementById(id); if(el) el.classList.toggle('active', l==='kz'); });
+  renderCats();
+  renderMenu(activeCat);
+  renderCartItems();
+}
+
+/* ── RENDER CATEGORIES ── */
+function renderCats() {
+  const wrap = document.getElementById('categoryFilter');
+  wrap.innerHTML = '';
+  CATS.forEach(cat => {
+    const btn = document.createElement('button');
+    btn.className = 'cat-btn' + (cat.id === activeCat ? ' active' : '');
+    btn.textContent = cat[lang];
+    btn.addEventListener('click', () => {
+      activeCat = cat.id;
+      renderCats();
+      renderMenu(cat.id);
+      document.getElementById('menuGrid').scrollIntoView({ behavior:'smooth', block:'start' });
+    });
+    wrap.appendChild(btn);
+  });
+}
+
+/* ── RENDER MENU ── */
+function renderMenu(catId) {
+  const grid = document.getElementById('menuGrid');
+  grid.innerHTML = '';
+  const items = catId === 'all' ? ITEMS : ITEMS.filter(i => i.c === catId);
+
+  if (!items.length) {
+    const empty = document.createElement('div');
+    empty.className = 'menu-empty';
+    empty.textContent = lang === 'ru' ? 'Пусто' : 'Бос';
+    grid.appendChild(empty);
+    return;
+  }
+
+  items.forEach((item, idx) => {
+    const key = item.n + '|' + item.s;
+    const qty = cart[key] || 0;
+    const card = document.createElement('div');
+    card.className = 'menu-card';
+    card.style.animationDelay = Math.min(idx, 11) * 0.038 + 's';
+    card.innerHTML =
+      '<div class="card-row">' +
+        '<div class="card-name">' + item.n + '</div>' +
+        '<div class="card-price">' + item.p.toLocaleString('ru-RU') + ' ₸</div>' +
+      '</div>' +
+      '<div class="card-size">' + item.s + '</div>' +
+      '<div class="card-desc">'  + item.d + '</div>' +
+      '<div class="card-add">' +
+        '<div class="card-qty' + (qty > 0 ? ' visible' : '') + '" id="qty-' + idx + '">' +
+          '<button class="qty-btn" onclick="changeQty(\'' + key.replace(/'/g,"\\'") + '\',-1,' + idx + ')">−</button>' +
+          '<span class="qty-num" id="qn-' + idx + '">' + qty + '</span>' +
+          '<button class="qty-btn" onclick="changeQty(\'' + key.replace(/'/g,"\\'") + '\',1,' + idx + ')">+</button>' +
+        '</div>' +
+        '<button class="btn-add-cart" onclick="addToCart(\'' + key.replace(/'/g,"\\'") + '\',\'' + item.n.replace(/'/g,"\\'") + '\',\'' + item.s + '\',' + item.p + ',' + idx + ')">' +
+          (lang === 'ru' ? '+ В корзину' : '+ Себетке') +
+        '</button>' +
+      '</div>';
+    grid.appendChild(card);
+  });
+}
+
+/* ── CART STATE ── */
+const cart     = {};
+const cartMeta = {};
+
+function addToCart(key, name, size, price, idx) {
+  if (!cart[key]) {
+    cart[key] = 0;
+    cartMeta[key] = { name, size, price };
+  }
+  cart[key]++;
+  updateCardQty(key, idx);
+  updateCartUI();
+}
+
+function changeQty(key, delta, idx) {
+  if (!cart[key]) return;
+  cart[key] = Math.max(0, cart[key] + delta);
+  if (cart[key] === 0) delete cart[key];
+  updateCardQty(key, idx);
+  updateCartUI();
+  renderCartItems();
+}
+
+function updateCardQty(key, idx) {
+  const qtyEl = document.getElementById('qty-' + idx);
+  const qnEl  = document.getElementById('qn-' + idx);
+  if (!qtyEl || !qnEl) return;
+  const q = cart[key] || 0;
+  qnEl.textContent = q;
+  qtyEl.classList.toggle('visible', q > 0);
+}
+
+function updateCartUI() {
+  const total = Object.keys(cart).reduce((s, k) => s + cart[k], 0);
+  const badge = document.getElementById('cartBadge');
+  badge.textContent = total;
+  badge.classList.toggle('show', total > 0);
+}
+
+function openCart() {
+  document.getElementById('cartBackdrop').classList.add('open');
+  document.getElementById('cartPanel').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  renderCartItems();
+  initOrderForm();
+}
+
+function closeCart() {
+  document.getElementById('cartBackdrop').classList.remove('open');
+  document.getElementById('cartPanel').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function clearCart() {
+  Object.keys(cart).forEach(k => delete cart[k]);
+  updateCartUI();
+  renderCartItems();
+  renderMenu(activeCat);
+}
+
+function renderCartItems() {
+  const container = document.getElementById('cartItems');
+  const footer    = document.getElementById('cartFooter');
+  const keys = Object.keys(cart);
+
+  if (!keys.length) {
+    container.innerHTML = '<div class="cart-empty-msg">' + (lang === 'ru' ? 'Корзина пуста' : 'Себет бос') + '</div>';
+    footer.style.display = 'none';
+    return;
+  }
+
+  footer.style.display = 'block';
+  container.innerHTML = '';
+  let total = 0;
+
+  keys.forEach(key => {
+    const m   = cartMeta[key];
+    const qty = cart[key];
+    total += m.price * qty;
+    const row = document.createElement('div');
+    row.className = 'cart-item';
+    row.innerHTML =
+      '<div class="ci-info">' +
+        '<div class="ci-name">' + m.name + '</div>' +
+        '<div class="ci-size">' + m.size + '</div>' +
+      '</div>' +
+      '<div class="ci-controls">' +
+        '<button class="qty-btn" onclick="cartChangeQty(\'' + key.replace(/'/g,"\\'") + '\',-1)">−</button>' +
+        '<span class="qty-num">' + qty + '</span>' +
+        '<button class="qty-btn" onclick="cartChangeQty(\'' + key.replace(/'/g,"\\'") + '\',1)">+</button>' +
+      '</div>' +
+      '<div class="ci-price">' + (m.price * qty).toLocaleString('ru-RU') + ' ₸</div>';
+    container.appendChild(row);
+  });
+
+  cartSubtotal = total;
+  document.getElementById('cartTotal').textContent = total.toLocaleString('ru-RU') + ' ₸';
+  recalcTips();
+
+  // Build WhatsApp message
+  let msg = (lang === 'ru' ? 'Заказ из Bodrum Cafe:\n\n' : 'Bodrum Cafe тапсырысы:\n\n');
+  keys.forEach(k => {
+    const m = cartMeta[k];
+    msg += '• ' + m.name + ' ' + m.size + ' × ' + cart[k] + ' = ' + (m.price * cart[k]).toLocaleString('ru-RU') + ' ₸\n';
+  });
+  msg += '\n' + (lang === 'ru' ? 'Итого: ' : 'Барлығы: ') + total.toLocaleString('ru-RU') + ' ₸';
+  document.getElementById('waBtn').href = 'https://wa.me/77051234567?text=' + encodeURIComponent(msg);
+}
+
+function cartChangeQty(key, delta) {
+  if (!cart[key]) return;
+  cart[key] = Math.max(0, cart[key] + delta);
+  if (cart[key] === 0) delete cart[key];
+  updateCartUI();
+  renderCartItems();
+  renderMenu(activeCat);
+}
+
+/* ── TIPS ── */
+let tipMode    = 0;   // 0 = no tip, 5/10/15 = %, 'custom' = custom ₸
+let cartSubtotal = 0; // updated by renderCartItems
+
+function setTip(mode) {
+  tipMode = mode;
+  document.querySelectorAll('.tip-btn').forEach((b, i) => {
+    const modes = [0, 5, 10, 15, 'custom'];
+    b.classList.toggle('active', modes[i] === mode);
+  });
+  const wrap = document.getElementById('tipCustomWrap');
+  if (wrap) wrap.classList.toggle('show', mode === 'custom');
+  recalcTips();
+}
+
+function getTipAmount() {
+  if (tipMode === 0) return 0;
+  if (tipMode === 'custom') {
+    return Math.max(0, parseInt(document.getElementById('tipCustomInput').value) || 0);
+  }
+  return Math.round(cartSubtotal * tipMode / 100);
+}
+
+function recalcTips() {
+  const tip = getTipAmount();
+  const row = document.getElementById('tipsTotalRow');
+  const display = document.getElementById('tipAmountDisplay');
+  if (!row || !display) return;
+  if (tip > 0) {
+    row.style.display = 'flex';
+    display.textContent = tip.toLocaleString('ru-RU') + ' ₸';
+  } else {
+    row.style.display = 'none';
+  }
+  // update QR/cash amount displays to subtotal + tip
+  const total = cartSubtotal + tip;
+  const fmt = total.toLocaleString('ru-RU') + ' ₸';
+  const ka = document.getElementById('kaspiAmountDisplay');
+  const ca = document.getElementById('cashAmountDisplay');
+  if (ka) ka.textContent = fmt;
+  if (ca) ca.textContent = fmt;
+}
+
+/* ── PAYMENT METHOD ── */
+let payMethod = 'kaspi';
+
+function setPayMethod(m) {
+  payMethod = m;
+  ['kaspi','cash','wa'].forEach(id => {
+    const tab = document.getElementById('ptab-' + id);
+    if (tab) tab.classList.toggle('active', id === m);
+  });
+  const kaspiBlock = document.getElementById('kaspiBlock');
+  const cashBlock  = document.getElementById('cashBlock');
+  const waBtn      = document.getElementById('waBtn');
+  if (kaspiBlock) kaspiBlock.classList.toggle('show', m === 'kaspi');
+  if (cashBlock)  cashBlock.classList.toggle('show',  m === 'cash');
+  if (waBtn)      waBtn.style.display = (m === 'wa') ? 'flex' : 'none';
+}
+
+/* ── ORDER FORM ── */
+let orderType = 'takeaway';
+
+function initOrderForm() {
+  // Fill time select 09:00–23:00 in 30-min steps
+  const sel = document.getElementById('orderTime');
+  if (sel && !sel.options.length) {
+    for (let h = 9; h <= 22; h++) {
+      ['00','30'].forEach(m => {
+        const val = String(h).padStart(2,'0') + ':' + m;
+        sel.add(new Option(val, val));
+      });
+    }
+    sel.add(new Option('23:00','23:00'));
+  }
+  // Default date = today
+  const dateEl = document.getElementById('orderDate');
+  if (dateEl && !dateEl.value) {
+    const d = new Date();
+    dateEl.value = d.toISOString().split('T')[0];
+  }
+}
+
+function setOrderType(type) {
+  orderType = type;
+  document.getElementById('tab-takeaway').classList.toggle('active', type === 'takeaway');
+  document.getElementById('tab-booking').classList.toggle('active',  type === 'booking');
+  const bookingEls = document.querySelectorAll('.booking-fields');
+  bookingEls.forEach(el => el.classList.toggle('show', type === 'booking'));
+}
+
+function buildWaLink() {
+  const name  = (document.getElementById('orderName').value  || '').trim();
+  const phone = (document.getElementById('orderPhone').value || '').trim();
+  const time  = document.getElementById('orderTime').value;
+  const keys  = Object.keys(cart);
+  if (!keys.length) { alert(lang === 'ru' ? 'Корзина пуста!' : 'Себет бос!'); return false; }
+
+  let msg = '';
+  if (orderType === 'takeaway') {
+    msg += (lang === 'ru' ? '🥡 ЗАКАЗ С СОБОЙ — Bodrum Cafe\n' : '🥡 АЛЫП КЕТУ — Bodrum Cafe\n');
+  } else {
+    const date   = document.getElementById('orderDate').value;
+    const guests = document.getElementById('orderGuests').value;
+    msg += (lang === 'ru' ? '🍽 БРОНЬ СТОЛА — Bodrum Cafe\n' : '🍽 ҮСТЕЛ БРОНДАУ — Bodrum Cafe\n');
+    msg += (lang === 'ru' ? '📅 Дата: ' : '📅 Күні: ') + date + '\n';
+    msg += (lang === 'ru' ? '👥 Гостей: ' : '👥 Қонақтар: ') + guests + '\n';
+  }
+
+  if (name)  msg += (lang === 'ru' ? '👤 Имя: '    : '👤 Аты: ')    + name  + '\n';
+  if (phone) msg += (lang === 'ru' ? '📞 Тел: '    : '📞 Тел: ')    + phone + '\n';
+  msg += (lang === 'ru' ? '🕐 Время: '  : '🕐 Уақыт: ') + time  + '\n';
+
+  msg += '\n' + (lang === 'ru' ? '— Заказ —\n' : '— Тапсырыс —\n');
+  let total = 0;
+  keys.forEach(k => {
+    const m = cartMeta[k];
+    total += m.price * cart[k];
+    msg += '• ' + m.name + ' ' + m.size + ' × ' + cart[k] + ' = ' + (m.price * cart[k]).toLocaleString('ru-RU') + ' ₸\n';
+  });
+  const tip    = getTipAmount();
+  const waiter = (document.getElementById('waiterName').value || '').trim();
+  const grand  = total + tip;
+
+  msg += '\n' + (lang === 'ru' ? '💰 Сумма заказа: ' : '💰 Тапсырыс сомасы: ') + total.toLocaleString('ru-RU') + ' ₸';
+  if (tip > 0) {
+    msg += '\n' + (lang === 'ru' ? '🤍 Чаевые: ' : '🤍 Чаевые: ') + tip.toLocaleString('ru-RU') + ' ₸';
+    msg += '\n' + (lang === 'ru' ? '💳 Итого с чаевыми: ' : '💳 Барлығы чаевымен: ') + grand.toLocaleString('ru-RU') + ' ₸';
+  } else {
+    msg += '\n' + (lang === 'ru' ? '💳 Итого: ' : '💳 Барлығы: ') + grand.toLocaleString('ru-RU') + ' ₸';
+  }
+  if (waiter) msg += '\n' + (lang === 'ru' ? '👤 Официант: ' : '👤 Даяшы: ') + waiter;
+
+  document.getElementById('waBtn').href = 'https://wa.me/77051234567?text=' + encodeURIComponent(msg);
+  return true;
+}
+
+
+/* ── INTRO ANIMATION ── */
+(function() {
+  const letters = document.querySelectorAll('.intro-letter');
+  const intro   = document.getElementById('intro');
+  const content = document.querySelector('.hero-content');
+  const scroll  = document.querySelector('.hero-scroll-hint');
+
+  // letters blur in (stagger 85ms)
+  letters.forEach((l, i) => setTimeout(() => l.classList.add('in'), 100 + i * 85));
+
+  // letters blur out (after 1.3s)
+  setTimeout(() => {
+    letters.forEach((l, i) => setTimeout(() => { l.classList.remove('in'); l.classList.add('out'); }, i * 50));
+  }, 1350);
+
+  // curtain fades, hero appears
+  setTimeout(() => {
+    intro.classList.add('hide');
+    content.classList.add('show');
+    setTimeout(() => scroll && scroll.classList.add('show'), 900);
+  }, 2500);
+})();
+
+/* ── NAVBAR SCROLL ── */
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
+}, { passive: true });
+
+/* ── INIT ── */
+renderCats();
+renderMenu('all');
+</script>
+</body>
+</html>

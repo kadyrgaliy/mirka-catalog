@@ -1,0 +1,1613 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ATELIER — Жеке пошив</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garant:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Raleway:wght@200;300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black:   #080808;
+      --dark:    #0f0f0f;
+      --card:    #141414;
+      --gold:    #C9A84C;
+      --gold2:   #e8c96a;
+      --cream:   #F5F0E8;
+      --muted:   #9a9087;
+      --border:  rgba(201,168,76,0.18);
+      --glass:   rgba(20,20,20,0.82);
+    }
+
+    body.light {
+      --black:   #FAF8F4;
+      --dark:    #EDE8E0;
+      --card:    #FFFFFF;
+      --gold:    #8B5E0A;
+      --gold2:   #A8751A;
+      --cream:   #0f0d0b;
+      --muted:   #3d3530;
+      --border:  rgba(139,94,10,0.25);
+      --glass:   rgba(255,255,255,0.92);
+    }
+
+    body.light .service-desc,
+    body.light .step-desc,
+    body.light .role-desc,
+    body.light .testimonial-text,
+    body.light .footer-desc,
+    body.light .form-subtitle,
+    body.light .info-block-sub,
+    body.light .hero-subtitle { color: #2a231c; }
+
+    body.light .hero-bg {
+      background-image:
+        linear-gradient(135deg, rgba(250,248,244,.82) 0%, rgba(250,248,244,.38) 50%, rgba(250,248,244,.75) 100%),
+        url('https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=1800&q=80&fit=crop');
+    }
+    body.light .hero-title { text-shadow: 0 2px 20px rgba(250,248,244,0.6); }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--cream);
+      font-family: 'Raleway', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+      cursor: none;
+      transition: background .4s, color .4s;
+    }
+
+    /* ── CURSOR ── */
+    .cursor {
+      position: fixed; top: 0; left: 0; width: 12px; height: 12px;
+      background: var(--gold); border-radius: 50%;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%,-50%);
+      transition: transform .12s ease, width .2s, height .2s, opacity .2s;
+      mix-blend-mode: difference;
+    }
+    .cursor-ring {
+      position: fixed; top: 0; left: 0; width: 38px; height: 38px;
+      border: 1px solid rgba(201,168,76,0.5); border-radius: 50%;
+      pointer-events: none; z-index: 9998;
+      transform: translate(-50%,-50%);
+      transition: transform .35s ease;
+    }
+    body:has(a:hover) .cursor, body:has(button:hover) .cursor { width: 20px; height: 20px; }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--black); }
+    ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; }
+
+    /* ── NAVBAR ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 22px 52px;
+      background: rgba(8,8,8,.72);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(201,168,76,0.12);
+      transition: background .4s, color .4s;
+    }
+    nav.scrolled {
+      background: rgba(8,8,8,.88);
+      border-bottom-color: rgba(201,168,76,0.2);
+    }
+
+    body.light nav {
+      background: rgba(250,248,244,.98);
+      border-bottom: 1px solid rgba(168,117,26,0.3);
+      box-shadow: 0 2px 32px rgba(0,0,0,0.1);
+    }
+    body.light nav.scrolled {
+      background: rgb(250,248,244);
+      box-shadow: 0 2px 40px rgba(0,0,0,0.14);
+    }
+    body.light .nav-links a { color: #2a2018; }
+    body.light .nav-logo { color: #1a1210; }
+    body.light .theme-toggle { color: #2a2018; }
+
+    .nav-logo {
+      font-family: 'Cormorant Garant', serif;
+      font-size: 22px; font-weight: 600; letter-spacing: 5px;
+      color: var(--cream); text-decoration: none;
+      text-transform: uppercase;
+    }
+    .nav-logo span { color: var(--gold); }
+
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a {
+      color: var(--cream); font-size: 11px; letter-spacing: 2.5px;
+      text-transform: uppercase; text-decoration: none;
+      transition: color .3s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -4px; left: 0;
+      width: 0; height: 1px; background: var(--gold);
+      transition: width .3s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-links a:hover::after { width: 100%; }
+
+    .nav-right { display: flex; align-items: center; gap: 14px; }
+
+    /* ── THEME TOGGLE ── */
+    .theme-toggle {
+      background: none; border: 1px solid var(--border);
+      color: var(--cream); width: 40px; height: 40px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: none; transition: all .3s; position: relative; overflow: hidden;
+      flex-shrink: 0;
+    }
+    .theme-toggle:hover { border-color: var(--gold); color: var(--gold); }
+    .theme-icon { transition: transform .4s, opacity .3s; position: absolute; }
+    .icon-moon { opacity: 1; transform: translateY(0) rotate(0deg); }
+    .icon-sun  { opacity: 0; transform: translateY(20px) rotate(90deg); }
+    body.light .icon-moon { opacity: 0; transform: translateY(-20px) rotate(-90deg); }
+    body.light .icon-sun  { opacity: 1; transform: translateY(0) rotate(0deg); }
+
+
+    /* ── HERO ── */
+    .hero {
+      position: relative; min-height: 100vh;
+      display: flex; align-items: flex-end;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(135deg, rgba(8,8,8,.92) 0%, rgba(8,8,8,.55) 50%, rgba(8,8,8,.88) 100%),
+        url('https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=1800&q=80&fit=crop');
+      background-size: cover; background-position: center 30%;
+      transition: background-image .5s;
+    }
+    body.light .hero-bg {
+      background-image:
+        linear-gradient(135deg, rgba(250,248,244,.88) 0%, rgba(250,248,244,.45) 50%, rgba(250,248,244,.82) 100%),
+        url('https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=1800&q=80&fit=crop');
+    }
+
+    .hero-grain {
+      position: absolute; inset: 0; opacity: .04;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 200px;
+    }
+
+    .hero-content {
+      position: relative; z-index: 2;
+      padding: 0 52px 100px;
+      max-width: 820px;
+    }
+
+    .hero-eyebrow {
+      font-size: 11px; letter-spacing: 5px; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 28px;
+      display: flex; align-items: center; gap: 16px;
+      opacity: 0; animation: fadeUp .9s .2s forwards;
+    }
+    .hero-eyebrow::before {
+      content: ''; display: block; width: 40px; height: 1px; background: var(--gold);
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garant', serif;
+      font-size: clamp(60px, 9vw, 130px);
+      font-weight: 300; line-height: .9;
+      color: var(--cream); letter-spacing: -1px;
+      opacity: 0; animation: fadeUp .9s .4s forwards;
+    }
+    .hero-title em {
+      font-style: italic; color: var(--gold);
+      display: block; font-weight: 300;
+    }
+
+    .hero-subtitle {
+      margin-top: 32px; max-width: 480px;
+      font-size: 14px; line-height: 1.8; color: var(--muted);
+      font-weight: 300; letter-spacing: .5px;
+      opacity: 0; animation: fadeUp .9s .6s forwards;
+    }
+
+    .hero-actions {
+      margin-top: 48px; display: flex; gap: 20px; align-items: center;
+      opacity: 0; animation: fadeUp .9s .8s forwards;
+    }
+
+    .btn-primary {
+      background: var(--gold); color: var(--black);
+      border: none; padding: 16px 40px;
+      font-family: 'Raleway', sans-serif; font-size: 11px;
+      letter-spacing: 3px; text-transform: uppercase; cursor: none;
+      transition: all .3s; text-decoration: none; display: inline-block;
+      position: relative; overflow: hidden;
+    }
+    .btn-primary::after {
+      content: ''; position: absolute; inset: 0;
+      background: rgba(255,255,255,.15); transform: translateX(-100%);
+      transition: transform .4s;
+    }
+    .btn-primary:hover::after { transform: translateX(0); }
+
+    .btn-outline {
+      background: none; border: 1px solid var(--border);
+      color: var(--cream); padding: 16px 40px;
+      font-family: 'Raleway', sans-serif; font-size: 11px;
+      letter-spacing: 3px; text-transform: uppercase; cursor: none;
+      transition: all .3s; text-decoration: none; display: inline-block;
+    }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+    .hero-scroll {
+      position: absolute; bottom: 40px; right: 52px;
+      writing-mode: vertical-rl; font-size: 10px; letter-spacing: 3px;
+      text-transform: uppercase; color: var(--muted);
+      display: flex; align-items: center; gap: 12px;
+      opacity: 0; animation: fadeIn 1s 1.2s forwards;
+    }
+    .hero-scroll::after {
+      content: ''; display: block; width: 1px; height: 60px;
+      background: linear-gradient(var(--gold), transparent);
+    }
+
+    /* ── MARQUEE ── */
+    .marquee-wrap {
+      overflow: hidden; border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 18px 0; background: var(--dark);
+    }
+    .marquee-track {
+      display: flex; gap: 0;
+      animation: marquee 22s linear infinite;
+      white-space: nowrap;
+    }
+    .marquee-item {
+      font-family: 'Cormorant Garant', serif;
+      font-size: 15px; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--muted); padding: 0 48px;
+      display: flex; align-items: center; gap: 48px;
+    }
+    .marquee-item .dot {
+      width: 4px; height: 4px; background: var(--gold); border-radius: 50; flex-shrink: 0;
+    }
+
+    /* ── SECTION HEADER ── */
+    .section-header {
+      text-align: center; margin-bottom: 72px;
+    }
+    .section-tag {
+      font-size: 10px; letter-spacing: 5px; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 16px; display: block;
+    }
+    .section-title {
+      font-family: 'Cormorant Garant', serif;
+      font-size: clamp(38px, 5vw, 64px); font-weight: 300;
+      line-height: 1.05; color: var(--cream);
+    }
+    .section-title em { font-style: italic; color: var(--gold); }
+    .section-line {
+      width: 60px; height: 1px; background: var(--gold);
+      margin: 24px auto 0;
+    }
+
+    /* ── SERVICES ── */
+    .services {
+      padding: 120px 52px;
+      background: var(--dark);
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2px;
+    }
+
+    .service-card {
+      background: var(--card); padding: 52px 44px;
+      position: relative; overflow: hidden;
+      cursor: none; transition: all .4s;
+      border: 1px solid transparent;
+    }
+    .service-card::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0; transition: opacity .4s;
+    }
+    .service-card:hover {
+      border-color: var(--border);
+      transform: translateY(-4px);
+    }
+    .service-card:hover::before { opacity: 1; }
+
+    .service-img {
+      width: 100%; height: 220px; object-fit: cover;
+      margin-bottom: 32px; filter: grayscale(.4);
+      transition: filter .4s;
+    }
+    .service-card:hover .service-img { filter: grayscale(0); }
+
+    .service-num {
+      font-family: 'Cormorant Garant', serif;
+      font-size: 52px; font-weight: 300; color: var(--border);
+      line-height: 1; margin-bottom: 20px;
+      transition: color .3s;
+    }
+    .service-card:hover .service-num { color: rgba(201,168,76,0.3); }
+
+    .service-name {
+      font-family: 'Cormorant Garant', serif;
+      font-size: 26px; font-weight: 400; color: var(--cream);
+      margin-bottom: 14px; line-height: 1.2;
+    }
+
+    .service-desc {
+      font-size: 13px; line-height: 1.8; color: var(--muted);
+      font-weight: 300; margin-bottom: 28px;
+    }
+
+    .service-price {
+      font-size: 12px; letter-spacing: 2px;
+      color: var(--gold); text-transform: uppercase;
+      margin-bottom: 24px; display: block;
+    }
+
+    .service-btn {
+      display: block; text-align: center; text-decoration: none;
+      background: none; border: 1px solid var(--border);
+      color: var(--cream); padding: 12px 28px;
+      font-family: 'Raleway', sans-serif; font-size: 10px;
+      letter-spacing: 2.5px; text-transform: uppercase;
+      cursor: none; transition: all .3s; width: 100%;
+    }
+    .service-btn:hover {
+      background: var(--gold); border-color: var(--gold);
+      color: var(--black);
+    }
+
+    /* ── ABOUT / PROCESS ── */
+    .process {
+      padding: 120px 52px;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center;
+    }
+
+    .process-img-wrap {
+      position: relative;
+    }
+    .process-img-main {
+      width: 100%; height: 600px; object-fit: cover;
+      filter: grayscale(.2);
+    }
+    .process-img-accent {
+      position: absolute; bottom: -40px; right: -40px;
+      width: 55%; height: 260px; object-fit: cover;
+      border: 4px solid var(--black);
+    }
+    .process-gold-line {
+      position: absolute; top: 40px; left: -20px;
+      width: 4px; height: 120px; background: var(--gold);
+    }
+
+    .process-content { padding-left: 20px; }
+
+    .process-steps { margin-top: 52px; }
+    .process-step {
+      display: flex; gap: 28px; margin-bottom: 40px;
+      padding-bottom: 40px; border-bottom: 1px solid var(--border);
+    }
+    .process-step:last-child { border: none; margin-bottom: 0; }
+
+    .step-num {
+      font-family: 'Cormorant Garant', serif;
+      font-size: 44px; font-weight: 300; color: var(--gold);
+      line-height: 1; flex-shrink: 0; opacity: .6;
+    }
+    .step-body {}
+    .step-title {
+      font-family: 'Cormorant Garant', serif;
+      font-size: 20px; color: var(--cream); margin-bottom: 8px;
+    }
+    .step-desc {
+      font-size: 13px; line-height: 1.7; color: var(--muted);
+    }
+
+    /* ── GALLERY ── */
+    .gallery {
+      padding: 120px 52px;
+      background: var(--dark);
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: 320px 320px;
+      gap: 4px;
+    }
+
+    .gallery-item {
+      overflow: hidden; position: relative; cursor: none;
+    }
+    .gallery-item:first-child { grid-column: 1; grid-row: 1 / 3; }
+    .gallery-item:nth-child(4) { grid-column: 3; grid-row: 1 / 3; }
+
+    .gallery-img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform .7s ease, filter .4s;
+      filter: grayscale(.25) brightness(.85);
+    }
+    .gallery-item:hover .gallery-img {
+      transform: scale(1.06);
+      filter: grayscale(0) brightness(1);
+    }
+
+    .gallery-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(8,8,8,.7) 0%, transparent 50%);
+      opacity: 0; transition: opacity .4s;
+      display: flex; align-items: flex-end; padding: 24px;
+    }
+    .gallery-item:hover .gallery-overlay { opacity: 1; }
+    .gallery-label {
+      font-family: 'Cormorant Garant', serif;
+      font-size: 18px; color: var(--cream); font-style: italic;
+    }
+
+    /* ── ORDER FORM ── */
+    .order-section {
+      padding: 120px 52px;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px;
+    }
+
+    .order-form-wrap {}
+    .form-title {
+      font-family: 'Cormorant Garant', serif;
+      font-size: 42px; font-weight: 300; margin-bottom: 8px;
+    }
+    .form-subtitle {
+      font-size: 13px; color: var(--muted); margin-bottom: 44px;
+    }
+
+    .form-group { margin-bottom: 24px; }
+    .form-label {
+      display: block; font-size: 10px; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 10px;
+    }
+    .form-input, .form-select, .form-textarea {
+      width: 100%; background: var(--card);
+      border: 1px solid var(--border); color: var(--cream);
+      padding: 14px 18px; font-family: 'Raleway', sans-serif;
+      font-size: 13px; font-weight: 300; outline: none;
+      transition: border-color .3s; appearance: none;
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color: var(--gold);
+    }
+    .form-input::placeholder, .form-textarea::placeholder { color: rgba(154,144,135,.4); }
+    .form-textarea { resize: vertical; min-height: 100px; }
+    .form-select option { background: var(--card); }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+    .order-info { padding-top: 8px; }
+    .order-info-title {
+      font-family: 'Cormorant Garant', serif;
+      font-size: 42px; font-weight: 300; margin-bottom: 28px;
+    }
+
+    .info-block {
+      border-left: 2px solid var(--gold); padding-left: 24px;
+      margin-bottom: 36px;
+    }
+    .info-block-title {
+      font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 10px;
+    }
+    .info-block-text {
+      font-size: 14px; color: var(--cream); line-height: 1.6;
+    }
+    .info-block-sub {
+      font-size: 12px; color: var(--muted); line-height: 1.6; margin-top: 4px;
+    }
+
+    .whatsapp-btn {
+      display: flex; align-items: center; gap: 12px;
+      background: none; border: 1px solid var(--border);
+      color: var(--cream); padding: 16px 28px;
+      font-family: 'Raleway', sans-serif; font-size: 12px;
+      letter-spacing: 2px; text-transform: uppercase;
+      cursor: none; transition: all .3s; text-decoration: none;
+      margin-top: 32px; width: fit-content;
+    }
+    .whatsapp-btn:hover {
+      border-color: #25D366; color: #25D366;
+    }
+    .whatsapp-icon {
+      width: 20px; height: 20px; fill: currentColor;
+    }
+
+    /* ── TESTIMONIALS ── */
+    .testimonials {
+      padding: 100px 52px;
+      background: var(--dark);
+      text-align: center;
+    }
+    .testimonials-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 32px; margin-top: 60px;
+    }
+    .testimonial-card {
+      background: var(--card); padding: 40px 32px;
+      border: 1px solid var(--border); position: relative;
+    }
+    .testimonial-card::before {
+      content: '"';
+      font-family: 'Cormorant Garant', serif;
+      font-size: 80px; color: var(--gold); opacity: .2;
+      position: absolute; top: 10px; left: 20px;
+      line-height: 1;
+    }
+    .testimonial-text {
+      font-size: 14px; line-height: 1.8; color: var(--muted);
+      font-style: italic; margin-bottom: 24px; position: relative; z-index: 1;
+    }
+    .testimonial-author {
+      font-family: 'Cormorant Garant', serif;
+      font-size: 18px; color: var(--cream);
+    }
+    .testimonial-role {
+      font-size: 11px; letter-spacing: 2px; color: var(--gold);
+      text-transform: uppercase; margin-top: 4px;
+    }
+    .stars { color: var(--gold); letter-spacing: 3px; margin-bottom: 16px; font-size: 13px; }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 72px 52px 40px;
+      border-top: 1px solid var(--border);
+    }
+    .footer-top {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 60px; margin-bottom: 60px;
+    }
+    .footer-brand {
+      font-family: 'Cormorant Garant', serif;
+      font-size: 26px; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--cream); margin-bottom: 16px;
+    }
+    .footer-brand span { color: var(--gold); }
+    .footer-desc {
+      font-size: 13px; line-height: 1.7; color: var(--muted); max-width: 280px;
+    }
+    .footer-col-title {
+      font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 20px;
+    }
+    .footer-links { list-style: none; }
+    .footer-links li { margin-bottom: 12px; }
+    .footer-links a {
+      font-size: 13px; color: var(--muted); text-decoration: none;
+      transition: color .3s;
+    }
+    .footer-links a:hover { color: var(--gold); }
+    .footer-bottom {
+      display: flex; justify-content: space-between; align-items: center;
+      padding-top: 32px; border-top: 1px solid var(--border);
+    }
+    .footer-copy {
+      font-size: 11px; letter-spacing: 1px; color: rgba(154,144,135,.5);
+    }
+    .footer-copy span { color: var(--gold); }
+
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(32px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    .reveal {
+      opacity: 0; transform: translateY(40px);
+      transition: opacity .8s ease, transform .8s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── NOTIFICATION ── */
+    .notif {
+      position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(20px);
+      background: var(--gold); color: var(--black);
+      padding: 14px 28px; font-size: 12px; letter-spacing: 2px;
+      text-transform: uppercase; opacity: 0;
+      transition: all .4s; z-index: 300; pointer-events: none;
+    }
+    .notif.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* ── STYLISTS ── */
+    .stylists {
+      padding: 120px 52px;
+    }
+
+    .stylists-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2px;
+    }
+
+    .stylist-card {
+      background: var(--card); overflow: hidden;
+      position: relative; cursor: none;
+      border: 1px solid transparent;
+      transition: border-color .4s, transform .4s;
+    }
+    .stylist-card:hover {
+      border-color: var(--border);
+      transform: translateY(-4px);
+    }
+
+    .stylist-img-wrap { position: relative; overflow: hidden; height: 280px; }
+    .stylist-img {
+      width: 100%; height: 100%; object-fit: cover;
+      filter: grayscale(.35) brightness(.8);
+      transition: transform .7s ease, filter .4s;
+    }
+    .stylist-card:hover .stylist-img {
+      transform: scale(1.07);
+      filter: grayscale(0) brightness(1);
+    }
+    .stylist-badge {
+      position: absolute; top: 20px; left: 20px;
+      background: var(--gold); color: var(--black);
+      font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+      padding: 5px 12px; font-weight: 600;
+    }
+
+    .stylist-body { padding: 32px 32px 36px; }
+
+    .stylist-name {
+      font-family: 'Cormorant Garant', serif;
+      font-size: 28px; font-weight: 400; color: var(--cream);
+      margin-bottom: 6px;
+    }
+    .stylist-tagline {
+      font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 24px;
+    }
+
+    .stylist-roles { margin-bottom: 28px; }
+    .stylist-role-row {
+      display: flex; gap: 14px; padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .stylist-role-row:last-child { border-bottom: none; }
+    .role-icon {
+      width: 32px; height: 32px; flex-shrink: 0;
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px;
+    }
+    .role-content {}
+    .role-title {
+      font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 4px;
+    }
+    .role-desc { font-size: 12px; line-height: 1.6; color: var(--muted); }
+
+    .stylist-cta {
+      background: none; border: 1px solid var(--border);
+      color: var(--cream); padding: 13px 24px;
+      font-family: 'Raleway', sans-serif; font-size: 10px;
+      letter-spacing: 2.5px; text-transform: uppercase;
+      cursor: none; transition: all .3s; width: 100%;
+    }
+    .stylist-cta:hover { background: var(--gold); border-color: var(--gold); color: var(--black); }
+
+    /* ── STYLIST MODAL ── */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,.85);
+      z-index: 400; opacity: 0; pointer-events: none;
+      transition: opacity .4s; backdrop-filter: blur(8px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 20px;
+    }
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+
+    .modal-box {
+      background: var(--card); border: 1px solid var(--border);
+      max-width: 520px; width: 100%;
+      transform: translateY(24px) scale(.97);
+      transition: transform .45s cubic-bezier(.22,1,.36,1);
+      position: relative; overflow: hidden;
+    }
+    .modal-overlay.open .modal-box { transform: translateY(0) scale(1); }
+
+    .modal-top-line {
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+    .modal-header {
+      padding: 32px 36px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: flex-start;
+    }
+    .modal-eyebrow {
+      font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 8px;
+    }
+    .modal-title {
+      font-family: 'Cormorant Garant', serif;
+      font-size: 30px; font-weight: 300; color: var(--cream);
+      line-height: 1.1;
+    }
+    .modal-close {
+      background: none; border: 1px solid var(--border);
+      color: var(--muted); width: 36px; height: 36px;
+      font-size: 16px; cursor: none; transition: all .3s;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; margin-left: 16px;
+    }
+    .modal-close:hover { border-color: var(--gold); color: var(--gold); }
+
+    .modal-body { padding: 28px 36px 36px; }
+    .modal-body .form-group { margin-bottom: 20px; }
+
+    /* ── MOBILE MENU ── */
+    .burger {
+      display: none; flex-direction: column; justify-content: center;
+      gap: 5px; background: none; border: none; cursor: none;
+      padding: 4px; z-index: 102;
+    }
+    .burger span {
+      display: block; width: 24px; height: 1.5px;
+      background: var(--cream); transition: transform .35s, opacity .25s, width .3s;
+      transform-origin: center;
+    }
+    .burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .burger.open span:nth-child(2) { opacity: 0; width: 0; }
+    .burger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    .mobile-menu {
+      position: fixed; inset: 0; z-index: 101;
+      background: var(--card);
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      gap: 0;
+      transform: translateX(100%);
+      transition: transform .45s cubic-bezier(.22,1,.36,1);
+    }
+    .mobile-menu.open { transform: translateX(0); }
+
+    .mobile-menu-top {
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    .mobile-menu a {
+      font-family: 'Cormorant Garant', serif;
+      font-size: clamp(32px, 8vw, 52px); font-weight: 300;
+      color: var(--cream); text-decoration: none;
+      letter-spacing: 3px; text-transform: uppercase;
+      padding: 14px 0; line-height: 1;
+      position: relative; transition: color .3s;
+    }
+    .mobile-menu a::after {
+      content: ''; position: absolute; bottom: 10px; left: 0;
+      width: 0; height: 1px; background: var(--gold);
+      transition: width .3s;
+    }
+    .mobile-menu a:hover { color: var(--gold); }
+    .mobile-menu a:hover::after { width: 100%; }
+
+    .mobile-menu-footer {
+      position: absolute; bottom: 40px;
+      font-size: 11px; letter-spacing: 3px; color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      /* Cursor off on mobile */
+      .cursor, .cursor-ring { display: none; }
+      body { cursor: auto; }
+      button, a { cursor: pointer; }
+
+      /* Nav */
+      nav { padding: 16px 20px; }
+      .nav-links { display: none; }
+      .burger { display: flex; }
+      .nav-logo { font-size: 18px; letter-spacing: 3px; }
+      .btn-primary { display: none; }
+
+      /* Hero */
+      .hero { min-height: 100svh; }
+      .hero-content { padding: 0 20px 80px; }
+      .hero-title { font-size: clamp(44px, 13vw, 72px); }
+      .hero-subtitle { font-size: 13px; }
+      .hero-actions { flex-direction: column; gap: 12px; }
+      .hero-actions a { text-align: center; }
+      .hero-scroll { display: none; }
+
+      /* Services */
+      .services { padding: 60px 20px; }
+      .services-grid { grid-template-columns: 1fr; gap: 2px; }
+      .service-card { padding: 36px 28px; }
+      .service-img { height: 200px; }
+
+      /* Stylists */
+      .stylists { padding: 60px 20px; }
+      .stylists-grid { grid-template-columns: 1fr; gap: 2px; }
+      .stylist-img-wrap { height: 240px; }
+      .stylist-body { padding: 24px 24px 28px; }
+
+      /* Process */
+      .process { padding: 60px 20px; grid-template-columns: 1fr; gap: 40px; }
+      .process-img-main { height: 320px; }
+      .process-img-accent { display: none; }
+      .process-content { padding-left: 0; }
+
+      /* Gallery */
+      .gallery { padding: 60px 20px; }
+      .gallery-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        gap: 4px;
+      }
+      .gallery-item { height: 260px; }
+      .gallery-item:first-child,
+      .gallery-item:nth-child(4) {
+        grid-column: auto; grid-row: auto;
+      }
+
+      /* Order */
+      .order-section { padding: 60px 20px; grid-template-columns: 1fr; gap: 48px; }
+      .form-row { grid-template-columns: 1fr; }
+      .form-title, .order-info-title { font-size: 34px; }
+      .whatsapp-btn { width: 100%; justify-content: center; }
+
+      /* Testimonials */
+      .testimonials { padding: 60px 20px; }
+      .testimonials-grid { grid-template-columns: 1fr; gap: 16px; }
+
+      /* Footer */
+      footer { padding: 48px 20px 28px; }
+      .footer-top { grid-template-columns: 1fr; gap: 28px; }
+      .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+
+      /* Modal */
+      .modal-overlay { padding: 12px; align-items: flex-end; }
+      .modal-box { max-width: 100%; border-radius: 0; }
+      .modal-header { padding: 24px 20px 16px; }
+      .modal-body { padding: 20px 20px 28px; }
+      .modal-title { font-size: 24px; }
+      .form-row { grid-template-columns: 1fr; }
+
+      /* Section headers */
+      .section-header { margin-bottom: 40px; }
+      .section-title { font-size: clamp(30px, 8vw, 48px); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Custom cursor -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- Notification -->
+  <div class="notif" id="notif"></div>
+
+  <!-- NAVBAR -->
+  <nav id="navbar">
+    <a href="#" class="nav-logo">Atelier<span>.</span></a>
+    <ul class="nav-links">
+      <li><a href="#services">Қызметтер</a></li>
+      <li><a href="#stylists">Стилист + Тігінші</a></li>
+      <li><a href="#process">Процесс</a></li>
+      <li><a href="#gallery">Жұмыстар</a></li>
+      <li><a href="#order">Тапсырыс</a></li>
+      <li><a href="#contact">Байланыс</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="theme-toggle" onclick="toggleTheme()" title="Күн / Түн режимі">
+        <svg class="theme-icon icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+        </svg>
+        <svg class="theme-icon icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+      <a href="#order" class="btn-primary" style="padding:10px 22px; font-size:10px; letter-spacing:2.5px;">Тапсырыс беру</a>
+      <button class="burger" id="burger" onclick="toggleMenu()" aria-label="Меню">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <div class="mobile-menu-top"></div>
+    <a href="#services"  onclick="closeMenu()">Қызметтер</a>
+    <a href="#stylists"  onclick="closeMenu()">Стилист + Тігінші</a>
+    <a href="#process"   onclick="closeMenu()">Процесс</a>
+    <a href="#gallery"   onclick="closeMenu()">Жұмыстар</a>
+    <a href="#order"     onclick="closeMenu()">Тапсырыс</a>
+    <a href="#contact"   onclick="closeMenu()">Байланыс</a>
+    <div class="mobile-menu-footer">Atelier · Жеке пошив</div>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-bg"></div>
+    <div class="hero-grain"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Жеке пошив ательесі</p>
+      <h1 class="hero-title">
+        Сіздің<br />
+        <em>денеңізге</em><br />
+        арналған
+      </h1>
+      <p class="hero-subtitle">
+        Стандартты емес — индивидуальды.<br />
+        Кез келген фигура үшін мінсіз кесім,<br />
+        корпоративтік имидж және<br />
+        жеке бренд жасаймыз.
+      </p>
+      <div class="hero-actions">
+        <a href="#order" class="btn-primary">Тапсырыс беру</a>
+        <a href="#services" class="btn-outline">Қызметтер</a>
+      </div>
+    </div>
+    <div class="hero-scroll">Төмен қарай</div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <div class="marquee-item">Жеке пошив <span class="dot"></span></div>
+      <div class="marquee-item">Корпоративтік стиль <span class="dot"></span></div>
+      <div class="marquee-item">Жеке бренд <span class="dot"></span></div>
+      <div class="marquee-item">Стандартты емес фигура <span class="dot"></span></div>
+      <div class="marquee-item">Жеке пошив <span class="dot"></span></div>
+      <div class="marquee-item">Корпоративтік стиль <span class="dot"></span></div>
+      <div class="marquee-item">Жеке бренд <span class="dot"></span></div>
+      <div class="marquee-item">Стандартты емес фигура <span class="dot"></span></div>
+      <div class="marquee-item">Жеке пошив <span class="dot"></span></div>
+      <div class="marquee-item">Корпоративтік стиль <span class="dot"></span></div>
+      <div class="marquee-item">Жеке бренд <span class="dot"></span></div>
+      <div class="marquee-item">Стандартты емес фигура <span class="dot"></span></div>
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <section class="services" id="services">
+    <div class="section-header reveal">
+      <span class="section-tag">Қызметтер</span>
+      <h2 class="section-title">Не жасаймыз?<br /><em>Барлығын — сіз үшін</em></h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <img class="service-img"
+          src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=600&q=80&fit=crop&crop=center"
+          alt="Жеке пошив" />
+        <div class="service-num">01</div>
+        <h3 class="service-name">Жеке пошив</h3>
+        <p class="service-desc">
+          Сіздің дене пішіні, ерекшеліктері мен сілтемелеріңізді ескере отырып,
+          тек сізге арналған киім. Мінсіз кесім — кепілдік.
+        </p>
+        <span class="service-price">Бағасы кеңесуде</span>
+        <a href="#order" class="service-btn">Тапсырыс беру</a>
+      </div>
+
+      <div class="service-card reveal">
+        <img class="service-img"
+          src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=600&q=80&fit=crop&crop=center"
+          alt="Кез келген фигура" />
+        <div class="service-num">02</div>
+        <h3 class="service-name">Кез келген фигура</h3>
+        <p class="service-desc">
+          Толық, ұзын, қысқа — барлығына мінсіз кесім жасаймыз. Дене пішіні
+          мінсіздікке кедергі емес, ол — ерекшелік.
+        </p>
+        <span class="service-price">Бағасы кеңесуде</span>
+        <a href="#order" class="service-btn">Тапсырыс беру</a>
+      </div>
+
+      <div class="service-card reveal">
+        <img class="service-img"
+          src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&q=80&fit=crop&crop=top"
+          alt="Корпоративтік стиль" />
+        <div class="service-num">03</div>
+        <h3 class="service-name">Корпоративтік стиль</h3>
+        <p class="service-desc">
+          Командаңызды бірыңғай, келісті имиджмен таныстырыңыз. Офис киімінен
+          бастап іс-шара костюмдеріне дейін.
+        </p>
+        <span class="service-price">Бағасы кеңесуде</span>
+        <a href="#order" class="service-btn">Тапсырыс беру</a>
+      </div>
+
+      <div class="service-card reveal">
+        <img class="service-img"
+          src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&q=80&fit=crop&crop=center"
+          alt="Жеке бренд" />
+        <div class="service-num">04</div>
+        <h3 class="service-name">Жеке бренд</h3>
+        <p class="service-desc">
+          Бизнесшілер, банкирлер, кәсіпкерлер үшін — компания имиджіне сай өз
+          дизайн линиясын немесе брендтік киім сериясын бірге жасаймыз.
+        </p>
+        <span class="service-price">Бағасы кеңесуде</span>
+        <a href="#order" class="service-btn">Тапсырыс беру</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- STYLISTS + TAILORS -->
+  <section class="stylists" id="stylists">
+    <div class="section-header reveal">
+      <span class="section-tag">Команда</span>
+      <h2 class="section-title">Стилист <em>&amp;</em> Тігінші<br /><em>жұптары</em></h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="stylists-grid">
+
+      <!-- Классик -->
+      <div class="stylist-card reveal">
+        <div class="stylist-img-wrap">
+          <span class="stylist-badge">Классик</span>
+          <img class="stylist-img"
+            src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&q=80&fit=crop&crop=top"
+            alt="Классик стиль" />
+        </div>
+        <div class="stylist-body">
+          <h3 class="stylist-name">Классик стиль</h3>
+          <p class="stylist-tagline">Іскери · Ресми · Мәртебелі</p>
+          <div class="stylist-roles">
+            <div class="stylist-role-row">
+              <div class="role-icon">✦</div>
+              <div class="role-content">
+                <div class="role-title">Стилист рөлі</div>
+                <div class="role-desc">Бейнені жоспарлайды, мата мен түс палитрасын таңдайды, образды жинақтайды</div>
+              </div>
+            </div>
+            <div class="stylist-role-row">
+              <div class="role-icon">✂</div>
+              <div class="role-content">
+                <div class="role-title">Тігінші рөлі</div>
+                <div class="role-desc">Мінсіз кесім жасайды, барлық детальдарды стиль бойынша орындайды</div>
+              </div>
+            </div>
+          </div>
+          <button class="stylist-cta" onclick="openStyleModal('Классик стиль', 'іскери кездесу, ресми шара')">
+            Осы бағытпен тапсырыс
+          </button>
+        </div>
+      </div>
+
+      <!-- Casual -->
+      <div class="stylist-card reveal">
+        <div class="stylist-img-wrap">
+          <span class="stylist-badge">Casual</span>
+          <img class="stylist-img"
+            src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=600&q=80&fit=crop&crop=center"
+            alt="Casual стиль" />
+        </div>
+        <div class="stylist-body">
+          <h3 class="stylist-name">Casual / Күнделікті</h3>
+          <p class="stylist-tagline">Еркін · Жайлы · Заманауи</p>
+          <div class="stylist-roles">
+            <div class="stylist-role-row">
+              <div class="role-icon">✦</div>
+              <div class="role-content">
+                <div class="role-title">Стилист рөлі</div>
+                <div class="role-desc">Жеке стиль тілін анықтайды, трендпен үйлесімді, ыңғайлы образ жасайды</div>
+              </div>
+            </div>
+            <div class="stylist-role-row">
+              <div class="role-icon">✂</div>
+              <div class="role-content">
+                <div class="role-title">Тігінші рөлі</div>
+                <div class="role-desc">Еркін кесімде де мінсіз сәйкестікті сақтай отырып пошив жасайды</div>
+              </div>
+            </div>
+          </div>
+          <button class="stylist-cta" onclick="openStyleModal('Casual / Күнделікті стиль', 'күнделікті киім, еркін образ')">
+            Осы бағытпен тапсырыс
+          </button>
+        </div>
+      </div>
+
+      <!-- Корпоративтік -->
+      <div class="stylist-card reveal">
+        <div class="stylist-img-wrap">
+          <span class="stylist-badge">Корпоративтік</span>
+          <img class="stylist-img"
+            src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&q=80&fit=crop&crop=top"
+            alt="Корпоративтік стиль" />
+        </div>
+        <div class="stylist-body">
+          <h3 class="stylist-name">Корпоративтік</h3>
+          <p class="stylist-tagline">Команда · Бренд · Имидж</p>
+          <div class="stylist-roles">
+            <div class="stylist-role-row">
+              <div class="role-icon">✦</div>
+              <div class="role-content">
+                <div class="role-title">Стилист рөлі</div>
+                <div class="role-desc">Компания бренді мен мәдениетін бейнелейтін бірыңғай имидж жасайды</div>
+              </div>
+            </div>
+            <div class="stylist-role-row">
+              <div class="role-icon">✂</div>
+              <div class="role-content">
+                <div class="role-title">Тігінші рөлі</div>
+                <div class="role-desc">Бүкіл команда үшін бірыңғай форманы жоғары сапада орындайды</div>
+              </div>
+            </div>
+          </div>
+          <button class="stylist-cta" onclick="openStyleModal('Корпоративтік стиль', 'команда формасы, офис киімі')">
+            Осы бағытпен тапсырыс
+          </button>
+        </div>
+      </div>
+
+      <!-- Кешкі -->
+      <div class="stylist-card reveal">
+        <div class="stylist-img-wrap">
+          <span class="stylist-badge">Кешкі / Гала</span>
+          <img class="stylist-img"
+            src="345.jpg"
+            alt="Кешкі стиль" />
+        </div>
+        <div class="stylist-body">
+          <h3 class="stylist-name">Кешкі / Гала</h3>
+          <p class="stylist-tagline">Той · Банкет · Салтанатты шара</p>
+          <div class="stylist-roles">
+            <div class="stylist-role-row">
+              <div class="role-icon">✦</div>
+              <div class="role-content">
+                <div class="role-title">Стилист рөлі</div>
+                <div class="role-desc">Шараның форматына сай люкс бейне жасайды, аксессуарлармен толықтырады</div>
+              </div>
+            </div>
+            <div class="stylist-role-row">
+              <div class="role-icon">✂</div>
+              <div class="role-content">
+                <div class="role-title">Тігінші рөлі</div>
+                <div class="role-desc">Дизайнерлік кешкі киімді ең жоғары шеберлікпен тігеді</div>
+              </div>
+            </div>
+          </div>
+          <button class="stylist-cta" onclick="openStyleModal('Кешкі / Гала стиль', 'той, банкет, салтанатты шара')">
+            Осы бағытпен тапсырыс
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- STYLIST MODAL -->
+  <div class="modal-overlay" id="styleModalOverlay" onclick="closeStyleModal(event)">
+    <div class="modal-box">
+      <div class="modal-top-line"></div>
+      <div class="modal-header">
+        <div>
+          <div class="modal-eyebrow">Стилист + Тігінші кеңесі</div>
+          <div class="modal-title" id="modalTitle">Классик стиль</div>
+        </div>
+        <button class="modal-close" onclick="closeStyleModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <form id="styleForm" onsubmit="submitStyleForm(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Аты-жөніңіз</label>
+              <input type="text" class="form-input" id="modalName" placeholder="Айгүл" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Телефон</label>
+              <input type="tel" class="form-input" id="modalPhone" placeholder="+7 777 000 0000" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Мақсат</label>
+            <select class="form-select" id="modalGoal" required>
+              <option value="" disabled selected>Таңдаңыз...</option>
+              <option>Жұмыс киімі</option>
+              <option>Іс-шара / кездесу</option>
+              <option>Той / мерекелік шара</option>
+              <option>Күнделікті образ</option>
+              <option>Корпоративтік форма</option>
+              <option>Жеке бренд / дизайн</option>
+              <option>Басқа</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Қосымша тілек</label>
+            <textarea class="form-textarea" id="modalNote" placeholder="Мата, түс, өзге ерекшелік..." style="min-height:80px;"></textarea>
+          </div>
+          <button type="submit" class="btn-primary" style="width:100%; cursor:none; display:flex; align-items:center; justify-content:center; gap:10px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+            WhatsApp арқылы жіберу
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROCESS -->
+  <section class="process" id="process">
+    <div class="process-img-wrap reveal">
+      <div class="process-gold-line"></div>
+      <img class="process-img-main"
+        src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=800&q=80&fit=crop&crop=center"
+        alt="Жұмыс процессі" />
+      <img class="process-img-accent"
+        src="https://images.unsplash.com/photo-1516762689617-e1cffcef479d?w=500&q=80&fit=crop"
+        alt="Мата" />
+    </div>
+    <div class="process-content reveal">
+      <span class="section-tag">Қалай жұмыс істейміз</span>
+      <h2 class="section-title">Жеке<br /><em>процесс</em></h2>
+      <div class="section-line" style="margin: 24px 0 0;"></div>
+
+      <div class="process-steps">
+        <div class="process-step">
+          <span class="step-num">1</span>
+          <div class="step-body">
+            <h3 class="step-title">Кеңес беру</h3>
+            <p class="step-desc">Сізбен кездесіп, мақсатыңыз бен стиліңізді талқылаймыз. Ешбір шек жоқ — барлық ойыңызды айтыңыз.</p>
+          </div>
+        </div>
+        <div class="process-step">
+          <span class="step-num">2</span>
+          <div class="step-body">
+            <h3 class="step-title">Өлшем алу</h3>
+            <p class="step-desc">Дене өлшемдерін мұқият аламыз. Стандартты емес фигура болса — ерекше тәсілмен жұмыс жасаймыз.</p>
+          </div>
+        </div>
+        <div class="process-step">
+          <span class="step-num">3</span>
+          <div class="step-body">
+            <h3 class="step-title">Дизайн мен мата</h3>
+            <p class="step-desc">Модель, мата және түсті бірге таңдаймыз. Сіздің талғамыңыз — басты бағдар.</p>
+          </div>
+        </div>
+        <div class="process-step">
+          <span class="step-num">4</span>
+          <div class="step-body">
+            <h3 class="step-title">Пошив және анықтау</h3>
+            <p class="step-desc">Кигіздіру барысында нәзік түзетулер жасаймыз. Нәтиже — мінсіз сәйкестік.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section class="gallery" id="gallery">
+    <div class="section-header reveal">
+      <span class="section-tag">Портфолио</span>
+      <h2 class="section-title">Жұмыстарымыз<br /><em>сөйлейді</em></h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="gallery-grid reveal">
+      <div class="gallery-item">
+        <img class="gallery-img"
+          src="123.jpg"
+          alt="Элегантты жиынтық" />
+        <div class="gallery-overlay">
+          <span class="gallery-label">Элегантты жиынтық</span>
+        </div>
+      </div>
+      <div class="gallery-item">
+        <img class="gallery-img"
+          src="321.jpg"
+          alt="Бизнес имиджі" />
+        <div class="gallery-overlay">
+          <span class="gallery-label">Бизнес имиджі</span>
+        </div>
+      </div>
+      <div class="gallery-item">
+        <img class="gallery-img"
+          src="432.jpg"
+          alt="Люкс материалдар" />
+        <div class="gallery-overlay">
+          <span class="gallery-label">Люкс материалдар</span>
+        </div>
+      </div>
+      <div class="gallery-item">
+        <img class="gallery-img"
+          src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=600&q=80&fit=crop&crop=center"
+          alt="Іскери костюм" />
+        <div class="gallery-overlay">
+          <span class="gallery-label">Іскери костюм</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ORDER + INFO -->
+  <section class="order-section" id="order">
+    <div class="order-form-wrap reveal">
+      <h2 class="form-title">Тапсырыс<br /><em style="font-family:'Cormorant Garant',serif;font-style:italic;color:var(--gold);">беріңіз</em></h2>
+      <p class="form-subtitle">Форманы толтырыңыз — 24 сағат ішінде хабарласамыз</p>
+
+      <form id="orderForm" onsubmit="submitForm(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Аты-жөніңіз</label>
+            <input type="text" class="form-input" placeholder="Айгүл Серікова" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Телефон</label>
+            <input type="tel" class="form-input" placeholder="+7 777 000 0000" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Қызмет түрі</label>
+          <select class="form-select" required>
+            <option value="" disabled selected>Таңдаңыз...</option>
+            <option>Жеке пошив</option>
+            <option>Кез келген фигура үшін пошив</option>
+            <option>Корпоративтік стиль</option>
+            <option>Жеке бренд</option>
+            <option>Басқа</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Сипаттама</label>
+          <textarea class="form-textarea" placeholder="Не пошить керек, қандай мата, түс, іс-шара..."></textarea>
+        </div>
+
+        <button type="submit" class="btn-primary" style="width:100%; margin-top:8px; cursor:none;">
+          Тапсырыс жіберу
+        </button>
+      </form>
+    </div>
+
+    <div class="order-info reveal" id="contact">
+      <h2 class="order-info-title">Байланыс<br /><em style="font-family:'Cormorant Garant',serif;font-style:italic;color:var(--gold);">ақпараты</em></h2>
+
+      <div class="info-block">
+        <div class="info-block-title">Телефон / WhatsApp</div>
+        <div class="info-block-text">+7 XXX XXX XX XX</div>
+        <div class="info-block-sub">Дүйсенбі — Жексенбі, 9:00 – 20:00</div>
+      </div>
+
+      <div class="info-block">
+        <div class="info-block-title">Instagram</div>
+        <div class="info-block-text">@atelier.kz</div>
+        <div class="info-block-sub">Жаңа жұмыстар мен акциялар үшін</div>
+      </div>
+
+      <div class="info-block">
+        <div class="info-block-title">Мекенжай</div>
+        <div class="info-block-text">Алматы қаласы</div>
+        <div class="info-block-sub">Дәл мекенжайды хабарласқаннан кейін жіберіледі</div>
+      </div>
+
+      <a href="https://wa.me/77000000000" class="whatsapp-btn">
+        <svg class="whatsapp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+        </svg>
+        WhatsApp-та жазу
+      </a>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testimonials">
+    <div class="section-header reveal">
+      <span class="section-tag">Пікірлер</span>
+      <h2 class="section-title">Клиенттер<br /><em>айтады</em></h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">
+          «Өмірімде бірінші рет киім денемге дәл сәйкес келді. Толық фигурамды ешкім мұнша ұзатып кеспеген болатын. Рахмет!»
+        </p>
+        <div class="testimonial-author">Дина М.</div>
+        <div class="testimonial-role">Тұрақты клиент</div>
+      </div>
+      <div class="testimonial-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">
+          «Корпоративтік форма тапсырдым — 15 адамға. Уақытында, сапалы, дәл брендімізге сай. Ендігі жылы да сізбен жасаймыз.»
+        </p>
+        <div class="testimonial-author">Арман Б.</div>
+        <div class="testimonial-role">Компания иесі</div>
+      </div>
+      <div class="testimonial-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">
+          «Той кокошнигімді жасатып алдым. Барлық детальды ескерді, кигенде жеңіл. Барлық достарыма ұсынамын!»
+        </p>
+        <div class="testimonial-author">Жансая Т.</div>
+        <div class="testimonial-role">Клиент</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand">Atelier<span>.</span></div>
+        <p class="footer-desc">
+          Жеке пошив ательесі. Кез келген фигура үшін мінсіз кесім, корпоративтік стиль және жеке бренд.
+        </p>
+      </div>
+      <div>
+        <div class="footer-col-title">Қызметтер</div>
+        <ul class="footer-links">
+          <li><a href="#services">Жеке пошив</a></li>
+          <li><a href="#services">Корпоративтік стиль</a></li>
+          <li><a href="#services">Жеке бренд</a></li>
+          <li><a href="#services">Фигура пошиві</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Байланыс</div>
+        <ul class="footer-links">
+          <li><a href="#">+7 XXX XXX XX XX</a></li>
+          <li><a href="#">WhatsApp</a></li>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">Алматы</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Ательесі</div>
+        <ul class="footer-links">
+          <li><a href="#process">Процесс</a></li>
+          <li><a href="#gallery">Портфолио</a></li>
+          <li><a href="#order">Тапсырыс</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2026 <span>Atelier</span>. Барлық құқықтар қорғалған.</span>
+      <span class="footer-copy">Люкс пошив · Алматы</span>
+    </div>
+  </footer>
+
+  <script>
+    // ── Cursor ──
+    const cursor = document.getElementById('cursor');
+    const cursorRing = document.getElementById('cursorRing');
+    document.addEventListener('mousemove', e => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top  = e.clientY + 'px';
+      cursorRing.style.left = e.clientX + 'px';
+      cursorRing.style.top  = e.clientY + 'px';
+    });
+
+    // ── Navbar scroll ──
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', scrollY > 60);
+    });
+
+    // ── Reveal on scroll ──
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          const siblings = e.target.parentElement?.querySelectorAll('.reveal:not(.visible)');
+          if (siblings) {
+            [...siblings].forEach((s, i) => {
+              setTimeout(() => s.classList.add('visible'), i * 120);
+            });
+          }
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // ── Notification ──
+    function showNotif(text) {
+      const n = document.getElementById('notif');
+      n.textContent = text;
+      n.classList.add('show');
+      setTimeout(() => n.classList.remove('show'), 2800);
+    }
+
+    // ── Form submit ──
+    function submitForm(e) {
+      e.preventDefault();
+      showNotif('Тапсырысыңыз қабылданды! Жақын арада хабарласамыз.');
+      e.target.reset();
+    }
+
+    // ── Style Modal ──
+    let currentStyle = '';
+
+    function openStyleModal(styleName, hint) {
+      currentStyle = styleName;
+      document.getElementById('modalTitle').textContent = styleName;
+      document.getElementById('styleModalOverlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeStyleModal(e) {
+      if (e && e.target !== document.getElementById('styleModalOverlay')) return;
+      document.getElementById('styleModalOverlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        document.getElementById('styleModalOverlay').classList.remove('open');
+        closeMenu();
+        document.body.style.overflow = '';
+      }
+    });
+
+    function submitStyleForm(e) {
+      e.preventDefault();
+      const name  = document.getElementById('modalName').value;
+      const phone = document.getElementById('modalPhone').value;
+      const goal  = document.getElementById('modalGoal').value;
+      const note  = document.getElementById('modalNote').value;
+      const msg   = encodeURIComponent(
+        `Сәлем! Мен «${currentStyle}» бойынша кеңес алғым келеді.\nАты: ${name}\nТелефон: ${phone}\nМақсат: ${goal}` +
+        (note ? `\nҚосымша: ${note}` : '')
+      );
+      window.open('https://wa.me/77000000000?text=' + msg, '_blank');
+      document.getElementById('styleModalOverlay').classList.remove('open');
+      document.body.style.overflow = '';
+      document.getElementById('styleForm').reset();
+      showNotif('«' + currentStyle + '» — WhatsApp ашылды ✦');
+    }
+
+    // ── Mobile menu ──
+    function toggleMenu() {
+      const burger = document.getElementById('burger');
+      const menu   = document.getElementById('mobileMenu');
+      const open   = burger.classList.toggle('open');
+      menu.classList.toggle('open', open);
+      document.body.style.overflow = open ? 'hidden' : '';
+    }
+    function closeMenu() {
+      document.getElementById('burger').classList.remove('open');
+      document.getElementById('mobileMenu').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    // ── Theme toggle ──
+    function toggleTheme() {
+      const isLight = document.body.classList.toggle('light');
+      localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    }
+    (function () {
+      if (localStorage.getItem('theme') === 'light') {
+        document.body.classList.add('light');
+      }
+    })();
+  </script>
+</body>
+</html>

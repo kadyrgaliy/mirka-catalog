@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Профессиональная облицовка кирпичом в Павлодаре. Фасады, заборы, декоративная кладка под ключ. 20 лет опыта. Казахстан и Кыргызстан.">
+  <title>YERMEEK Строй Мастер | Павлодар</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,800;1,700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:   #071510;
+      --bg2:  #0C1D14;
+      --bg3:  #112218;
+      --bg4:  #18291E;
+      --brick:#C9A84C;
+      --bl:   #DFC06A;
+      --gold: #C9A84C;
+      --gl:   #E8D48A;
+      --text: #F0EDE8;
+      --muted:#8EA898;
+      --dim:  #4A6655;
+      --bdr:  rgba(201,168,76,.22);
+      --bds:  rgba(255,255,255,.06);
+      --bdg:  rgba(201,168,76,.25);
+      --sh:   0 4px 24px rgba(0,0,0,.6);
+      --r:    12px;
+      --rl:   20px;
+      --tr:   all .3s cubic-bezier(.4,0,.2,1);
+    }
+    /* DAY MODE */
+    body.day {
+      --bg:   #F5F0E8;
+      --bg2:  #EDE7DC;
+      --bg3:  #E3DDD2;
+      --bg4:  #D8D1C4;
+      --brick:#B8902A;
+      --bl:   #A07820;
+      --gold: #B8902A;
+      --gl:   #C9A840;
+      --text: #1A160E;
+      --muted:#5A5040;
+      --dim:  #8A7860;
+      --bdr:  rgba(184,144,42,.3);
+      --bds:  rgba(0,0,0,.08);
+      --bdg:  rgba(184,144,42,.3);
+      --sh:   0 4px 24px rgba(0,0,0,.12);
+    }
+    body.day nav.scrolled {
+      background: rgba(245,240,232,.95) !important;
+      border-bottom-color: rgba(184,144,42,.2) !important;
+    }
+    body.day .hero-float {
+      background: rgba(245,240,232,.95);
+    }
+    body.day .hero-img-wrap::after,
+    body.day .hero-img-inner::after {
+      background: linear-gradient(135deg, rgba(245,240,232,.2) 0%, transparent 50%);
+    }
+    body.day .hero-glow {
+      background: radial-gradient(circle, rgba(184,144,42,.12) 0%, transparent 70%);
+    }
+    body.day .about-ph,
+    body.day .hero-ph,
+    body.day .why-ph,
+    body.day .port-ph {
+      background: linear-gradient(135deg, #E3DDD2, #D8D1C4);
+    }
+    body { transition: background .4s ease, color .4s ease; }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.65;overflow-x:hidden}
+    h1,h2{font-family:'Playfair Display',serif;line-height:1.15;letter-spacing:-.02em}
+    h1{font-size:clamp(1.9rem,5vw,3.4rem);font-weight:800}
+    h2{font-size:clamp(1.5rem,3.5vw,2.4rem);font-weight:700}
+    p{color:var(--muted);line-height:1.7}
+    a{text-decoration:none;color:inherit}
+    img{display:block;width:100%;height:100%;object-fit:cover}
+    .container{max-width:1180px;margin:0 auto;padding:0 28px}
+    .section{padding:96px 0}
+    .lbl{display:inline-flex;align-items:center;gap:8px;font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--bl);margin-bottom:14px}
+    .lbl::before{content:'';display:block;width:22px;height:2px;background:var(--brick)}
+    .fade-up{opacity:0;transform:translateY(28px);transition:opacity .6s ease,transform .6s ease}
+    .fade-up.visible{opacity:1;transform:translateY(0)}
+
+    /* BUTTONS */
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:13px 26px;border-radius:8px;font-size:.925rem;font-weight:600;font-family:'Inter',sans-serif;cursor:pointer;transition:var(--tr);border:none;white-space:nowrap}
+    .btn-p{background:var(--brick);color:#fff}
+    .btn-p:hover{background:var(--bl);transform:translateY(-2px);box-shadow:0 8px 28px rgba(196,82,42,.4)}
+    .btn-o{background:transparent;border:1.5px solid rgba(196,82,42,.4);color:var(--text)}
+    .btn-o:hover{border-color:var(--brick);color:var(--bl);background:rgba(196,82,42,.06)}
+    .btn-g{background:var(--gold);color:#120C04;font-weight:700}
+    .btn-g:hover{background:var(--gl);transform:translateY(-2px);box-shadow:0 8px 28px rgba(212,175,108,.35)}
+    .btn-lg{padding:15px 34px;font-size:1rem;border-radius:10px}
+    .btn svg{width:18px;height:18px;flex-shrink:0}
+
+    /* LOGO SVG */
+    .logo-mark{display:inline-block;flex-shrink:0}
+    .logo-wrap{display:flex;align-items:center;gap:10px}
+    .logo-text-block{display:flex;flex-direction:column}
+    .logo-name{font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:800;letter-spacing:.06em;color:var(--text);line-height:1}
+    .logo-name em{color:var(--brick);font-style:normal}
+    .logo-sub{font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);margin-top:3px}
+
+    /* NAV */
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:18px 0;transition:var(--tr)}
+    nav.scrolled{background:rgba(7,21,16,.94);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);padding:11px 0;border-bottom:1px solid var(--bdr)}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;gap:24px}
+    .nav-links{display:flex;align-items:center;gap:26px;list-style:none}
+    .nav-links a{font-size:.84rem;font-weight:500;color:var(--muted);transition:color .2s}
+    .nav-links a:hover{color:var(--text)}
+    .nav-right{display:flex;align-items:center;gap:12px}
+    .lang-toggle{display:flex;background:var(--bg3);border:1px solid var(--bdr);border-radius:6px;overflow:hidden}
+    .lang-btn{padding:5px 10px;font-size:.7rem;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;border:none;background:transparent;color:var(--dim);transition:var(--tr);letter-spacing:.08em}
+    .lang-btn.active{background:var(--brick);color:#fff}
+    .nav-cta{display:none}
+    @media(min-width:900px){.nav-cta{display:inline-flex}}
+
+    /* HERO */
+    .hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:56px;padding-top:100px;padding-bottom:80px}
+    .hero-badge{display:inline-flex;align-items:center;gap:9px;background:rgba(196,82,42,.1);border:1px solid rgba(196,82,42,.28);border-radius:100px;padding:8px 16px;font-size:.78rem;font-weight:600;color:var(--bl);margin-bottom:26px}
+    .hero-dot{width:7px;height:7px;border-radius:50%;background:var(--brick);animation:pulse 2s infinite}
+    @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(1.35)}}
+    .hero h1{color:var(--text);margin-bottom:18px}
+    .hero h1 em{color:var(--bl);font-style:italic}
+    .hero-sub{font-size:1rem;margin-bottom:38px;max-width:480px}
+    .hero-btns{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:48px}
+    .hero-stats{display:flex;gap:32px}
+    .h-num{font-size:1.5rem;font-weight:800;color:var(--text);font-family:'Playfair Display',serif;line-height:1}
+    .h-num em{color:var(--brick);font-style:normal}
+    .h-lbl{font-size:.7rem;color:var(--dim);margin-top:4px;letter-spacing:.04em}
+
+    /* Hero visual */
+    .hero-visual{position:relative;display:flex;justify-content:flex-end}
+    .hero-img-wrap{position:relative;width:100%;max-width:500px;}
+    .hero-img-inner{position:relative;border-radius:var(--rl);overflow:hidden;}
+    .hero-img-inner::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(7,21,16,.35) 0%,transparent 50%);pointer-events:none;border-radius:var(--rl)}
+    .hero-img-el{width:100%;aspect-ratio:4/5;object-fit:cover;object-position:top center;border-radius:var(--rl);display:block}
+    .hero-ph{width:100%;aspect-ratio:4/5;border-radius:var(--rl);background:linear-gradient(160deg,#0F1E1E 0%,#162828 50%,#0A1818 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;border:1px solid var(--bdr)}
+    .hero-float{position:absolute;background:rgba(7,21,16,.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--bdr);border-radius:10px;padding:11px 15px;z-index:2}
+    .hf1{top:10%;left:-28px}.hf2{bottom:24%;left:-36px}.hf3{bottom:9%;right:-16px}
+    .hf-l{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-bottom:2px}
+    .hf-v{font-size:.88rem;font-weight:700;color:var(--text)}
+    .hf-v.c-brick{color:var(--bl)}.hf-v.c-gold{color:var(--gold)}
+    .hero-glow{position:absolute;width:480px;height:480px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,.07) 0%,transparent 70%);pointer-events:none;top:50%;right:0;transform:translateY(-50%);z-index:0}
+
+    /* TRUST BAR */
+    .trust-bar{background:var(--bg3);border-top:1px solid var(--bds);border-bottom:1px solid var(--bds);padding:36px 0}
+    .trust-inner{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
+    .trust-item{display:flex;align-items:center;gap:16px;flex:1;min-width:180px}
+    .t-icon{width:52px;height:52px;border-radius:12px;flex-shrink:0;background:rgba(196,82,42,.1);border:1px solid var(--bdr);display:flex;align-items:center;justify-content:center;color:var(--bl)}
+    .t-icon svg{width:24px;height:24px}
+    .t-num{font-size:1.6rem;font-weight:800;color:var(--text);font-family:'Playfair Display',serif;line-height:1}
+    .t-num em{color:var(--bl);font-style:normal}
+    .t-sub{font-size:.88rem;color:var(--muted);margin-top:5px;font-weight:500}
+
+    /* SERVICES */
+    .svc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+    .svc-card{background:var(--bg2);border:1px solid var(--bds);border-radius:var(--rl);padding:30px 22px;transition:var(--tr);position:relative;overflow:hidden}
+    .svc-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--brick);transform:scaleX(0);transition:transform .3s;transform-origin:left}
+    .svc-card:hover{border-color:var(--bdr);background:var(--bg3);transform:translateY(-4px);box-shadow:var(--sh)}
+    .svc-card:hover::after{transform:scaleX(1)}
+    .svc-icon{width:44px;height:44px;border-radius:10px;background:rgba(196,82,42,.1);border:1px solid var(--bdr);display:flex;align-items:center;justify-content:center;color:var(--bl);margin-bottom:18px}
+    .svc-icon svg{width:22px;height:22px}
+    .svc-card h3{font-size:.98rem;font-weight:700;color:var(--text);font-family:'Inter',sans-serif;margin-bottom:10px}
+    .svc-card p{font-size:.84rem;line-height:1.6}
+
+    /* ABOUT */
+    .about-inner{display:grid;grid-template-columns:1fr 1.25fr;gap:80px;align-items:center}
+    .about-img-wrap{position:relative}
+    .about-img-el{width:100%;aspect-ratio:3/4;object-fit:cover;object-position:top center;border-radius:var(--rl);display:block}
+    .about-ph{width:100%;aspect-ratio:3/4;border-radius:var(--rl);background:linear-gradient(160deg,#0F1E1E 0%,#162828 50%,#0A1818 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;border:1px solid var(--bdr);color:var(--dim)}
+    .about-ph svg{width:48px;height:48px;opacity:.4}
+    .about-ph span{font-size:.7rem;text-transform:uppercase;letter-spacing:.1em}
+    .about-decor{position:absolute;bottom:-18px;right:-18px;width:55%;height:55%;border:2px solid rgba(196,82,42,.22);border-radius:var(--rl);z-index:-1}
+    .about-exp{position:absolute;top:28px;right:-22px;background:var(--brick);color:#fff;border-radius:10px;padding:14px 18px;text-align:center;box-shadow:var(--sh);z-index:1}
+    .ae-num{font-size:2rem;font-weight:900;font-family:'Playfair Display',serif;line-height:1}
+    .ae-txt{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;margin-top:3px;opacity:.85}
+    .about-title{font-size:.73rem;letter-spacing:.12em;text-transform:uppercase;color:var(--bl);font-weight:600;margin-bottom:18px}
+    .about-content h2{margin-bottom:8px}
+    .about-text{font-size:.94rem;margin-bottom:13px}
+    .about-quote{background:var(--bg3);border-left:3px solid var(--brick);border-radius:0 8px 8px 0;padding:17px 20px;margin:22px 0}
+    .about-quote p{font-style:italic;font-size:.98rem;color:var(--text)}
+    .about-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+    .tag{background:var(--bg3);border:1px solid var(--bds);border-radius:6px;padding:6px 12px;font-size:.76rem;font-weight:500;color:var(--muted);transition:var(--tr)}
+    .tag:hover{border-color:var(--brick);color:var(--bl)}
+
+    /* WHY */
+    .why-bg{background:var(--bg3);border-top:1px solid var(--bds);border-bottom:1px solid var(--bds)}
+    .why-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+    .why-list{display:flex;flex-direction:column;gap:20px}
+    .why-item{display:flex;gap:15px;align-items:flex-start}
+    .why-icon{width:44px;height:44px;border-radius:10px;flex-shrink:0;background:rgba(196,82,42,.1);border:1px solid var(--bdr);display:flex;align-items:center;justify-content:center;color:var(--bl);margin-top:2px}
+    .why-icon svg{width:20px;height:20px}
+    .why-item h4{font-size:.93rem;font-weight:600;color:var(--text);margin-bottom:4px;font-family:'Inter',sans-serif}
+    .why-item p{font-size:.83rem;line-height:1.55}
+    .why-visual-wrap{border-radius:var(--rl);overflow:hidden;aspect-ratio:4/3;position:relative}
+    .why-img{width:100%;height:100%;object-fit:cover;display:block}
+    .why-ph{width:100%;height:100%;background:linear-gradient(135deg,#0F1E1E,#162828);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;border:1px solid var(--bdr);color:var(--dim)}
+    .why-ph svg{width:42px;height:42px;opacity:.35}
+    .why-ph span{font-size:.68rem;text-transform:uppercase;letter-spacing:.08em}
+
+    /* PORTFOLIO */
+    .port-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .port-item{position:relative;border-radius:var(--r);overflow:hidden;cursor:pointer;background:var(--bg2)}
+    .port-item:first-child{grid-row:span 2}
+    .port-img{width:100%;height:100%;min-height:220px;object-fit:cover;display:block;transition:transform .5s}
+    .port-item:first-child .port-img{min-height:460px}
+    .port-ph{width:100%;min-height:220px;background:linear-gradient(135deg,#0F1E1E,#162828);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;border:1px solid var(--bds);color:var(--dim)}
+    .port-item:first-child .port-ph{min-height:460px}
+    .port-ph svg{width:36px;height:36px;opacity:.3}
+    .port-ph span{font-size:.62rem;text-transform:uppercase;letter-spacing:.08em}
+    .port-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(7,21,16,.88) 0%,transparent 55%);opacity:0;transition:opacity .3s;display:flex;align-items:flex-end;padding:18px}
+    .port-item:hover .port-ov{opacity:1}
+    .port-item:hover .port-img{transform:scale(1.05)}
+    .port-lbl{font-size:.84rem;font-weight:600;color:var(--text)}
+
+    /* CALC */
+    .calc-bg{background:var(--bg3);border-top:1px solid var(--bds);border-bottom:1px solid var(--bds);position:relative;overflow:hidden}
+    .calc-bg::before{content:'';position:absolute;top:-30%;right:-15%;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,.06) 0%,transparent 70%);pointer-events:none}
+    .calc-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+    .calc-content h2{margin-bottom:14px}
+    .calc-content>p{margin-bottom:18px;font-size:.97rem}
+    .calc-note{display:flex;align-items:flex-start;gap:10px;font-size:.77rem;color:var(--dim);background:rgba(212,175,108,.05);border:1px solid var(--bdg);border-radius:8px;padding:11px 14px}
+    .calc-note svg{width:16px;height:16px;flex-shrink:0;color:var(--gold);margin-top:1px}
+    .calc-form{display:flex;flex-direction:column;gap:14px}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .form-group{display:flex;flex-direction:column;gap:6px}
+    .form-label{font-size:.7rem;font-weight:600;color:var(--muted);letter-spacing:.07em;text-transform:uppercase}
+    .form-input{background:var(--bg2);border:1.5px solid var(--bds);border-radius:8px;padding:12px 14px;font-size:.9rem;color:var(--text);font-family:'Inter',sans-serif;transition:border-color .2s;outline:none;width:100%}
+    .form-input::placeholder{color:var(--dim)}
+    .form-input:focus{border-color:var(--brick)}
+    .form-textarea{resize:vertical;min-height:88px}
+    .form-ok{display:none;background:rgba(196,82,42,.08);border:1px solid rgba(196,82,42,.3);border-radius:8px;padding:15px;color:var(--bl);font-size:.9rem;text-align:center}
+    .form-check{display:flex;align-items:flex-start;gap:10px;font-size:.78rem;color:var(--dim)}
+    .form-check input{margin-top:2px;accent-color:var(--brick);width:15px;height:15px;flex-shrink:0;cursor:pointer}
+    .form-check a{color:var(--bl);text-decoration:underline}
+    .form-check a:hover{color:var(--gl)}
+
+    /* WORKSHOP */
+    .ws-inner{display:grid;grid-template-columns:1.2fr 1fr;gap:80px;align-items:center}
+    .ws-content h2{margin-bottom:14px}
+    .ws-content>p{margin-bottom:22px}
+    .ws-list{display:flex;flex-direction:column;gap:12px;margin-bottom:30px}
+    .ws-item{display:flex;gap:12px;align-items:flex-start}
+    .ws-dot{width:6px;height:6px;border-radius:50%;background:var(--brick);margin-top:9px;flex-shrink:0}
+    .ws-item p{font-size:.89rem}
+    .ws-card{background:var(--bg2);border:1px solid var(--bds);border-radius:var(--rl);padding:38px;text-align:center}
+    .ws-card-icon{width:56px;height:56px;border-radius:var(--r);background:rgba(196,82,42,.1);border:1px solid var(--bdr);display:flex;align-items:center;justify-content:center;color:var(--bl);margin:0 auto 20px}
+    .ws-card-icon svg{width:28px;height:28px}
+    .ws-card h3{color:var(--text);margin-bottom:12px;font-size:1.05rem;font-family:'Playfair Display',serif;font-weight:700}
+    .ws-card>p{font-size:.875rem;margin-bottom:22px}
+    .ws-info{background:var(--bg3);border:1px solid var(--bdr);border-radius:8px;padding:14px;margin-bottom:20px;text-align:left}
+    .ws-info-l{font-size:.67rem;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+    .ws-info-v{font-size:.86rem;color:var(--muted)}
+
+    /* COLLAB */
+    .collab-bg{background:var(--bg3);border-top:1px solid var(--bds);border-bottom:1px solid var(--bds)}
+    .collab-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:46px}
+    .collab-card{background:var(--bg2);border:1px solid var(--bds);border-radius:var(--rl);padding:30px;transition:var(--tr)}
+    .collab-card:hover{border-color:var(--bdg);background:var(--bg3);transform:translateY(-3px)}
+    .collab-icon{width:44px;height:44px;border-radius:10px;background:rgba(212,175,108,.08);border:1px solid var(--bdg);display:flex;align-items:center;justify-content:center;color:var(--gold);margin-bottom:16px}
+    .collab-icon svg{width:22px;height:22px}
+    .collab-card h3{font-size:.97rem;font-weight:700;color:var(--text);font-family:'Inter',sans-serif;margin-bottom:10px}
+    .collab-card p{font-size:.84rem}
+
+    /* REVIEWS */
+    .rev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+    .rev-card{background:var(--bg2);border:1px solid var(--bds);border-radius:var(--rl);padding:26px;transition:var(--tr)}
+    .rev-card:hover{border-color:var(--bdr)}
+    .rev-stars{color:var(--gold);font-size:.92rem;letter-spacing:2px;margin-bottom:14px}
+    .rev-text{font-size:.86rem;color:var(--muted);font-style:italic;line-height:1.7;margin-bottom:18px}
+    .rev-author{display:flex;align-items:center;gap:12px}
+    .rev-av{width:36px;height:36px;border-radius:50%;background:var(--bg4);border:2px solid var(--bdr);display:flex;align-items:center;justify-content:center;color:var(--dim);flex-shrink:0}
+    .rev-av svg{width:18px;height:18px}
+    .rev-name{font-size:.85rem;font-weight:600;color:var(--text)}
+    .rev-city{font-size:.7rem;color:var(--dim)}
+
+    /* CONTACT */
+    .contact-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:flex-start}
+    .contact-info h2{margin-bottom:14px}
+    .contact-info>p{margin-bottom:34px}
+    .c-links{display:flex;flex-direction:column;gap:13px;margin-bottom:26px}
+    .c-link{display:flex;align-items:center;gap:15px;padding:14px 17px;background:var(--bg2);border:1px solid var(--bds);border-radius:var(--r);transition:var(--tr)}
+    .c-link:hover{border-color:var(--brick);background:var(--bg3)}
+    .c-link-icon{width:38px;height:38px;border-radius:8px;background:rgba(196,82,42,.1);display:flex;align-items:center;justify-content:center;color:var(--bl);flex-shrink:0}
+    .c-link-icon svg{width:18px;height:18px}
+    .cl-label{font-size:.65rem;color:var(--dim);letter-spacing:.1em;text-transform:uppercase;margin-bottom:1px}
+    .cl-value{font-size:.9rem;font-weight:600;color:var(--text)}
+    .c-loc{font-size:.83rem;color:var(--dim);display:flex;align-items:center;gap:8px}
+    .c-loc svg{width:15px;height:15px;flex-shrink:0;color:var(--brick)}
+
+    /* FOOTER */
+    footer{background:var(--bg2);border-top:1px solid var(--bds);padding:34px 0}
+    .footer-inner{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+    .footer-copy{font-size:.73rem;color:var(--dim);margin-top:3px}
+    .footer-links{display:flex;gap:20px}
+    .footer-links a{font-size:.76rem;color:var(--dim);transition:color .2s}
+    .footer-links a:hover{color:var(--muted)}
+
+    /* IMG fallback helper */
+    .img-wrap{position:relative;overflow:hidden;border-radius:inherit}
+    .img-wrap img{position:absolute;inset:0;z-index:1;border-radius:inherit}
+    .img-wrap .ph-fb{position:relative;z-index:0;width:100%;height:100%}
+
+    /* HAMBURGER */
+    .burger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;background:none;border:none}
+    .burger span{display:block;width:22px;height:2px;background:var(--text);border-radius:2px;transition:var(--tr)}
+    .burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+    .burger.open span:nth-child(2){opacity:0}
+    .burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+    .mobile-menu{display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:99;background:var(--bg);padding:100px 28px 40px;flex-direction:column;gap:8px;overflow-y:auto}
+    .mobile-menu.open{display:flex}
+    .mobile-menu a{font-size:1.5rem;font-weight:700;font-family:'Playfair Display',serif;color:var(--text);padding:14px 0;border-bottom:1px solid var(--bds);transition:color .2s}
+    .mobile-menu a:hover{color:var(--bl)}
+    .mobile-menu .m-cta{margin-top:24px}
+
+    @media(max-width:1024px){
+      .hero{grid-template-columns:1fr;min-height:auto;padding-top:120px;padding-bottom:60px}
+      .hero-visual{display:flex;justify-content:center;margin-top:36px}
+      .hero-img-wrap{max-width:100%}
+      .hero-img-el,.hero-ph{aspect-ratio:3/2}
+      .hf2{bottom:14px;left:14px}
+      .svc-grid{grid-template-columns:repeat(2,1fr)}
+      .about-inner,.calc-inner,.contact-inner{grid-template-columns:1fr;gap:40px}
+      .about-exp{right:12px}
+      .why-inner{grid-template-columns:1fr}
+      .why-visual-wrap{display:none}
+      .ws-inner{grid-template-columns:1fr;gap:40px}
+      .collab-grid{grid-template-columns:repeat(2,1fr)}
+      .rev-grid{grid-template-columns:1fr 1fr}
+      .port-grid{grid-template-columns:repeat(2,1fr)}
+      .port-item:first-child{grid-row:span 1}
+      .port-item:first-child .port-img,.port-item:first-child .port-ph{min-height:220px}
+    }
+    @media(max-width:768px){
+      .section{padding:60px 0}
+      .container{padding:0 20px}
+      .nav-links{display:none}
+      .nav-cta{display:none!important}
+      .burger{display:flex}
+      .hero{padding-top:160px;padding-bottom:60px}
+      .hero h1{font-size:clamp(1.7rem,7vw,2.4rem)}
+      .hero-sub{font-size:.95rem}
+      .hero-stats{gap:24px;flex-wrap:wrap}
+      .hero-visual{display:none}
+      .trust-bar{padding:24px 0}
+      .trust-inner{gap:14px}
+      .trust-item{min-width:140px}
+      .t-num{font-size:1.3rem}
+      .t-sub{font-size:.8rem}
+      .svc-grid{grid-template-columns:1fr 1fr}
+      .svc-card{padding:24px 18px}
+      .about-inner{gap:32px}
+      .about-quote{padding:14px 16px}
+      .why-list{gap:18px}
+      .why-item{gap:12px}
+      .ws-card{padding:28px 20px}
+      .collab-card{padding:24px 20px}
+      .rev-card{padding:22px 18px}
+      .calc-form{gap:12px}
+      .c-link{padding:12px 14px}
+      .form-row{grid-template-columns:1fr}
+      .collab-grid{grid-template-columns:1fr}
+      .rev-grid{grid-template-columns:1fr}
+      .footer-inner{flex-direction:column;align-items:flex-start;gap:16px}
+      .footer-links{flex-wrap:wrap;gap:14px}
+      footer{padding:28px 0}
+    }
+    @media(max-width:480px){
+      .container{padding:0 20px}
+      .section{padding:52px 0}
+      .svc-grid{grid-template-columns:1fr}
+      .hero-btns{flex-direction:column}
+      .hero-btns .btn{justify-content:center;width:100%}
+      .hero-stats{gap:16px}
+      .port-grid{grid-template-columns:1fr}
+      .trust-inner{flex-direction:column;gap:12px}
+      .trust-item{min-width:unset;width:100%}
+      .about-exp{right:8px;top:16px}
+      .rev-grid{grid-template-columns:1fr}
+      .collab-grid{grid-template-columns:1fr}
+      .mobile-menu a{font-size:1.3rem}
+    }
+  </style>
+</head>
+<body>
+
+<!-- SVG SYMBOLS -->
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="ic-brick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="2" y="3" width="8" height="6" rx="1"/><rect x="14" y="3" width="8" height="6" rx="1"/>
+    <rect x="2" y="13" width="4" height="6" rx="1"/><rect x="10" y="13" width="8" height="6" rx="1"/><rect x="22" y="13" width="0" height="6"/>
+    <rect x="6" y="13" width="2" height="6" rx="1"/><rect x="20" y="13" width="2" height="6" rx="1"/>
+  </symbol>
+  <symbol id="ic-building" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="3" y="2" width="18" height="20" rx="1"/><path d="M3 8h18M3 14h18M9 2v20M15 2v20"/>
+  </symbol>
+  <symbol id="ic-arch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+    <path d="M4 20V12a8 8 0 0116 0v8"/><line x1="4" y1="20" x2="20" y2="20"/>
+  </symbol>
+  <symbol id="ic-fence" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+    <path d="M4 7l2-3 2 3v11H4zM10 7l2-3 2 3v11h-4zM16 7l2-3 2 3v11h-4z"/><line x1="2" y1="12" x2="22" y2="12"/>
+  </symbol>
+  <symbol id="ic-house" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 12L12 3l9 9"/><path d="M5 10v9a1 1 0 001 1h4v-5h4v5h4a1 1 0 001-1v-9"/>
+  </symbol>
+  <symbol id="ic-trophy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 15c-4 0-7-3-7-7V4h14v4c0 4-3 7-7 7z"/>
+    <path d="M8.5 15.5S7 17 7 19h10c0-2-1.5-3.5-1.5-3.5M9 21h6"/>
+    <path d="M5 6H3a1 1 0 01-1-1V4h3M19 6h2a1 1 0 001-1V4h-3"/>
+  </symbol>
+  <symbol id="ic-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 2l7 4v6c0 5-3.5 9.5-7 11C8.5 21.5 5 17 5 12V6z"/><path d="M9 12l2 2 4-4"/>
+  </symbol>
+  <symbol id="ic-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/>
+  </symbol>
+  <symbol id="ic-gift" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="2" y="8" width="20" height="13" rx="1"/><line x1="2" y1="13" x2="22" y2="13"/><line x1="12" y1="8" x2="12" y2="21"/>
+    <path d="M12 8c0-2 1-4 4-4s4 2 0 4M12 8c0-2-1-4-4-4s-4 2 0 4"/>
+  </symbol>
+  <symbol id="ic-ruler" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+    <rect x="2" y="7" width="20" height="10" rx="1"/><line x1="6" y1="7" x2="6" y2="11"/><line x1="10" y1="7" x2="10" y2="13"/><line x1="14" y1="7" x2="14" y2="11"/><line x1="18" y1="7" x2="18" y2="13"/>
+  </symbol>
+  <symbol id="ic-level" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+    <rect x="2" y="9" width="20" height="6" rx="1"/><circle cx="12" cy="12" r="2"/>
+  </symbol>
+  <symbol id="ic-crane" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 21V8l8-5 8 5v13"/><path d="M9 21v-5h6v5"/><line x1="4" y1="13" x2="20" y2="13"/>
+  </symbol>
+  <symbol id="ic-tools" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+  </symbol>
+  <symbol id="ic-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>
+  </symbol>
+  <symbol id="ic-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/>
+    <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
+  </symbol>
+  <symbol id="ic-home2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+  </symbol>
+  <symbol id="ic-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 013.07 9.81a19.79 19.79 0 01-3.07-8.63A2 2 0 012 1h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/>
+  </symbol>
+  <symbol id="ic-msg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+  </symbol>
+  <symbol id="ic-insta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".5" fill="currentColor"/>
+  </symbol>
+  <symbol id="ic-person" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+    <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+  </symbol>
+  <symbol id="ic-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+    <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="8.01"/><line x1="12" y1="12" x2="12" y2="16"/>
+  </symbol>
+</svg>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="#home" class="logo-wrap">
+        <!-- Logo mark: 2-row brick pattern -->
+        <svg class="logo-mark" width="34" height="26" viewBox="0 0 34 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="0" y="0" width="15" height="10" rx="2" fill="#C9A84C"/>
+          <rect x="19" y="0" width="15" height="10" rx="2" fill="#C9A84C" opacity=".7"/>
+          <rect x="7" y="16" width="20" height="10" rx="2" fill="#DFC06A"/>
+        </svg>
+        <div class="logo-text-block">
+          <div class="logo-name">YER<em>MEEK</em></div>
+          <div class="logo-sub" data-ru="Строй Мастер" data-kk="Строй Мастер">Строй Мастер</div>
+        </div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#about" data-ru="О мастере" data-kk="Шебер туралы">О мастере</a></li>
+        <li><a href="#services" data-ru="Услуги" data-kk="Қызметтер">Услуги</a></li>
+        <li><a href="#portfolio" data-ru="Портфолио" data-kk="Портфолио">Портфолио</a></li>
+        <li><a href="#workshop" data-ru="Воркшоп" data-kk="Воркшоп">Воркшоп</a></li>
+        <li><a href="#contact" data-ru="Контакты" data-kk="Байланыс">Контакты</a></li>
+      </ul>
+      <div class="nav-right">
+        <div class="lang-toggle">
+          <button class="lang-btn active" onclick="setLang('ru')">RU</button>
+          <button class="lang-btn" onclick="setLang('kk')">KK</button>
+        </div>
+        <button id="themeToggle" onclick="toggleTheme()" style="width:38px;height:38px;border-radius:8px;background:var(--bg3);border:1px solid var(--bdr);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--bl);transition:var(--tr);flex-shrink:0" title="Күн/Түн">
+          <svg id="themeIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+          </svg>
+        </button>
+        <a href="#calc" class="btn btn-p nav-cta" data-ru="Рассчитать стоимость" data-kk="Құнын есептеу">Рассчитать стоимость</a>
+        <button class="burger" id="burger" onclick="toggleMenu()" aria-label="Меню">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" onclick="toggleMenu()" data-ru="О мастере" data-kk="Шебер туралы">О мастере</a>
+  <a href="#services" onclick="toggleMenu()" data-ru="Услуги" data-kk="Қызметтер">Услуги</a>
+  <a href="#portfolio" onclick="toggleMenu()" data-ru="Портфолио" data-kk="Портфолио">Портфолио</a>
+  <a href="#workshop" onclick="toggleMenu()" data-ru="Воркшоп" data-kk="Воркшоп">Воркшоп</a>
+  <a href="#contact" onclick="toggleMenu()" data-ru="Контакты" data-kk="Байланыс">Контакты</a>
+  <a href="#calc" onclick="toggleMenu()" class="btn btn-p btn-lg m-cta" style="text-align:center;justify-content:center" data-ru="Рассчитать стоимость" data-kk="Құнын есептеу">Рассчитать стоимость</a>
+</div>
+
+<!-- HERO -->
+<section class="hero container" id="home">
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="hero-dot"></span>
+      <span data-ru="🌱 Сезон строительства открыт" data-kk="🌱 Құрылыс маусымы ашылды">🌱 Сезон строительства открыт</span>
+    </div>
+    <h1><span data-ru='Облицовка кирпичом с <em>идеальной геометрией</em> и аккуратным швом' data-kk='Кірпіш қаптама — <em>идеал геометрия</em> және тегіс тігістер'>Облицовка кирпичом с <em>идеальной геометрией</em> и аккуратным швом</span></h1>
+    <p class="hero-sub" data-ru="Работаем с клинкерным и декоративным кирпичом. Чёткая геометрия, ровные швы и контроль на каждом этапе." data-kk="Клинкерлік және декоративтік кірпішпен жұмыс жасаймыз. Нақты геометрия, тегіс тігістер және әр кезеңде бақылау.">Работаем с клинкерным и декоративным кирпичом. Чёткая геометрия, ровные швы и контроль на каждом этапе.</p>
+    <div class="hero-btns">
+      <a href="#calc" class="btn btn-p btn-lg" data-ru="Получить бесплатный расчёт" data-kk="Тегін есептеу алу">Получить бесплатный расчёт</a>
+      <a href="#portfolio" class="btn btn-o btn-lg" data-ru="Портфолио" data-kk="Портфолио">Портфолио</a>
+    </div>
+    <div class="hero-stats">
+      <div><div class="h-num">20<em>+</em></div><div class="h-lbl" data-ru="лет опыта" data-kk="жыл тәжірибе">лет опыта</div></div>
+      <div><div class="h-num" style="color:var(--gold)">KZ+KG</div><div class="h-lbl" data-ru="два рынка" data-kk="екі нарық">два рынка</div></div>
+      <div><div class="h-num">0</div><div class="h-lbl" data-ru="переделок" data-kk="қайта жасау">переделок</div></div>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-glow"></div>
+    <div class="hero-img-wrap">
+      <div class="hero-img-inner">
+        <img class="hero-img-el" src="yermek.jpg" alt="Мастер Ермек" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="hero-ph" style="display:none">
+          <svg width="48" height="48" style="opacity:.35;color:var(--bl)"><use href="#ic-brick"/></svg>
+          <span style="font-size:.7rem;color:var(--dim);text-transform:uppercase;letter-spacing:.08em" data-ru="Фото фасада" data-kk="Фасад фотосы">Фото фасада</span>
+        </div>
+      </div>
+      <div class="hero-float hf2" style="padding:16px 22px">
+        <div class="hf-l" style="font-size:.7rem;letter-spacing:.12em;margin-bottom:4px" data-ru="Мастер · 20 лет опыта" data-kk="Шебер · 20 жыл тәжірибе">Мастер · 20 лет опыта</div>
+        <div class="hf-v c-gold" style="font-size:1.25rem;font-family:'Playfair Display',serif;font-weight:800;letter-spacing:.04em">Ермек</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="container">
+    <div class="trust-inner">
+      <div class="trust-item fade-up">
+        <div class="t-icon"><svg><use href="#ic-trophy"/></svg></div>
+        <div><div class="t-num">20<em>+</em></div><div class="t-sub" data-ru="лет в профессии" data-kk="жыл мамандықта">лет в профессии</div></div>
+      </div>
+      <div class="trust-item fade-up" style="transition-delay:.07s">
+        <div class="t-icon"><svg><use href="#ic-shield"/></svg></div>
+        <div><div class="t-num" style="font-size:.93rem;padding-top:4px" data-ru="Без переделок" data-kk="Қайта жасамай">Без переделок</div><div class="t-sub" data-ru="и визуальных дефектов" data-kk="және визуалды ақаусыз">и визуальных дефектов</div></div>
+      </div>
+      <div class="trust-item fade-up" style="transition-delay:.14s">
+        <div class="t-icon"><svg><use href="#ic-pin"/></svg></div>
+        <div><div class="t-num" style="font-size:.93rem;padding-top:4px">KZ + KG</div><div class="t-sub" data-ru="Казахстан и Кыргызстан" data-kk="Қазақстан және Қырғызстан">Казахстан и Кыргызстан</div></div>
+      </div>
+      <div class="trust-item fade-up" style="transition-delay:.21s">
+        <div class="t-icon"><svg><use href="#ic-gift"/></svg></div>
+        <div><div class="t-num" style="font-size:.93rem;padding-top:4px" data-ru="Бесплатный расчёт" data-kk="Тегін есептеу">Бесплатный расчёт</div><div class="t-sub" data-ru="материалов после согласования" data-kk="келіскеннен кейін">материалов после согласования</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="section" id="services">
+  <div class="container">
+    <div class="fade-up"><span class="lbl" data-ru="Услуги" data-kk="Қызметтер">Услуги</span>
+    <h2 data-ru="Что мы делаем" data-kk="Біз не жасаймыз">Что мы делаем</h2></div>
+    <p style="margin:12px 0 44px;max-width:520px" class="fade-up" data-ru="Профессиональная облицовка и кладка кирпичом под ключ — от частных домов до коммерческих объектов." data-kk="Жеке үйлерден коммерциялық нысандарға дейін кірпіш қаптама және қалау кілтке дейін.">Профессиональная облицовка и кладка кирпичом под ключ — от частных домов до коммерческих объектов.</p>
+    <div class="svc-grid">
+      <div class="svc-card fade-up">
+        <div class="svc-icon"><svg><use href="#ic-building"/></svg></div>
+        <h3 data-ru="Облицовка фасадов" data-kk="Фасадтарды қаптау">Облицовка фасадов</h3>
+        <p data-ru="Клинкерный и декоративный кирпич. Идеальная геометрия, ровные швы, долговечный результат." data-kk="Клинкерлік және декоративтік кірпіш. Идеал геометрия, тегіс тігістер, ұзақ мерзімді нәтиже.">Клинкерный и декоративный кирпич. Идеальная геометрия, ровные швы, долговечный результат.</p>
+      </div>
+      <div class="svc-card fade-up" style="transition-delay:.08s">
+        <div class="svc-icon"><svg><use href="#ic-arch"/></svg></div>
+        <h3 data-ru="Декоративная кладка" data-kk="Декоративтік қалау">Декоративная кладка</h3>
+        <p data-ru="Арки, колонны, эркеры, элементы декора. Сложные проекты с точным соблюдением дизайна." data-kk="Доғалар, бағандар, эркерлер, декор элементтері. Дизайнды нақты сақтаумен күрделі жобалар.">Арки, колонны, эркеры, элементы декора. Сложные проекты с точным соблюдением дизайна.</p>
+      </div>
+      <div class="svc-card fade-up" style="transition-delay:.16s">
+        <div class="svc-icon"><svg><use href="#ic-fence"/></svg></div>
+        <h3 data-ru="Заборы и ограждения" data-kk="Қоршаулар">Заборы и ограждения</h3>
+        <p data-ru="Кирпичные заборы с чёткой геометрией и ровной кладкой. Любая высота и конфигурация." data-kk="Нақты геометриямен кірпіш қоршаулар. Кез келген биіктік пен конфигурация.">Кирпичные заборы с чёткой геометрией и ровной кладкой. Любая высота и конфигурация.</p>
+      </div>
+      <div class="svc-card fade-up" style="transition-delay:.24s">
+        <div class="svc-icon"><svg><use href="#ic-house"/></svg></div>
+        <h3 data-ru="Частные дома под ключ" data-kk="Жеке үйлер кілтке дейін">Частные дома под ключ</h3>
+        <p data-ru="Полная облицовка частного дома: замер, подбор материала, кладка, финальная приёмка." data-kk="Жеке үйді толық қаптау: өлшеу, материал таңдау, қалау, соңғы қабылдау.">Полная облицовка частного дома: замер, подбор материала, кладка, финальная приёмка.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="section" id="about">
+  <div class="container">
+    <div class="about-inner">
+      <div class="about-img-wrap fade-up">
+        <img class="about-img-el" src="yermek.jpg" alt="Мастер Ермек" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="about-ph" style="display:none">
+          <svg><use href="#ic-person"/></svg>
+          <span data-ru="Фото мастера" data-kk="Шебер фотосы">Фото мастера</span>
+        </div>
+        <div class="about-decor"></div>
+        <div class="about-exp"><div class="ae-num">20</div><div class="ae-txt" data-ru="лет опыта" data-kk="жыл тәжірибе">лет опыта</div></div>
+      </div>
+      <div class="about-content fade-up" style="transition-delay:.1s">
+        <span class="lbl" style="margin-top:10px" data-ru="О мастере" data-kk="Шебер туралы">О мастере</span>
+        <h2>ЕРМЕК</h2>
+        <div class="about-title" data-ru="Универсал Строй Мастер" data-kk="Универсал Строй Мастер">Универсал Строй Мастер</div>
+        <p class="about-text" data-ru="Ермек — профессиональный мастер по облицовке кирпичом с 20-летним стажем. Его работы отличаются безупречной геометрией, ровными швами и вниманием к каждой детали." data-kk="Ермек — 20 жылдық тәжірибесі бар кірпіш қаптама шебері. Оның жұмыстары мінсіз геометриясымен, тегіс тігістерімен және әр деталіге назар аударуымен ерекшеленеді.">Ермек — профессиональный мастер по облицовке кирпичом с 20-летним стажем. Его работы отличаются безупречной геометрией, ровными швами и вниманием к каждой детали.</p>
+        <p class="about-text" data-ru="Специализируется на клинкерном и декоративном кирпиче. Работает по всему Казахстану и Кыргызстану." data-kk="Клинкерлік және декоративтік кірпішке маманданған. Қазақстан мен Қырғызстан бойынша жұмыс жасайды.">Специализируется на клинкерном и декоративном кирпиче. Работает по всему Казахстану и Кыргызстану.</p>
+        <div class="about-quote"><p data-ru="«Красивая облицовка — это математика плюс опыт. Мне важно, чтобы через 10 лет фасад выглядел так же безупречно, как в день сдачи.»" data-kk="«Әдемі қаптама — бұл математика плюс тәжірибе. Маған маңыздысы — 10 жылдан кейін де фасад тапсырыс күні сияқты мінсіз болуы.»">«Красивая облицовка — это математика плюс опыт. Мне важно, чтобы через 10 лет фасад выглядел так же безупречно, как в день сдачи.»</p></div>
+        <div class="about-tags">
+          <span class="tag" data-ru="Клинкерный кирпич" data-kk="Клинкерлік кірпіш">Клинкерный кирпич</span>
+          <span class="tag" data-ru="Декоративная кладка" data-kk="Декоративтік қалау">Декоративная кладка</span>
+          <span class="tag" data-ru="Чёткая геометрия" data-kk="Нақты геометрия">Чёткая геометрия</span>
+          <span class="tag" data-ru="Под ключ" data-kk="Кілтке дейін">Под ключ</span>
+          <span class="tag" data-ru="Воркшоп" data-kk="Воркшоп">Воркшоп</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<div class="why-bg">
+  <section class="section">
+    <div class="container">
+      <div class="why-inner">
+        <div>
+          <div class="fade-up">
+            <span class="lbl" data-ru="Почему YERMEEK" data-kk="Неліктен YERMEEK">Почему YERMEEK</span>
+            <h2 style="margin-bottom:34px" data-ru="Фасады, которые выглядят дорого и служат десятилетиями" data-kk="Қымбат көрінетін және онжылдықтар бойы қызмет ететін фасадтар">Фасады, которые выглядят дорого и служат десятилетиями</h2>
+          </div>
+          <div class="why-list">
+            <div class="why-item fade-up">
+              <div class="why-icon"><svg><use href="#ic-ruler"/></svg></div>
+              <div><h4 data-ru="Без визуальных дефектов и переделок" data-kk="Визуалды ақаусыз және қайта жасамай">Без визуальных дефектов и переделок</h4><p data-ru="Контроль точности на каждом этапе — результат с первого раза." data-kk="Әр кезеңде дәлдік бақылауы — нәтиже бірінші реттен.">Контроль точности на каждом этапе — результат с первого раза.</p></div>
+            </div>
+            <div class="why-item fade-up" style="transition-delay:.07s">
+              <div class="why-icon"><svg><use href="#ic-level"/></svg></div>
+              <div><h4 data-ru="Чёткая геометрия и ровные швы" data-kk="Нақты геометрия және тегіс тігістер">Чёткая геометрия и ровные швы</h4><p data-ru="Разметка и уровень на каждом ряду. Визуальный результат — как на рендере." data-kk="Әр қатарда белгілеу мен деңгей. Визуалды нәтиже — рендердегідей.">Разметка и уровень на каждом ряду. Визуальный результат — как на рендере.</p></div>
+            </div>
+            <div class="why-item fade-up" style="transition-delay:.14s">
+              <div class="why-icon"><svg><use href="#ic-brick"/></svg></div>
+              <div><h4 data-ru="Клинкер и декоративный кирпич" data-kk="Клинкер және декоративтік кірпіш">Клинкер и декоративный кирпич</h4><p data-ru="Работаем с любыми форматами и фактурами. Подберём материал под проект." data-kk="Кез келген форматтар мен текстурамен жұмыс жасаймыз.">Работаем с любыми форматами и фактурами. Подберём материал под проект.</p></div>
+            </div>
+            <div class="why-item fade-up" style="transition-delay:.21s">
+              <div class="why-icon"><svg><use href="#ic-crane"/></svg></div>
+              <div><h4 data-ru="Фасады, заборы, декор и дома" data-kk="Фасадтар, қоршаулар, декор және үйлер">Фасады, заборы, декор и дома</h4><p data-ru="Частные дома, коммерческие объекты, декор — любая задача." data-kk="Жеке үйлер, коммерциялық нысандар, декор — кез келген тапсырма.">Частные дома, коммерческие объекты, декор — любая задача.</p></div>
+            </div>
+            <div class="why-item fade-up" style="transition-delay:.28s">
+              <div class="why-icon"><svg><use href="#ic-gift"/></svg></div>
+              <div><h4 data-ru="Бесплатный расчёт материалов" data-kk="Материалдарды тегін есептеу">Бесплатный расчёт материалов</h4><p data-ru="После согласования услуги — точный расчёт материалов бесплатно." data-kk="Қызметті келіскеннен кейін материалдарды тегін есептейміз.">После согласования услуги — точный расчёт материалов бесплатно.</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="fade-up why-visual-wrap" style="transition-delay:.1s">
+          <!-- REPLACE: фото готового объекта -->
+          <!-- brick cladding close-up -->
+          <img class="why-img" src="https://images.unsplash.com/photo-1530268729831-4b0b9e170218?auto=format&fit=crop&w=800&q=85" alt="Кирпичная кладка" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="why-ph" style="display:none"><svg><use href="#ic-building"/></svg><span data-ru="Фото работы" data-kk="Жұмыс фотосы">Фото работы</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- PORTFOLIO -->
+<section class="section" id="portfolio">
+  <div class="container">
+    <div class="fade-up" style="margin-bottom:46px">
+      <span class="lbl" data-ru="Наши работы" data-kk="Біздің жұмыстар">Наши работы</span>
+      <h2 data-ru="Портфолио" data-kk="Портфолио">Портфолио</h2>
+      <p style="margin-top:10px;max-width:460px" data-ru="Фасады частных домов, кирпичные заборы и декоративная кладка." data-kk="Жеке үйлердің фасадтары, кірпіш қоршаулар және декоративтік қалау.">Фасады частных домов, кирпичные заборы и декоративная кладка.</p>
+    </div>
+    <div class="port-grid">
+      <div class="port-item fade-up">
+        <!-- brick facade cladding -->
+        <img class="port-img" style="min-height:460px" src="https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=700&q=85" alt="Облицовка фасада" onerror="this.style.display='none'">
+        <div class="port-ph" style="min-height:460px"><svg><use href="#ic-building"/></svg><span data-ru="Фасад дома" data-kk="Үй фасады">Фасад дома</span></div>
+        <div class="port-ov"><span class="port-lbl" data-ru="Облицовка фасада · Клинкер" data-kk="Фасад қаптамасы · Клинкер">Облицовка фасада · Клинкер</span></div>
+      </div>
+      <div class="port-item fade-up" style="transition-delay:.07s">
+        <!-- decorative brick masonry -->
+        <img class="port-img" src="https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?auto=format&fit=crop&w=600&q=85" alt="Декоративная кладка" onerror="this.style.display='none'">
+        <div class="port-ph"><svg><use href="#ic-arch"/></svg><span data-ru="Декор. кладка" data-kk="Декоративтік қалау">Декор. кладка</span></div>
+        <div class="port-ov"><span class="port-lbl" data-ru="Декоративная кладка" data-kk="Декоративтік қалау">Декоративная кладка</span></div>
+      </div>
+      <div class="port-item fade-up" style="transition-delay:.14s">
+        <!-- luxury brick house -->
+        <img class="port-img" src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=85" alt="Частный дом" onerror="this.style.display='none'">
+        <div class="port-ph"><svg><use href="#ic-house"/></svg><span data-ru="Частный дом" data-kk="Жеке үй">Частный дом</span></div>
+        <div class="port-ov"><span class="port-lbl" data-ru="Частный дом · Под ключ" data-kk="Жеке үй · Кілтке дейін">Частный дом · Под ключ</span></div>
+      </div>
+      <div class="port-item fade-up" style="transition-delay:.21s">
+        <!-- brick fence / wall -->
+        <img class="port-img" src="https://images.unsplash.com/photo-1564182842519-8a3b2af3e228?auto=format&fit=crop&w=600&q=85" alt="Кирпичный забор" onerror="this.style.display='none'">
+        <div class="port-ph"><svg><use href="#ic-fence"/></svg><span data-ru="Забор" data-kk="Қоршау">Забор</span></div>
+        <div class="port-ov"><span class="port-lbl" data-ru="Кирпичный забор" data-kk="Кірпіш қоршау">Кирпичный забор</span></div>
+      </div>
+      <div class="port-item fade-up" style="transition-delay:.28s">
+        <!-- brick commercial building -->
+        <img class="port-img" src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=600&q=85" alt="Коммерческий объект" onerror="this.style.display='none'">
+        <div class="port-ph"><svg><use href="#ic-crane"/></svg><span data-ru="Коммерч. объект" data-kk="Коммерциялық нысан">Коммерч. объект</span></div>
+        <div class="port-ov"><span class="port-lbl" data-ru="Коммерческий объект" data-kk="Коммерциялық нысан">Коммерческий объект</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CALC -->
+<div class="calc-bg" id="calc">
+  <section class="section">
+    <div class="container">
+      <div class="calc-inner">
+        <div class="calc-content fade-up">
+          <span class="lbl" data-ru="Бесплатно" data-kk="Тегін">Бесплатно</span>
+          <h2 data-ru="Узнай стоимость своего проекта" data-kk="Жобаңыздың құнын біліңіз">Узнай стоимость своего проекта</h2>
+          <p data-ru="Оставьте заявку — расскажите об объекте. После согласования услуги сделаем точный расчёт материалов бесплатно." data-kk="Өтінім қалдырыңыз. Қызметті келіскеннен кейін материалдарды тегін есептейміз.">Оставьте заявку — расскажите об объекте. После согласования услуги сделаем точный расчёт материалов бесплатно.</p>
+          <div class="calc-note" style="margin-top:18px">
+            <svg><use href="#ic-info"/></svg>
+            <span data-ru="Расчёт материалов предоставляется бесплатно после согласования вида работ" data-kk="Материалдарды есептеу жұмыс түрін келіскеннен кейін тегін беріледі">Расчёт материалов предоставляется бесплатно после согласования вида работ</span>
+          </div>
+        </div>
+        <div class="fade-up" style="transition-delay:.1s">
+          <form class="calc-form" id="calcForm" onsubmit="submitForm(event,'calcForm','calcOk')">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" data-ru="Имя" data-kk="Аты-жөні">Имя</label>
+                <input class="form-input" type="text" data-ph-ru="Ваше имя" data-ph-kk="Сіздің атыңыз" placeholder="Ваше имя" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" data-ru="Телефон" data-kk="Телефон">Телефон</label>
+                <input class="form-input" type="tel" placeholder="+7 (___) ___-__-__" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" data-ru="Описание объекта" data-kk="Нысанның сипаттамасы">Описание объекта</label>
+              <textarea class="form-input form-textarea" data-ph-ru="Тип объекта, площадь, материал..." data-ph-kk="Нысан түрі, ауданы, материал..." placeholder="Тип объекта, площадь, материал..."></textarea>
+            </div>
+            <label class="form-check">
+              <input type="checkbox" id="calcAgree" required>
+              <span data-ru='Я согласен с <a href="offer.html" target="_blank">условиями оферты</a> и <a href="privacy.html" target="_blank">политикой конфиденциальности</a>' data-kk='Мен <a href="offer.html" target="_blank">оферта шарттарымен</a> және <a href="privacy.html" target="_blank">құпиялылық саясатымен</a> келісемін'>Я согласен с <a href="offer.html" target="_blank">условиями оферты</a> и <a href="privacy.html" target="_blank">политикой конфиденциальности</a></span>
+            </label>
+            <button type="submit" class="btn btn-g btn-lg" style="align-self:flex-start" data-ru="Отправить заявку" data-kk="Өтінім жіберу">Отправить заявку</button>
+            <div class="form-ok" id="calcOk">✓ <span data-ru="Заявка отправлена! Свяжемся скоро." data-kk="Өтінім жіберілді! Жақында хабарласамыз.">Заявка отправлена! Свяжемся скоро.</span></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- WORKSHOP -->
+<section class="section" id="workshop">
+  <div class="container">
+    <div class="ws-inner">
+      <div class="ws-content fade-up">
+        <span class="lbl" data-ru="Живой формат" data-kk="Тікелей формат">Живой формат</span>
+        <h2 data-ru="Практический воркшоп по кирпичной кладке" data-kk="Кірпіш қалау бойынша практикалық воркшоп">Практический воркшоп по кирпичной кладке</h2>
+        <p data-ru="Хотите попробовать себя в этом деле? Ермек проводит практические воркшопы — работаете руками с первого дня, под руководством мастера с 20-летним опытом." data-kk="Осы бағытта өзіңізді сынап көргіңіз келе ме? Ермек практикалық воркшоптар өткізеді — бірінші күннен бастап өз қолыңызбен жұмыс жасайсыз.">Хотите попробовать себя в этом деле? Ермек проводит практические воркшопы — работаете руками с первого дня, под руководством мастера с 20-летним опытом.</p>
+        <div class="ws-list">
+          <div class="ws-item"><div class="ws-dot"></div><p data-ru="Теория материалов: клинкер, декоративный кирпич, растворы" data-kk="Материалдар теориясы: клинкер, декоративтік кірпіш, ерітінділер">Теория материалов: клинкер, декоративный кирпич, растворы</p></div>
+          <div class="ws-item"><div class="ws-dot"></div><p data-ru="Практика разметки и геометрии — сразу на реальной кладке" data-kk="Белгілеу және геометрия практикасы — бірден нақты қалауда">Практика разметки и геометрии — сразу на реальной кладке</p></div>
+          <div class="ws-item"><div class="ws-dot"></div><p data-ru="Технология шва: инструменты, смеси, техника" data-kk="Тігіс технологиясы: аспаптар, қоспалар, техника">Технология шва: инструменты, смеси, техника</p></div>
+          <div class="ws-item"><div class="ws-dot"></div><p data-ru="Разбор типичных ошибок и их исправление" data-kk="Типтік қателерді талдау және оларды түзету">Разбор типичных ошибок и их исправление</p></div>
+          <div class="ws-item"><div class="ws-dot"></div><p data-ru="Работа на реальном объекте — уходите с результатом" data-kk="Нақты нысанда жұмыс — нәтижемен кетесіз">Работа на реальном объекте — уходите с результатом</p></div>
+        </div>
+        <a href="#contact" class="btn btn-p" data-ru="Записаться на воркшоп" data-kk="Воркшопқа жазылу">Записаться на воркшоп</a>
+      </div>
+      <div class="ws-card fade-up" style="transition-delay:.1s">
+        <div class="ws-card-icon"><svg><use href="#ic-tools"/></svg></div>
+        <h3 data-ru="Индивидуальный или групповой формат" data-kk="Жеке немесе топтық формат">Индивидуальный или групповой формат</h3>
+        <p data-ru="Подберём удобный формат, место и время. Павлодар и другие города Казахстана." data-kk="Ыңғайлы формат, орын және уақытты таңдаймыз. Павлодар және басқа қалалар.">Подберём удобный формат, место и время. Павлодар и другие города Казахстана.</p>
+        <div class="ws-info">
+          <div class="ws-info-l" data-ru="Для кого" data-kk="Кім үшін">Для кого</div>
+          <div class="ws-info-v" data-ru="Новички, строители, отделочники — все, кто хочет освоить качественную кладку." data-kk="Жаңадан бастаушылар, құрылысшылар — сапалы қалауды меңгергісі келетіндер.">Новички, строители, отделочники — все, кто хочет освоить качественную кладку.</div>
+        </div>
+        <a href="#contact" class="btn btn-o" style="width:100%;justify-content:center" data-ru="Узнать подробнее" data-kk="Толығырақ білу">Узнать подробнее</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COLLAB -->
+<div class="collab-bg">
+  <section class="section">
+    <div class="container">
+      <div class="fade-up" style="text-align:center;max-width:540px;margin:0 auto">
+        <span class="lbl" data-ru="Сотрудничество" data-kk="Ынтымақтастық">Сотрудничество</span>
+        <h2 data-ru="Работаем вместе" data-kk="Бірге жұмыс жасаймыз">Работаем вместе</h2>
+        <p style="margin-top:12px" data-ru="Строительная компания, прораб, архитектор или частный застройщик — выезжаем по всему KZ и KG." data-kk="Құрылыс компаниясы, прораб немесе жеке салушы — KZ және KG бойынша шығамыз.">Строительная компания, прораб, архитектор или частный застройщик — выезжаем по всему KZ и KG.</p>
+      </div>
+      <div class="collab-grid">
+        <div class="collab-card fade-up">
+          <div class="collab-icon"><svg><use href="#ic-crane"/></svg></div>
+          <h3 data-ru="Строительные компании" data-kk="Құрылыс компаниялары">Строительные компании</h3>
+          <p data-ru="Берём объекты в субподряд. Без переделок, соблюдаем сроки и стандарты." data-kk="Нысандарды субподрядқа аламыз. Қайта жасамай, мерзімдер мен стандарттарды сақтаймыз.">Берём объекты в субподряд. Без переделок, соблюдаем сроки и стандарты.</p>
+        </div>
+        <div class="collab-card fade-up" style="transition-delay:.08s">
+          <div class="collab-icon"><svg><use href="#ic-ruler"/></svg></div>
+          <h3 data-ru="Архитекторы и дизайнеры" data-kk="Сәулетшілер мен дизайнерлер">Архитекторы и дизайнеры</h3>
+          <p data-ru="Реализуем сложные дизайн-проекты. Фото до и после — для вашего портфолио." data-kk="Күрделі дизайн-жобаларды жүзеге асырамыз. Фото портфолиоңыз үшін.">Реализуем сложные дизайн-проекты. Фото до и после — для вашего портфолио.</p>
+        </div>
+        <div class="collab-card fade-up" style="transition-delay:.16s">
+          <div class="collab-icon"><svg><use href="#ic-home2"/></svg></div>
+          <h3 data-ru="Частные застройщики" data-kk="Жеке салушылар">Частные застройщики</h3>
+          <p data-ru="Консультация, бесплатный расчёт, реализация под ключ. От замера до приёмки." data-kk="Кеңес, тегін есептеу, кілтке дейін жүзеге асыру.">Консультация, бесплатный расчёт, реализация под ключ. От замера до приёмки.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- REVIEWS -->
+<section class="section" id="reviews">
+  <div class="container">
+    <div class="fade-up" style="margin-bottom:44px">
+      <span class="lbl" data-ru="Отзывы" data-kk="Пікірлер">Отзывы</span>
+      <h2 data-ru="Говорят клиенты" data-kk="Клиенттер айтады">Говорят клиенты</h2>
+    </div>
+    <div class="rev-grid">
+      <div class="rev-card fade-up">
+        <div class="rev-stars">★★★★★</div>
+        <p class="rev-text" data-ru="«Заказывал облицовку фасада клинкером. Сделал точно по проекту, без единого дефекта. Соседи спрашивают, кто делал — всем рекомендую.»" data-kk="«Фасадты клинкермен қаптауды тапсырдым. Жобаға дәл, бірде-бір ақаусыз жасады. Барлығына ұсынамын.»">«Заказывал облицовку фасада клинкером. Сделал точно по проекту, без единого дефекта. Соседи спрашивают, кто делал — всем рекомендую.»</p>
+        <div class="rev-author"><div class="rev-av"><svg><use href="#ic-person"/></svg></div><div><div class="rev-name">Асан К.</div><div class="rev-city" data-ru="Павлодар" data-kk="Павлодар">Павлодар</div></div></div>
+      </div>
+      <div class="rev-card fade-up" style="transition-delay:.08s">
+        <div class="rev-stars">★★★★★</div>
+        <p class="rev-text" data-ru="«Делали декоративный забор. Результат превзошёл ожидания — красиво, ровно. Ещё и материалы посчитал бесплатно заранее.»" data-kk="«Декоративтік қоршау жасадық. Нәтиже күткеннен асты — әдемі, тегіс. Материалдарды да алдын ала тегін есептеді.»">«Делали декоративный забор. Результат превзошёл ожидания — красиво, ровно. Ещё и материалы посчитал бесплатно заранее.»</p>
+        <div class="rev-author"><div class="rev-av"><svg><use href="#ic-person"/></svg></div><div><div class="rev-name">Гүлнар Б.</div><div class="rev-city" data-ru="Бишкек" data-kk="Бішкек">Бишкек</div></div></div>
+      </div>
+      <div class="rev-card fade-up" style="transition-delay:.16s">
+        <div class="rev-stars">★★★★★</div>
+        <p class="rev-text" data-ru="«Большой частный дом, облицовка двух фасадов. Всё чётко, геометрия идеальная, сдал в срок. Работаем дальше.»" data-kk="«Үлкен жеке үй, екі фасадты қаптау. Бәрі нақты, геометрия идеал, мерзімінде тапсырды.»">«Большой частный дом, облицовка двух фасадов. Всё чётко, геометрия идеальная, сдал в срок. Работаем дальше.»</p>
+        <div class="rev-author"><div class="rev-av"><svg><use href="#ic-person"/></svg></div><div><div class="rev-name">Нурлан Е.</div><div class="rev-city" data-ru="Астана" data-kk="Астана">Астана</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<div style="background:var(--bg3);border-top:1px solid var(--bds);border-bottom:1px solid var(--bds)">
+  <section class="section" id="contact">
+    <div class="container">
+      <div class="contact-inner">
+        <div class="fade-up">
+          <span class="lbl" data-ru="Контакты" data-kk="Байланыс">Контакты</span>
+          <h2 data-ru="Обсудим ваш проект" data-kk="Жобаңызды талқылайық">Обсудим ваш проект</h2>
+          <p style="margin:12px 0 32px" data-ru="Напишите или позвоните — расскажите об объекте. Ответим быстро." data-kk="Жазыңыз немесе қоңырау шалыңыз. Жылдам жауап береміз.">Напишите или позвоните — расскажите об объекте. Ответим быстро.</p>
+          <div class="c-links">
+            <!-- REPLACE href with real number -->
+            <a href="tel:+70000000000" class="c-link"><div class="c-link-icon"><svg><use href="#ic-phone"/></svg></div><div><div class="cl-label" data-ru="Телефон" data-kk="Телефон">Телефон</div><div class="cl-value">+7 (XXX) XXX-XX-XX</div></div></a>
+            <a href="https://wa.me/70000000000" class="c-link" target="_blank" rel="noopener"><div class="c-link-icon"><svg><use href="#ic-msg"/></svg></div><div><div class="cl-label">WhatsApp</div><div class="cl-value" data-ru="Написать в WhatsApp" data-kk="WhatsApp-қа жазу">Написать в WhatsApp</div></div></a>
+            <!-- REPLACE with real Instagram handle -->
+            <a href="https://instagram.com/yermeek" class="c-link" target="_blank" rel="noopener"><div class="c-link-icon"><svg><use href="#ic-insta"/></svg></div><div><div class="cl-label">Instagram</div><div class="cl-value">@yermeek</div></div></a>
+          </div>
+          <div class="c-loc"><svg><use href="#ic-pin"/></svg><span data-ru="Павлодар, Казахстан · KZ и KG" data-kk="Павлодар, Қазақстан · KZ және KG">Павлодар, Казахстан · KZ и KG</span></div>
+        </div>
+        <div class="fade-up" style="transition-delay:.1s">
+          <form class="calc-form" id="contactForm" onsubmit="submitForm(event,'contactForm','contactOk')">
+            <div class="form-group"><label class="form-label" data-ru="Имя" data-kk="Аты-жөні">Имя</label><input class="form-input" type="text" data-ph-ru="Ваше имя" data-ph-kk="Сіздің атыңыз" placeholder="Ваше имя" required></div>
+            <div class="form-group"><label class="form-label" data-ru="Телефон или email" data-kk="Телефон немесе email">Телефон или email</label><input class="form-input" type="text" data-ph-ru="+7 или email" data-ph-kk="+7 немесе email" placeholder="+7 или email" required></div>
+            <div class="form-group"><label class="form-label" data-ru="Сообщение" data-kk="Хабарлама">Сообщение</label><textarea class="form-input form-textarea" data-ph-ru="Расскажите о вашем проекте..." data-ph-kk="Жобаңыз туралы айтыңыз..." placeholder="Расскажите о вашем проекте..."></textarea></div>
+            <label class="form-check">
+              <input type="checkbox" id="contactAgree" required>
+              <span data-ru='Я согласен с <a href="offer.html" target="_blank">условиями оферты</a> и <a href="privacy.html" target="_blank">политикой конфиденциальности</a>' data-kk='Мен <a href="offer.html" target="_blank">оферта шарттарымен</a> және <a href="privacy.html" target="_blank">құпиялылық саясатымен</a> келісемін'>Я согласен с <a href="offer.html" target="_blank">условиями оферты</a> и <a href="privacy.html" target="_blank">политикой конфиденциальности</a></span>
+            </label>
+            <button type="submit" class="btn btn-p btn-lg" data-ru="Отправить" data-kk="Жіберу">Отправить</button>
+            <div class="form-ok" id="contactOk">✓ <span data-ru="Сообщение отправлено!" data-kk="Хабарлама жіберілді!">Сообщение отправлено!</span></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <svg width="26" height="20" viewBox="0 0 34 26"><rect x="0" y="0" width="15" height="10" rx="2" fill="#C9A84C"/><rect x="19" y="0" width="15" height="10" rx="2" fill="#C9A84C" opacity=".7"/><rect x="7" y="16" width="20" height="10" rx="2" fill="#DFC06A"/></svg>
+          <div class="logo-name" style="font-family:'Playfair Display',serif;font-size:1.1rem">YER<em style="color:var(--brick);font-style:normal">MEEK</em></div>
+        </div>
+        <div class="footer-copy" data-ru="© 2025 · Строй Мастер · Павлодар" data-kk="© 2025 · Строй Мастер · Павлодар">© 2025 · Строй Мастер · Павлодар</div>
+      </div>
+      <div class="footer-links">
+        <a href="#about" data-ru="О мастере" data-kk="Шебер туралы">О мастере</a>
+        <a href="#services" data-ru="Услуги" data-kk="Қызметтер">Услуги</a>
+        <a href="#portfolio" data-ru="Портфолио" data-kk="Портфолио">Портфолио</a>
+        <a href="#contact" data-ru="Контакты" data-kk="Байланыс">Контакты</a>
+        <a href="offer.html" data-ru="Оферта" data-kk="Оферта">Оферта</a>
+        <a href="privacy.html" data-ru="Конфиденциальность" data-kk="Құпиялылық">Конфиденциальность</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  let lang = 'ru';
+  let isDay = false;
+
+  function toggleMenu() {
+    const burger = document.getElementById('burger');
+    const menu = document.getElementById('mobileMenu');
+    burger.classList.toggle('open');
+    menu.classList.toggle('open');
+    document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
+  }
+
+  function toggleTheme() {
+    isDay = !isDay;
+    document.body.classList.toggle('day', isDay);
+    const icon = document.getElementById('themeIcon');
+    icon.innerHTML = isDay
+      ? '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>'
+      : '<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>';
+  }
+
+  function setLang(l) {
+    lang = l;
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.textContent.toLowerCase() === l));
+    document.querySelectorAll('[data-ru]').forEach(el => {
+      const v = el.getAttribute('data-' + l);
+      if (!v) return;
+      if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.placeholder = v;
+      else if (v.includes('<')) el.innerHTML = v;
+      else el.textContent = v;
+    });
+    document.querySelectorAll('[data-ph-' + l + ']').forEach(el => { el.placeholder = el.getAttribute('data-ph-' + l); });
+    document.documentElement.lang = l === 'kk' ? 'kk' : 'ru';
+  }
+
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', scrollY > 50);
+  }, { passive: true });
+
+  new IntersectionObserver((es) => {
+    es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.1 }).observe && document.querySelectorAll('.fade-up').forEach(el =>
+    new IntersectionObserver((es) => { if (es[0].isIntersecting) { el.classList.add('visible'); } }, { threshold: 0.1 }).observe(el)
+  );
+
+  function submitForm(e, formId, okId) {
+    e.preventDefault();
+    document.getElementById(formId).style.display = 'none';
+    const ok = document.getElementById(okId);
+    ok.style.display = 'block';
+    const sp = ok.querySelector('[data-' + lang + ']');
+    if (sp) ok.textContent = '✓ ' + sp.getAttribute('data-' + lang);
+  }
+</script>
+</body>
+</html>

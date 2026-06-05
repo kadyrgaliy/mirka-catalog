@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="ru" data-lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MirKa — Цифровой бизнес под ключ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:        #0B0C10;
+  --bg2:       #13141A;
+  --bg-card:   #161820;
+  --gold:      #C9A84C;
+  --gold-l:    #E2C06A;
+  --text:      #F0EDE6;
+  --text-muted:#7A7D8A;
+  --border:    rgba(255,255,255,0.07);
+  --shadow:    0 8px 40px rgba(0,0,0,0.45);
+  --radius:    18px;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ══ INTRO ══ */
+#intro {
+  position:fixed; inset:0; z-index:500;
+  background:#0B0C10;
+  display:flex; align-items:center; justify-content:center;
+  transition:opacity .7s ease, visibility .7s ease;
+}
+#intro.hide { opacity:0; visibility:hidden; pointer-events:none; }
+.intro-letters { display:flex; gap:.04em; }
+.intro-letter {
+  font-family:'Cormorant Garamond',serif; font-weight:600;
+  font-size:calc((100vw - 64px) / 5);
+  color:var(--text); line-height:1;
+  opacity:0; filter:blur(28px); transform:translateY(36px);
+  transition:opacity .7s cubic-bezier(.16,1,.3,1),
+              filter .7s cubic-bezier(.16,1,.3,1),
+              transform .7s cubic-bezier(.16,1,.3,1);
+}
+.intro-letter.in  { opacity:1; filter:blur(0); transform:translateY(0); }
+.intro-letter.out {
+  opacity:0; filter:blur(18px); transform:translateY(-14px);
+  transition-duration:.42s; transition-timing-function:cubic-bezier(.4,0,1,1);
+}
+
+/* ══ NAVBAR ══ */
+.navbar {
+  position:fixed; inset:0 0 auto 0; z-index:200;
+  height:70px; display:flex; align-items:center; justify-content:space-between;
+  padding:0 48px;
+  background:rgba(11,12,16,0.85); backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border); transition:box-shadow .3s;
+}
+.navbar.scrolled { box-shadow:0 2px 30px rgba(0,0,0,.5); }
+.nav-logo {
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.75rem; font-weight:600; letter-spacing:.22em;
+  color:var(--text); text-decoration:none;
+}
+.nav-logo span { color:var(--gold); }
+.nav-center { display:flex; gap:40px; list-style:none; }
+.nav-center a {
+  font-size:.78rem; font-weight:400; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--text-muted);
+  text-decoration:none; position:relative; transition:color .2s;
+}
+.nav-center a::after {
+  content:''; position:absolute; bottom:-3px; left:0;
+  width:0; height:1px; background:var(--gold); transition:width .3s ease;
+}
+.nav-center a:hover { color:var(--gold); }
+.nav-center a:hover::after { width:100%; }
+.nav-right { display:flex; align-items:center; gap:10px; }
+
+.icon-link {
+  display:flex; align-items:center; justify-content:center;
+  width:36px; height:36px; border:1px solid var(--border);
+  border-radius:50%; color:var(--text-muted); text-decoration:none; transition:all .2s;
+}
+.icon-link:hover { border-color:var(--gold); color:var(--gold); }
+.icon-link.tg:hover { border-color:#2AABEE; color:#2AABEE; }
+.icon-link.ig:hover { border-color:#E1306C; color:#E1306C; }
+.icon-link svg { width:16px; height:16px; fill:currentColor; }
+
+.lang-toggle {
+  display:flex; background:rgba(255,255,255,.06);
+  border-radius:20px; padding:3px; gap:3px;
+}
+.lang-btn {
+  padding:5px 16px; border:none; background:transparent;
+  font-family:'Jost',sans-serif; font-size:.75rem; font-weight:500;
+  letter-spacing:.1em; color:var(--text-muted); cursor:pointer;
+  border-radius:16px; transition:all .22s;
+}
+.lang-btn.active { background:var(--gold); color:#0B0C10; }
+
+.burger {
+  display:none; flex-direction:column; gap:5px;
+  cursor:pointer; padding:6px; background:none; border:none;
+}
+.burger span {
+  display:block; width:22px; height:2px;
+  background:var(--text); border-radius:2px; transition:all .28s ease;
+}
+.burger.open span:nth-child(1) { transform:translateY(7px) rotate(45deg); }
+.burger.open span:nth-child(2) { opacity:0; transform:scaleX(0); }
+.burger.open span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
+
+.mobile-menu {
+  display:none; position:fixed; inset:70px 0 0 0;
+  background:rgba(11,12,16,.97); backdrop-filter:blur(20px);
+  z-index:190; flex-direction:column; align-items:center;
+  justify-content:center; gap:40px;
+}
+.mobile-menu.open { display:flex; }
+.mobile-menu a {
+  font-family:'Cormorant Garamond',serif; font-size:2.4rem;
+  font-weight:400; letter-spacing:.12em; color:var(--text);
+  text-decoration:none; transition:color .2s;
+}
+.mobile-menu a:hover { color:var(--gold); }
+.mobile-menu-lang {
+  display:flex; gap:6px; background:rgba(255,255,255,.06);
+  border-radius:20px; padding:4px;
+}
+
+/* ══ HERO ══ */
+.hero {
+  position:relative; height:100vh; min-height:560px;
+  display:flex; align-items:center; justify-content:center; overflow:hidden;
+}
+.hero-bg {
+  position:absolute; inset:0;
+  background-image:url('https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=1920&q=85');
+  background-size:cover; background-position:center 40%;
+  transform:scale(1.04); transition:transform 10s ease;
+}
+.hero:hover .hero-bg { transform:scale(1); }
+.hero-overlay {
+  position:absolute; inset:0;
+  background:linear-gradient(to bottom,
+    rgba(11,12,16,.55) 0%, rgba(11,12,16,.75) 55%, rgba(11,12,16,.95) 100%);
+}
+.particles-wrap {
+  position:absolute; inset:0; pointer-events:none; z-index:1; overflow:hidden;
+}
+.particle {
+  position:absolute; border-radius:50%;
+  background:radial-gradient(circle, rgba(201,168,76,.55) 0%, transparent 70%);
+  animation:particleFloat var(--pdur,8s) var(--pdel,0s) ease-in-out infinite; opacity:0;
+}
+@keyframes particleFloat {
+  0%   { opacity:0; transform:translateY(0) scale(1); }
+  15%  { opacity:.55; }
+  85%  { opacity:.12; }
+  100% { opacity:0; transform:translateY(-80vh) scale(.4); }
+}
+
+.hero-content {
+  position:relative; z-index:2; text-align:center; padding:24px;
+  opacity:0; transition:opacity .8s ease;
+}
+.hero-content.show { opacity:1; }
+.hero-eyebrow {
+  font-size:.72rem; letter-spacing:.38em; text-transform:uppercase;
+  color:var(--gold-l); opacity:0; margin-bottom:20px; transform:translateY(20px);
+  transition:opacity .9s ease .1s, transform .9s ease .1s;
+}
+.hero-content.show .hero-eyebrow { opacity:.9; transform:translateY(0); }
+.hero-title {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(5rem,14vw,11rem); font-weight:300;
+  letter-spacing:.26em; line-height:.9; text-transform:uppercase;
+  text-shadow:0 4px 60px rgba(0,0,0,.6);
+  opacity:0; transform:translateY(28px); filter:blur(12px);
+  transition:opacity 1s cubic-bezier(.16,1,.3,1) .22s,
+              transform 1s cubic-bezier(.16,1,.3,1) .22s,
+              filter 1s cubic-bezier(.16,1,.3,1) .22s;
+}
+.hero-content.show .hero-title { opacity:1; transform:translateY(0); filter:blur(0); }
+.hero-title span { color:var(--gold); }
+.hero-ornament {
+  display:flex; align-items:center; justify-content:center;
+  gap:16px; margin:28px auto;
+  opacity:0; transform:translateY(14px);
+  transition:opacity .9s ease .38s, transform .9s ease .38s;
+}
+.hero-content.show .hero-ornament { opacity:1; transform:translateY(0); }
+.hero-ornament-line { width:48px; height:1px; background:var(--gold); opacity:.5; }
+.hero-ornament-dot  { width:5px; height:5px; background:var(--gold); border-radius:50%; }
+.hero-tagline {
+  font-size:1rem; font-weight:300; letter-spacing:.16em;
+  color:rgba(240,237,230,.85);
+  opacity:0; transform:translateY(14px);
+  transition:opacity .9s ease .5s, transform .9s ease .5s;
+}
+.hero-content.show .hero-tagline { opacity:1; transform:translateY(0); }
+.hero-cta {
+  margin-top:36px; display:inline-flex; gap:12px; flex-wrap:wrap; justify-content:center;
+  opacity:0; transform:translateY(14px);
+  transition:opacity .9s ease .62s, transform .9s ease .62s;
+}
+.hero-content.show .hero-cta { opacity:1; transform:translateY(0); }
+
+.btn-primary {
+  display:inline-flex; align-items:center; gap:8px;
+  padding:14px 32px; background:var(--gold); color:#0B0C10;
+  border:none; border-radius:50px; font-family:'Jost',sans-serif;
+  font-size:.9rem; font-weight:600; letter-spacing:.08em;
+  cursor:pointer; text-decoration:none; transition:background .2s, transform .15s;
+}
+.btn-primary:hover { background:var(--gold-l); transform:scale(1.03); }
+.btn-secondary {
+  display:inline-flex; align-items:center; gap:8px;
+  padding:14px 32px; background:transparent; color:var(--text);
+  border:1px solid rgba(255,255,255,.2); border-radius:50px;
+  font-family:'Jost',sans-serif; font-size:.9rem; font-weight:400;
+  letter-spacing:.08em; cursor:pointer; text-decoration:none; transition:border-color .2s, color .2s;
+}
+.btn-secondary:hover { border-color:var(--gold); color:var(--gold); }
+
+.hero-scroll-hint {
+  position:absolute; bottom:32px; left:50%; transform:translateX(-50%);
+  display:flex; flex-direction:column; align-items:center; gap:10px;
+  color:rgba(240,237,230,.3); font-size:.65rem; letter-spacing:.22em; text-transform:uppercase;
+  opacity:0; transition:opacity .8s ease 1s;
+}
+.hero-scroll-hint.show { opacity:1; animation:scrollBounce 2.4s ease-in-out 1s infinite; }
+.hero-scroll-hint svg { width:18px; height:18px; stroke:currentColor; fill:none; stroke-width:1.5; }
+@keyframes scrollBounce {
+  0%,100% { transform:translateX(-50%) translateY(0); }
+  50%      { transform:translateX(-50%) translateY(8px); }
+}
+
+/* ══ REVEAL ══ */
+.r { opacity:0; transform:translateY(28px); transition:opacity .75s ease, transform .75s ease; }
+.r.on { opacity:1; transform:translateY(0); }
+.r.d1 { transition-delay:.1s; } .r.d2 { transition-delay:.2s; } .r.d3 { transition-delay:.3s; }
+
+/* ══ INFO ══ */
+.info-section { padding:88px 48px; }
+.info-inner   { max-width:1080px; margin:0 auto; }
+.section-label {
+  font-size:.76rem; letter-spacing:.28em; text-transform:uppercase;
+  color:var(--gold); font-weight:500; margin-bottom:14px; text-align:center;
+}
+.section-heading {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2.4rem,5vw,3.8rem); font-weight:400;
+  text-align:center; margin-bottom:56px;
+}
+.info-cards { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+.info-card {
+  background:var(--bg-card); border:1px solid var(--border);
+  border-radius:var(--radius); padding:40px 28px; text-align:center;
+  transition:transform .25s, box-shadow .25s, border-color .25s;
+  position:relative; overflow:hidden;
+}
+.info-card::before {
+  content:''; position:absolute; top:0; left:50%; transform:translateX(-50%);
+  width:40px; height:2px; background:var(--gold);
+  border-radius:0 0 2px 2px; transition:width .3s;
+}
+.info-card:hover { transform:translateY(-5px); box-shadow:var(--shadow); border-color:rgba(201,168,76,.25); }
+.info-card:hover::before { width:80px; }
+.info-icon { font-size:2rem; margin-bottom:18px; display:block; }
+.info-card-label {
+  font-size:.72rem; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--gold); font-weight:500; margin-bottom:10px;
+}
+.info-card-value {
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.35rem; font-weight:500; line-height:1.45;
+}
+.info-card-sub { margin-top:8px; font-size:.85rem; color:var(--text-muted); }
+.info-card-sub a { color:var(--gold); text-decoration:none; }
+.info-card-sub a:hover { text-decoration:underline; }
+
+/* ══ DIVIDER ══ */
+.divider {
+  max-width:1080px; margin:0 auto; height:1px;
+  background:linear-gradient(to right, transparent, var(--border), transparent);
+}
+
+/* ══ SERVICES ══ */
+.services-section { padding:88px 48px 110px; }
+.services-inner   { max-width:1200px; margin:0 auto; }
+.category-filter {
+  display:flex; flex-wrap:wrap; gap:8px;
+  justify-content:center; margin-bottom:52px;
+}
+.cat-btn {
+  padding:10px 24px; border:1px solid var(--border);
+  background:transparent; font-family:'Jost',sans-serif;
+  font-size:.88rem; font-weight:400; letter-spacing:.06em;
+  color:var(--text-muted); cursor:pointer; border-radius:24px; transition:all .2s; white-space:nowrap;
+}
+.cat-btn:hover { border-color:var(--gold); color:var(--gold); background:rgba(201,168,76,.05); }
+.cat-btn.active { background:var(--gold); border-color:var(--gold); color:#0B0C10; font-weight:500; }
+
+.services-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+.service-card {
+  background:var(--bg-card); border:1px solid var(--border);
+  border-radius:var(--radius); padding:28px 24px;
+  display:flex; flex-direction:column;
+  transition:transform .22s, box-shadow .22s, border-color .22s;
+  animation:cardIn .35s ease both;
+}
+.service-card:hover {
+  transform:translateY(-4px); box-shadow:var(--shadow);
+  border-color:rgba(201,168,76,.3);
+}
+@keyframes cardIn {
+  from { opacity:0; transform:translateY(14px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.card-icon {
+  width:44px; height:44px; border-radius:12px; border:1px solid var(--border);
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.3rem; margin-bottom:18px; background:rgba(201,168,76,.08);
+}
+.card-cat-tag {
+  display:inline-block; font-size:.65rem; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--gold); margin-bottom:8px; font-weight:500;
+}
+.card-name {
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.2rem; font-weight:600; line-height:1.3; margin-bottom:10px;
+}
+.card-desc {
+  font-size:.86rem; color:var(--text-muted); line-height:1.65; flex:1; margin-bottom:20px;
+}
+.card-cta {
+  display:inline-flex; align-items:center; gap:6px;
+  padding:9px 18px;
+  background:rgba(201,168,76,.1); color:var(--gold);
+  border:1px solid rgba(201,168,76,.25); border-radius:20px;
+  font-family:'Jost',sans-serif; font-size:.8rem; font-weight:500;
+  cursor:pointer; text-decoration:none; transition:all .2s; align-self:flex-start;
+}
+.card-cta:hover { background:var(--gold); color:#0B0C10; border-color:var(--gold); }
+.card-cta svg { width:14px; height:14px; fill:currentColor; }
+
+/* ══ FOOTER ══ */
+footer {
+  background:#08090D; padding:68px 48px 40px; border-top:1px solid var(--border);
+}
+.footer-grid {
+  max-width:1080px; margin:0 auto;
+  display:grid; grid-template-columns:1.4fr 1fr 1fr; gap:48px;
+  padding-bottom:48px; border-bottom:1px solid var(--border);
+}
+.footer-brand-name {
+  font-family:'Cormorant Garamond',serif;
+  font-size:2.1rem; font-weight:300; letter-spacing:.26em; margin-bottom:8px;
+}
+.footer-brand-name span { color:var(--gold); }
+.footer-brand-sub { font-size:.78rem; letter-spacing:.1em; color:var(--text-muted); }
+.footer-col h4 {
+  font-size:.66rem; letter-spacing:.26em; text-transform:uppercase;
+  color:var(--gold); font-weight:500; margin-bottom:18px;
+}
+.footer-col p, .footer-col a {
+  display:block; font-size:.86rem; line-height:1.95;
+  color:var(--text-muted); text-decoration:none; transition:color .2s;
+}
+.footer-col a:hover { color:var(--gold); }
+.footer-bottom {
+  max-width:1080px; margin:28px auto 0;
+  font-size:.72rem; color:var(--text-muted); opacity:.35; letter-spacing:.06em;
+}
+
+/* ══ RESPONSIVE ══ */
+@media (max-width:960px) {
+  .navbar { padding:0 20px; }
+  .nav-center { display:none; }
+  .burger { display:flex; }
+  .info-section  { padding:56px 20px 48px; }
+  .services-section { padding:56px 20px 80px; }
+  footer { padding:52px 20px 32px; }
+  .info-cards    { grid-template-columns:1fr; gap:14px; }
+  .services-grid { grid-template-columns:repeat(2,1fr); gap:14px; }
+  .footer-grid   { grid-template-columns:1fr; gap:28px; }
+  .section-heading { margin-bottom:36px; }
+  .category-filter {
+    flex-wrap:nowrap; overflow-x:auto; justify-content:flex-start;
+    padding-bottom:8px; -webkit-overflow-scrolling:touch; scrollbar-width:none;
+  }
+  .category-filter::-webkit-scrollbar { display:none; }
+}
+@media (max-width:480px) {
+  .navbar { height:56px; padding:0 16px; }
+  .nav-logo { font-size:1.4rem; }
+  .mobile-menu { inset:56px 0 0 0; }
+  .mobile-menu a { font-size:1.9rem; }
+  .intro-letter { font-size:calc((100vw - 32px) / 5); }
+  .hero-title { letter-spacing:.1em; }
+  .hero-eyebrow { font-size:.65rem; letter-spacing:.22em; }
+  .hero-tagline { font-size:.86rem; }
+  .btn-primary, .btn-secondary { padding:12px 22px; font-size:.84rem; }
+  .info-section  { padding:44px 16px 40px; }
+  .services-section { padding:44px 16px 70px; }
+  .services-grid { grid-template-columns:1fr; }
+  .section-heading { font-size:2.1rem; }
+  .info-card { padding:24px 18px; }
+  .card-name { font-size:1.1rem; }
+  .card-desc { font-size:.82rem; }
+  footer { padding:40px 16px 28px; }
+  .footer-brand-name { font-size:1.6rem; }
+  .footer-grid { gap:24px; }
+  .divider { margin:0 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- INTRO -->
+<div id="intro">
+  <div class="intro-letters">
+    <span class="intro-letter">M</span>
+    <span class="intro-letter">I</span>
+    <span class="intro-letter">R</span>
+    <span class="intro-letter">K</span>
+    <span class="intro-letter">A</span>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <a href="#" class="nav-logo">MIR<span>KA</span></a>
+  <ul class="nav-center">
+    <li><a href="#services" data-ru="Услуги"   data-kz="Қызметтер">Услуги</a></li>
+    <li><a href="#info"     data-ru="О нас"    data-kz="Біз туралы">О нас</a></li>
+    <li><a href="#contact"  data-ru="Контакты" data-kz="Байланыс">Контакты</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="https://t.me/kadyrgaliy" target="_blank" class="icon-link tg" title="Telegram">
+      <svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+    </a>
+    <a href="https://instagram.com/kadyrgaliy" target="_blank" class="icon-link ig" title="Instagram">
+      <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+    </a>
+    <div class="lang-toggle">
+      <button class="lang-btn active" id="btn-ru" onclick="setLang('ru')">RU</button>
+      <button class="lang-btn"        id="btn-kz" onclick="setLang('kz')">KZ</button>
+    </div>
+    <button class="burger" id="burger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#services" onclick="toggleMenu()" data-ru="Услуги"   data-kz="Қызметтер">Услуги</a>
+  <a href="#info"     onclick="toggleMenu()" data-ru="О нас"    data-kz="Біз туралы">О нас</a>
+  <a href="#contact"  onclick="toggleMenu()" data-ru="Контакты" data-kz="Байланыс">Контакты</a>
+  <div class="mobile-menu-lang">
+    <button class="lang-btn active" id="btn-ru2" onclick="setLang('ru');toggleMenu()">RU</button>
+    <button class="lang-btn"        id="btn-kz2" onclick="setLang('kz');toggleMenu()">KZ</button>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="particles-wrap" id="particles"></div>
+  <div class="hero-content" id="heroContent">
+    <p class="hero-eyebrow"
+       data-ru="Цифровые решения для вашего бизнеса"
+       data-kz="Бизнесіңізге арналған цифрлы шешімдер">Цифровые решения для вашего бизнеса</p>
+    <h1 class="hero-title">MIR<span>KA</span></h1>
+    <div class="hero-ornament">
+      <span class="hero-ornament-line"></span>
+      <span class="hero-ornament-dot"></span>
+      <span class="hero-ornament-line"></span>
+    </div>
+    <p class="hero-tagline"
+       data-ru="Бизнесіңізді цифрлы жасаймыз — боттан автоматизацияға дейін"
+       data-kz="Бизнесіңізді цифрлы жасаймыз — боттан автоматизацияға дейін">
+      Бизнесіңізді цифрлы жасаймыз — боттан автоматизацияға дейін
+    </p>
+    <div class="hero-cta">
+      <a href="https://wa.me/77016764677" target="_blank" class="btn-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.122.554 4.122 1.524 5.854L.057 23.927l6.26-1.642A11.942 11.942 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.836 9.836 0 0 1-5.011-1.371l-.36-.214-3.724.977.994-3.635-.235-.374A9.818 9.818 0 0 1 2.182 12c0-5.42 4.398-9.818 9.818-9.818 5.42 0 9.818 4.398 9.818 9.818 0 5.42-4.398 9.818-9.818 9.818z"/></svg>
+        <span data-ru="Бесплатная консультация" data-kz="Тегін консультация">Бесплатная консультация</span>
+      </a>
+      <a href="#services" class="btn-secondary">
+        <span data-ru="Смотреть услуги" data-kz="Қызметтерді көру">Смотреть услуги</span>
+      </a>
+    </div>
+  </div>
+  <div class="hero-scroll-hint" id="scrollHint">
+    <span data-ru="Листать" data-kz="Төмен">Листать</span>
+    <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+  </div>
+</section>
+
+<!-- INFO -->
+<section class="info-section" id="info">
+  <div class="info-inner">
+    <p class="section-label r" data-ru="Всё, что нужно знать" data-kz="Білу керек нәрселер">Всё, что нужно знать</p>
+    <h2 class="section-heading r d1" data-ru="О нас" data-kz="Біз туралы">О нас</h2>
+    <div class="info-cards">
+      <div class="info-card r d1">
+        <span class="info-icon">⚡</span>
+        <div class="info-card-label" data-ru="Специализация" data-kz="Мамандық">Специализация</div>
+        <div class="info-card-value" data-ru="AI · Боты · Сайты · Автоматизация" data-kz="AI · Боттар · Сайттар · Автоматизация">AI · Боты · Сайты · Автоматизация</div>
+        <div class="info-card-sub"   data-ru="Цифровой бизнес под ключ"          data-kz="Цифрлы бизнес кілтке дейін">Цифровой бизнес под ключ</div>
+      </div>
+      <div class="info-card r d2">
+        <span class="info-icon">🌍</span>
+        <div class="info-card-label" data-ru="Работаем"               data-kz="Жұмыс">Работаем</div>
+        <div class="info-card-value" data-ru="По всему Казахстану"     data-kz="Бүкіл Қазақстан бойынша">По всему Казахстану</div>
+        <div class="info-card-sub"   data-ru="Онлайн · Удалённо"       data-kz="Онлайн · Қашықтан">Онлайн · Удалённо</div>
+      </div>
+      <div class="info-card r d3" id="contact">
+        <span class="info-icon">💬</span>
+        <div class="info-card-label" data-ru="Контакты" data-kz="Байланыс">Контакты</div>
+        <div class="info-card-value">+7 (701) 676-46-77</div>
+        <div class="info-card-sub">
+          <a href="https://wa.me/77016764677" target="_blank">WhatsApp</a>
+          &nbsp;·&nbsp;
+          <a href="https://t.me/kadyrgaliy"   target="_blank">Telegram @kadyrgaliy</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider" style="margin:0 48px;"></div>
+
+<!-- SERVICES -->
+<section class="services-section" id="services">
+  <div class="services-inner">
+    <p class="section-label r" data-ru="Что мы делаем" data-kz="Не жасаймыз">Что мы делаем</p>
+    <h2 class="section-heading r d1" data-ru="Услуги" data-kz="Қызметтер">Услуги</h2>
+    <div class="category-filter r d2" id="categoryFilter"></div>
+    <div class="services-grid" id="servicesGrid"></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand-name">MIR<span>KA</span></div>
+      <div class="footer-brand-sub" data-ru="Цифровой бизнес под ключ" data-kz="Цифрлы бизнес кілтке дейін">Цифровой бизнес под ключ</div>
+    </div>
+    <div class="footer-col">
+      <h4 data-ru="Контакты" data-kz="Байланыс">Контакты</h4>
+      <a href="https://wa.me/77016764677" target="_blank">WhatsApp: +7 (701) 676-46-77</a>
+      <a href="https://t.me/kadyrgaliy"   target="_blank">Telegram: @kadyrgaliy</a>
+    </div>
+    <div class="footer-col">
+      <h4 data-ru="Услуги" data-kz="Қызметтер">Услуги</h4>
+      <p>Telegram Bot</p>
+      <p>Landing Page</p>
+      <p data-ru="Бизнес сайт"   data-kz="Бизнес сайт">Бизнес сайт</p>
+      <p data-ru="Автоматизация" data-kz="Автоматизация">Автоматизация</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span data-ru="© 2025 MirKa. Все права защищены."
+          data-kz="© 2025 MirKa. Барлық құқықтар қорғалған.">© 2025 MirKa. Все права защищены.</span>
+  </div>
+</footer>
+
+<script>
+const CATS = [
+  { id:'all',     ru:'Все услуги',        kz:'Барлық қызметтер'     },
+  { id:'bot',     ru:'Боты',              kz:'Боттар'               },
+  { id:'landing', ru:'Landing Page',      kz:'Landing Page'         },
+  { id:'website', ru:'Бизнес сайт',       kz:'Бизнес сайт'          },
+  { id:'auto',    ru:'Автоматизация',     kz:'Автоматизация'        },
+  { id:'saas',    ru:'SaaS',              kz:'SaaS'                 },
+  { id:'design',  ru:'Дизайн (Figma)',    kz:'Дизайн (Figma)'       },
+  { id:'support', ru:'Поддержка',         kz:'Қолдау'               },
+];
+
+const CAT_NAME = { bot:'Боты', landing:'Landing Page', website:'Бизнес сайт', auto:'Автоматизация', saas:'SaaS', design:'Дизайн (Figma)', support:'Поддержка' };
+const WA = 'https://wa.me/77016764677?text=';
+
+const ITEMS = [
+  // Telegram Bot
+  { c:'bot', icon:'🤖',
+    n_ru:'Автоответы 24/7', n_kz:'Автожауап 24/7',
+    d_ru:'Бот автоматически отвечает на вопросы клиентов круглосуточно без вашего участия.',
+    d_kz:'Бот тәулік бойы клиенттер сұрақтарына сіздің қатысуыңызсыз жауап береді.' },
+  { c:'bot', icon:'🛒',
+    n_ru:'Приём заказов', n_kz:'Тапсырыс қабылдау',
+    d_ru:'Клиенты оформляют заказы прямо в боте — вы получаете уведомление мгновенно.',
+    d_kz:'Клиенттер тікелей ботта тапсырыс береді — сіз лезде хабарлама аласыз.' },
+  { c:'bot', icon:'💬',
+    n_ru:'FAQ бот', n_kz:'FAQ бот',
+    d_ru:'Автоматические ответы на частые вопросы. Экономит время и снижает нагрузку на вас.',
+    d_kz:'Жиі қойылатын сұрақтарға автоматты жауаптар. Уақытты үнемдейді.' },
+  { c:'bot', icon:'🔗',
+    n_ru:'CRM интеграция', n_kz:'CRM интеграция',
+    d_ru:'Данные клиентов автоматически сохраняются в вашу CRM или Google Sheets.',
+    d_kz:'Клиент деректері автоматты CRM немесе Google Sheets-ке сақталады.' },
+  { c:'bot', icon:'📢',
+    n_ru:'Рассылки и уведомления', n_kz:'Хабарлама жіберу',
+    d_ru:'Массовые рассылки акций, напоминаний и новостей по всей базе клиентов.',
+    d_kz:'Клиент базасына жаппай акциялар, еске салулар және жаңалықтар жіберу.' },
+  { c:'bot', icon:'💚',
+    n_ru:'WhatsApp бот', n_kz:'WhatsApp бот',
+    d_ru:'Автоматизация переписки в WhatsApp: ответы, заявки, уведомления — без вашего участия.',
+    d_kz:'WhatsApp хат-хабарды автоматтандыру: жауаптар, өтінімдер, хабарламалар.' },
+  { c:'bot', icon:'🧾',
+    n_ru:'Kaspi чек-бот', n_kz:'Kaspi чек-боты',
+    d_ru:'Автоматическая проверка оплаты через Kaspi QR. Подтверждение заказа мгновенно.',
+    d_kz:'Kaspi QR арқылы төлемді автоматты тексеру. Тапсырысты лезде растау.' },
+
+  // Landing Page
+  { c:'landing', icon:'🎨',
+    n_ru:'Дизайн под бренд', n_kz:'Брендке сай дизайн',
+    d_ru:'Уникальный дизайн, отражающий ваш стиль и ценности. Никаких шаблонов.',
+    d_kz:'Сіздің стиліңіз бен құндылықтарыңызды бейнелейтін бірегей дизайн.' },
+  { c:'landing', icon:'📱',
+    n_ru:'Мобильная адаптация', n_kz:'Мобильды бейімдеу',
+    d_ru:'Сайт идеально отображается на телефоне, планшете и компьютере.',
+    d_kz:'Сайт телефонда, планшетте және компьютерде мінсіз көрінеді.' },
+  { c:'landing', icon:'🚀',
+    n_ru:'Быстрая загрузка + SEO', n_kz:'Жылдам жүктелу + SEO',
+    d_ru:'Оптимизирован для поисковых систем и молниеносной загрузки страницы.',
+    d_kz:'Іздеу жүйелері мен жарқылдай жүктелу үшін оңтайландырылған.' },
+  { c:'landing', icon:'📋',
+    n_ru:'Форма сбора лидов', n_kz:'Лид жинау формасы',
+    d_ru:'Встроенная форма заявки с отправкой на WhatsApp или на email.',
+    d_kz:'WhatsApp немесе email-ге жіберумен кірістірілген өтінім формасы.' },
+  { c:'landing', icon:'⏱',
+    n_ru:'Готово за 7 дней', n_kz:'7 күнде дайын',
+    d_ru:'Готовый работающий сайт за 7 рабочих дней. Гарантировано.',
+    d_kz:'7 жұмыс күнінде дайын жұмыс істейтін сайт. Кепілді.' },
+
+  // Бизнес сайт
+  { c:'website', icon:'🌐',
+    n_ru:'Многостраничный сайт', n_kz:'Көп беттік сайт',
+    d_ru:'Полноценный сайт компании: главная, о нас, услуги, портфолио, контакты.',
+    d_kz:'Компанияның толыққанды сайты: басты, біз туралы, қызметтер, портфолио, байланыс.' },
+  { c:'website', icon:'📦',
+    n_ru:'Каталог услуг и товаров', n_kz:'Қызметтер мен тауарлар каталогы',
+    d_ru:'Удобный каталог с фильтрами, ценами и описаниями для ваших продуктов.',
+    d_kz:'Сіздің өнімдеріңіз үшін сүзгілері, бағалары мен сипаттамалары бар каталог.' },
+  { c:'website', icon:'📩',
+    n_ru:'Умные формы обратной связи', n_kz:'Ақылды байланыс формалары',
+    d_ru:'Формы с автоуведомлением менеджеру и подтверждением клиенту.',
+    d_kz:'Менеджерге автохабарлама және клиентке растаумен формалар.' },
+  { c:'website', icon:'🛠',
+    n_ru:'Панель управления', n_kz:'Басқару панелі',
+    d_ru:'Простая CMS — редактируйте тексты и фото самостоятельно, без разработчика.',
+    d_kz:'Қарапайым CMS — мәтіндер мен фотоларды өзіңіз, әзірлеушісіз өңдеңіз.' },
+  { c:'website', icon:'🛍',
+    n_ru:'E-commerce модуль', n_kz:'E-commerce модулі',
+    d_ru:'Онлайн-оплата, корзина, управление заказами — продавайте 24/7.',
+    d_kz:'Онлайн-төлем, себет, тапсырыстарды басқару — 24/7 сатыңыз.' },
+
+  // Автоматизация
+  { c:'auto', icon:'⚙️',
+    n_ru:'n8n / Make / Zapier', n_kz:'n8n / Make / Zapier',
+    d_ru:'Настройка автоматизаций на ведущих платформах. Любые интеграции без кода.',
+    d_kz:'Жетекші платформаларда автоматизацияларды баптау. Коdsыз кез келген интеграциялар.' },
+  { c:'auto', icon:'📊',
+    n_ru:'Google Sheets интеграция', n_kz:'Google Sheets интеграция',
+    d_ru:'Автоматический сбор данных, отчёты и аналитика в реальном времени.',
+    d_kz:'Деректерді автоматты жинау, нақты уақыттағы есептер мен аналитика.' },
+  { c:'auto', icon:'🔄',
+    n_ru:'Автообновление CRM', n_kz:'CRM автожаңарту',
+    d_ru:'Клиентская база автоматически обновляется при каждом новом обращении.',
+    d_kz:'Клиент базасы әрбір жаңа өтінімде автоматты жаңарады.' },
+  { c:'auto', icon:'📲',
+    n_ru:'Мессенджер-автоматизация', n_kz:'Мессенджер-автоматизация',
+    d_ru:'Автоматические сообщения в WhatsApp, Telegram и Email по триггерам.',
+    d_kz:'Триггерлер бойынша WhatsApp, Telegram және Email-де автоматты хабарлар.' },
+  { c:'auto', icon:'📈',
+    n_ru:'Авто-отчёты и аналитика', n_kz:'Авто-есептер мен аналитика',
+    d_ru:'Еженедельные и ежемесячные отчёты генерируются и отправляются автоматически.',
+    d_kz:'Апталық және айлық есептер автоматты жасалып жіберіледі.' },
+  { c:'auto', icon:'🗂',
+    n_ru:'Упаковка / Документация', n_kz:'Упаковка / Құжаттама',
+    d_ru:'Оформление бизнес-процессов: регламенты, инструкции, шаблоны документов.',
+    d_kz:'Бизнес-процестерді рәсімдеу: регламенттер, нұсқаулықтар, құжат үлгілері.' },
+  { c:'auto', icon:'🧭',
+    n_ru:'Консалтинг', n_kz:'Консалтинг',
+    d_ru:'Индивидуальная сессия: анализ бизнеса, точки роста, план монетизации.',
+    d_kz:'Жеке сессия: бизнесті талдау, өсу нүктелері, монетизация жоспары.' },
+
+  // SaaS
+  { c:'saas', icon:'☁️',
+    n_ru:'Готовая SaaS-платформа', n_kz:'Дайын SaaS-платформа',
+    d_ru:'Подключение к готовому SaaS-решению. Быстрый старт без разработки с нуля.',
+    d_kz:'Дайын SaaS-шешімге қосылу. Нөлден әзірлемей жылдам бастау.' },
+  { c:'saas', icon:'🏗',
+    n_ru:'Разработка SaaS под клиента', n_kz:'Клиентке SaaS жасап беру',
+    d_ru:'Создание кастомной SaaS-платформы: авторизация, дашборд, API, подписки.',
+    d_kz:'Тапсырыс бойынша SaaS-платформа жасау: авторизация, дашборд, API, жазылым.' },
+  { c:'saas', icon:'🔑',
+    n_ru:'White-label решение', n_kz:'White-label шешім',
+    d_ru:'Готовый продукт под вашим брендом — продавайте как свой SaaS.',
+    d_kz:'Сіздің брендіңіздегі дайын өнім — өзіңіздің SaaS ретінде сатыңыз.' },
+
+  // Дизайн (Figma)
+  { c:'design', icon:'🖼',
+    n_ru:'Прайс-лист (авторский)', n_kz:'Прайс-лист (авторлық)',
+    d_ru:'Уникальный прайс-лист в Figma под ваш бренд. Не шаблон — авторская работа.',
+    d_kz:'Figma-да брендіңізге сай бірегей прайс-лист. Шаблон емес — авторлық жұмыс.' },
+  { c:'design', icon:'📑',
+    n_ru:'Коммерческое предложение', n_kz:'Коммерциялық ұсыныс',
+    d_ru:'Продающее КП с дизайном, структурой и убедительным текстом.',
+    d_kz:'Дизайны, құрылымы және сенімді мәтіні бар сататын КП.' },
+  { c:'design', icon:'📽',
+    n_ru:'Презентация (10 слайдов)', n_kz:'Презентация (10 слайд)',
+    d_ru:'Профессиональная презентация для инвесторов, клиентов или питчей.',
+    d_kz:'Инвесторлар, клиенттер немесе питчтер үшін кәсіби презентация.' },
+  { c:'design', icon:'💳',
+    n_ru:'Визитка', n_kz:'Визитка',
+    d_ru:'Стильная цифровая или печатная визитка в фирменном стиле.',
+    d_kz:'Фирмалық стильде стильді цифрлы немесе басылым визитка.' },
+  { c:'design', icon:'🎯',
+    n_ru:'Корпоративный стиль', n_kz:'Корпоративті стиль',
+    d_ru:'Полный брендинг-пакет: логотип, цвета, шрифты, шаблоны документов.',
+    d_kz:'Толық брендинг-пакет: логотип, түстер, қаріптер, құжат үлгілері.' },
+
+  // Қолдау / Поддержка
+  { c:'support', icon:'🛡',
+    n_ru:'Ежемесячная поддержка', n_kz:'Айлық қолдау',
+    d_ru:'Обновления, исправления, мелкие доработки — всё включено в один тариф.',
+    d_kz:'Жаңартулар, түзетулер, шағын жетілдірулер — бәрі бір тарифте.' },
+  { c:'support', icon:'🔒',
+    n_ru:'Поддержка 3 месяца', n_kz:'3 айлық қолдау',
+    d_ru:'Расширенная поддержка на 3 месяца: приоритетные ответы и мониторинг.',
+    d_kz:'3 айға кеңейтілген қолдау: басым жауаптар және мониторинг.' },
+  { c:'support', icon:'⚡',
+    n_ru:'Срочная доработка', n_kz:'Жедел жетілдіру',
+    d_ru:'Быстрое внесение изменений в срок до 24 часов по вашему запросу.',
+    d_kz:'Сіздің өтінішіңіз бойынша 24 сағатқа дейін өзгерістерді жылдам енгізу.' },
+];
+
+let lang = 'ru', activeCat = 'all';
+
+function setLang(l) {
+  lang = l;
+  document.documentElement.setAttribute('data-lang', l);
+  document.querySelectorAll('[data-ru][data-kz]').forEach(el => {
+    el.textContent = el.getAttribute('data-' + l);
+  });
+  ['btn-ru','btn-ru2'].forEach(id => { const e=document.getElementById(id); if(e) e.classList.toggle('active', l==='ru'); });
+  ['btn-kz','btn-kz2'].forEach(id => { const e=document.getElementById(id); if(e) e.classList.toggle('active', l==='kz'); });
+  renderCats(); renderServices(activeCat);
+}
+
+function toggleMenu() {
+  const b=document.getElementById('burger'), m=document.getElementById('mobileMenu');
+  b.classList.toggle('open'); m.classList.toggle('open');
+  document.body.style.overflow = m.classList.contains('open') ? 'hidden' : '';
+}
+
+function renderCats() {
+  const wrap = document.getElementById('categoryFilter');
+  wrap.innerHTML = '';
+  CATS.forEach(cat => {
+    const btn = document.createElement('button');
+    btn.className = 'cat-btn' + (cat.id === activeCat ? ' active' : '');
+    btn.textContent = cat[lang];
+    btn.addEventListener('click', () => { activeCat = cat.id; renderCats(); renderServices(cat.id); });
+    wrap.appendChild(btn);
+  });
+}
+
+function renderServices(catId) {
+  const grid = document.getElementById('servicesGrid');
+  grid.innerHTML = '';
+  const items = catId === 'all' ? ITEMS : ITEMS.filter(i => i.c === catId);
+  items.forEach((item, idx) => {
+    const name = item['n_' + lang];
+    const desc = item['d_' + lang];
+    const tag  = catId === 'all' ? CAT_NAME[item.c] : '';
+    const msg  = lang === 'ru'
+      ? `Здравствуйте! Меня интересует услуга «${name}». Хочу узнать подробнее и стоимость.`
+      : `Сәлем! «${name}» қызметі қызықтырды. Толығырақ және бағасы туралы білгім келеді.`;
+    const card = document.createElement('div');
+    card.className = 'service-card';
+    card.style.animationDelay = Math.min(idx, 8) * 0.05 + 's';
+    card.innerHTML =
+      '<div class="card-icon">' + item.icon + '</div>' +
+      (tag ? '<span class="card-cat-tag">' + tag + '</span>' : '') +
+      '<div class="card-name">' + name + '</div>' +
+      '<div class="card-desc">' + desc + '</div>' +
+      '<a class="card-cta" href="' + WA + encodeURIComponent(msg) + '" target="_blank">' +
+        '<svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.122.554 4.122 1.524 5.854L.057 23.927l6.26-1.642A11.942 11.942 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.836 9.836 0 0 1-5.011-1.371l-.36-.214-3.724.977.994-3.635-.235-.374A9.818 9.818 0 0 1 2.182 12c0-5.42 4.398-9.818 9.818-9.818 5.42 0 9.818 4.398 9.818 9.818 0 5.42-4.398 9.818-9.818 9.818z"/></svg>' +
+        '<span>' + (lang === 'ru' ? 'Консультация' : 'Консультация') + '</span>' +
+      '</a>';
+    grid.appendChild(card);
+  });
+}
+
+// Particles
+(function(){
+  const wrap = document.getElementById('particles');
+  for(let i=0;i<18;i++){
+    const p=document.createElement('div'); p.className='particle';
+    const s=3+Math.random()*6;
+    p.style.cssText=['left:'+(Math.random()*100)+'%','bottom:'+(Math.random()*40)+'%',
+      'width:'+s+'px','height:'+s+'px',
+      '--pdur:'+(6+Math.random()*8)+'s','--pdel:'+(Math.random()*10)+'s'].join(';');
+    wrap.appendChild(p);
+  }
+})();
+
+// Intro
+(function(){
+  const letters=document.querySelectorAll('.intro-letter');
+  const intro=document.getElementById('intro');
+  const content=document.getElementById('heroContent');
+  const hint=document.getElementById('scrollHint');
+  letters.forEach((l,i)=>setTimeout(()=>l.classList.add('in'),100+i*90));
+  setTimeout(()=>letters.forEach((l,i)=>setTimeout(()=>{l.classList.remove('in');l.classList.add('out');},i*55)),1350);
+  setTimeout(()=>{
+    intro.classList.add('hide');
+    content.classList.add('show');
+    setTimeout(()=>hint&&hint.classList.add('show'),900);
+  },2500);
+})();
+
+// Navbar scroll
+window.addEventListener('scroll',()=>{
+  document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>40);
+},{passive:true});
+
+// Scroll reveal
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');obs.unobserve(e.target);}});
+},{threshold:.12});
+document.querySelectorAll('.r').forEach(el=>obs.observe(el));
+
+// Init
+renderCats(); renderServices('all');
+</script>
+</body>
+</html>
