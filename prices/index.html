@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="kk" data-theme="dark" data-lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MirKa Digital — Прайс-лист</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@300;400&family=Raleway:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #B8922A;
+    --gold-light: #D4A843;
+    --gold-bg: rgba(184,146,42,0.08);
+
+    /* DARK */
+    --bg: #0C0C0C;
+    --bg-card: #141414;
+    --text: #F0EAD6;
+    --text-dim: rgba(240,234,214,0.65);
+    --text-faint: rgba(240,234,214,0.25);
+    --line: rgba(240,234,214,0.1);
+    --offer-bg: rgba(184,146,42,0.07);
+    --toggle-bg: #222;
+    --toggle-border: rgba(184,146,42,0.4);
+    --shadow: none;
+  }
+
+  [data-theme="light"] {
+    --bg: #FAF8F3;
+    --bg-card: #FFFFFF;
+    --text: #1A1610;
+    --text-dim: rgba(26,22,16,0.65);
+    --text-faint: rgba(26,22,16,0.2);
+    --line: rgba(26,22,16,0.1);
+    --offer-bg: rgba(184,146,42,0.06);
+    --toggle-bg: #EDE8DF;
+    --toggle-border: rgba(184,146,42,0.5);
+    --shadow: 0 2px 40px rgba(0,0,0,0.08);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    transition: background 0.4s, color 0.4s;
+  }
+
+  /* ── CONTROLS (fixed) ── */
+  .controls {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    display: flex;
+    gap: 10px;
+    z-index: 100;
+  }
+
+  .ctrl-btn {
+    background: var(--toggle-bg);
+    border: 1px solid var(--toggle-border);
+    color: var(--gold-light);
+    font-family: 'Raleway', sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 2px;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-transform: uppercase;
+  }
+
+  .ctrl-btn:hover,
+  .ctrl-btn.active {
+    background: var(--gold);
+    color: #fff;
+    border-color: var(--gold);
+  }
+
+  .print-btn {
+    background: var(--gold);
+    border: 1px solid var(--gold);
+    color: #fff;
+    font-family: 'Raleway', sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 2px;
+    padding: 8px 18px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-transform: uppercase;
+  }
+
+  .print-btn:hover { background: var(--gold-light); border-color: var(--gold-light); }
+
+  @media print { .controls { display: none; } }
+
+  /* ── PAGE ── */
+  .page {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 80px 60px 100px;
+    box-shadow: var(--shadow);
+    transition: box-shadow 0.4s;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    text-align: center;
+    margin-bottom: 64px;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 6px;
+  }
+
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold));
+  }
+  .divider::after { background: linear-gradient(to left, transparent, var(--gold)); }
+
+  .brand-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 40px;
+    font-weight: 400;
+    letter-spacing: 10px;
+    color: var(--gold-light);
+    text-transform: uppercase;
+  }
+
+  .brand-sub {
+    font-size: 9.5px;
+    letter-spacing: 4px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-top: 10px;
+  }
+
+  .header-label {
+    display: inline-block;
+    margin-top: 22px;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    text-transform: uppercase;
+    border-top: 1px solid var(--gold);
+    border-bottom: 1px solid var(--gold);
+    padding: 6px 20px;
+    font-style: italic;
+    font-family: 'Cormorant Garamond', serif;
+  }
+
+  /* ── SECTION ── */
+  .section {
+    margin-bottom: 44px;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .section:nth-child(2) { animation-delay: 0.08s; }
+  .section:nth-child(3) { animation-delay: 0.16s; }
+  .section:nth-child(4) { animation-delay: 0.24s; }
+  .section:nth-child(5) { animation-delay: 0.32s; }
+  .section:nth-child(6) { animation-delay: 0.40s; }
+
+  .section-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+
+  .section-title {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    white-space: nowrap;
+  }
+
+  .section-rule {
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+
+  /* ── ROW ── */
+  .row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 13px 10px;
+    border-bottom: 1px solid var(--line);
+    transition: background 0.25s;
+    border-radius: 3px;
+    gap: 16px;
+  }
+
+  .row:last-child { border-bottom: none; }
+  .row:hover { background: var(--gold-bg); }
+
+  .row-name {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--text);
+    letter-spacing: 0.3px;
+  }
+
+  .row-desc {
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--text-dim);
+    margin-top: 3px;
+    line-height: 1.5;
+  }
+
+  .row-dots { display: none; }
+
+  .row-price {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--gold-light);
+    white-space: nowrap;
+    text-align: right;
+  }
+
+  /* ── TWO COL ── */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+
+  /* ── SPECIAL OFFER ── */
+  .offer {
+    margin-top: 56px;
+    padding: 36px 40px;
+    border: 1px solid var(--gold);
+    background: var(--offer-bg);
+    position: relative;
+    animation: fadeUp 0.8s ease 0.5s both;
+  }
+
+  .offer-diamond {
+    position: absolute;
+    top: -13px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--bg);
+    padding: 0 18px;
+    color: var(--gold-light);
+    font-family: 'Raleway', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    transition: background 0.4s;
+  }
+
+  .offer-tag {
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 14px;
+  }
+
+  .offer-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 30px;
+    font-weight: 400;
+    color: var(--text);
+    line-height: 1.25;
+    margin-bottom: 12px;
+  }
+
+  .offer-title em {
+    font-style: italic;
+    color: var(--gold-light);
+  }
+
+  .offer-desc {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--text);
+    line-height: 1.85;
+    margin-bottom: 26px;
+    max-width: 420px;
+  }
+
+  .offer-pricing {
+    display: flex;
+    align-items: flex-end;
+    gap: 20px;
+  }
+
+  .offer-main-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 52px;
+    font-weight: 400;
+    color: var(--gold-light);
+    line-height: 1;
+  }
+
+  .offer-main-price sup {
+    font-size: 22px;
+    color: var(--gold);
+  }
+
+  .offer-after {
+    font-size: 11px;
+    color: var(--text-faint);
+    line-height: 1.7;
+    padding-bottom: 8px;
+  }
+
+  .offer-after s { color: var(--text-faint); font-family: 'DM Mono', monospace; }
+
+  .offer-note {
+    margin-top: 18px;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.6;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    margin-top: 60px;
+    text-align: center;
+    animation: fadeUp 0.8s ease 0.6s both;
+  }
+
+  .footer-vline {
+    width: 1px;
+    height: 36px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    margin: 0 auto 18px;
+  }
+
+  .footer-contact {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 400;
+    letter-spacing: 3px;
+    color: var(--gold);
+  }
+
+  .footer-note {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    color: var(--text-faint);
+    margin-top: 8px;
+    text-transform: uppercase;
+  }
+
+  /* ── ANIMATION ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── LANGUAGE HIDDEN ── */
+  [data-lang="kk"] .ru { display: none; }
+  [data-lang="ru"] .kk { display: none; }
+</style>
+</head>
+<body>
+
+<!-- Controls -->
+<div class="controls">
+  <button class="ctrl-btn active" id="btn-kk" onclick="setLang('kk')">ҚАЗ</button>
+  <button class="ctrl-btn" id="btn-ru" onclick="setLang('ru')">РУС</button>
+  <button class="ctrl-btn" id="btn-theme" onclick="toggleTheme()">☀ Жарық</button>
+  <button class="print-btn" onclick="window.print()">PDF ↓</button>
+</div>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="divider">
+      <span class="brand-name">MirKa Digital</span>
+    </div>
+    <p class="brand-sub">Digital Agency</p>
+    <span class="header-label">
+      <span class="kk">Қызметтер бағасы</span>
+      <span class="ru">Прейскурант услуг</span>
+    </span>
+  </header>
+
+  <!-- БОТТАР -->
+  <section class="section">
+    <div class="section-head">
+      <span class="section-title">
+        <span class="kk">Боттар</span>
+        <span class="ru">Боты</span>
+      </span>
+      <div class="section-rule"></div>
+    </div>
+
+    <div class="row">
+      <div style="flex:1">
+        <div class="row-name">WhatsApp <span class="kk">боты</span><span class="ru">бот</span></div>
+        <div class="row-desc"><span class="kk">Клиентпен WhatsApp арқылы автоматты жауап — сұрақ, бағыт, тапсырыс қабылдау</span><span class="ru">Автоответ в WhatsApp — вопросы клиентов, навигация, приём заявок без менеджера</span></div>
+      </div>
+      <span class="row-price">80 000 ₸</span>
+    </div>
+    <div class="row">
+      <div style="flex:1">
+        <div class="row-name">Telegram <span class="kk">боты (негізгі)</span><span class="ru">бот (базовый)</span></div>
+        <div class="row-desc"><span class="kk">Бір міндет: тапсырыс қабылдау немесе байланыс жинау. Қарапайым, жылдам іске қосылады</span><span class="ru">Одна задача: приём заявок или сбор контактов. Простой, быстро запускается</span></div>
+      </div>
+      <span class="row-price">80 000 ₸</span>
+    </div>
+    <div class="row">
+      <div style="flex:1">
+        <div class="row-name">Telegram + AI <span class="kk">(жазылу, FAQ)</span><span class="ru">(запись, FAQ)</span></div>
+        <div class="row-desc"><span class="kk">Жазылуды өзі жасайды, жиі қойылатын сұрақтарға жауап береді — адамсыз жұмыс істейді</span><span class="ru">Сам записывает клиентов, отвечает на частые вопросы — работает без участия человека</span></div>
+      </div>
+      <span class="row-price">150 000 ₸</span>
+    </div>
+    <div class="row">
+      <div style="flex:1">
+        <div class="row-name">Kaspi <span class="kk">чек боты</span><span class="ru">чек бот</span></div>
+        <div class="row-desc"><span class="kk">Kaspi арқылы төлемді тексереді және шотты автоматты жібереді</span><span class="ru">Проверяет оплату через Kaspi и автоматически отправляет чек клиенту</span></div>
+      </div>
+      <span class="row-price">50 000 ₸</span>
+    </div>
+  </section>
+
+  <!-- ВЕБ -->
+  <section class="section">
+    <div class="section-head">
+      <span class="section-title">
+        <span class="kk">Веб-сайттар</span>
+        <span class="ru">Веб-сайты</span>
+      </span>
+      <div class="section-rule"></div>
+    </div>
+
+    <div class="row">
+      <div style="flex:1">
+        <div class="row-name"><span class="kk">Лендинг</span><span class="ru">Лендинг</span></div>
+        <div class="row-desc"><span class="kk">Бір өнімге арналған сату беті — жылдам, нақты, мақсатты. Клиентті іс-әрекетке бағыттайды</span><span class="ru">Страница для продажи одного продукта — быстро, чётко, по делу. Ведёт клиента к действию</span></div>
+      </div>
+      <span class="row-price">120 000 ₸</span>
+    </div>
+    <div class="row">
+      <div style="flex:1">
+        <div class="row-name"><span class="kk">Сайт</span><span class="ru">Сайт</span></div>
+        <div class="row-desc"><span class="kk">Бірнеше бет: портфолио, каталог, байланыс. Бизнестің толық онлайн-беті</span><span class="ru">Несколько страниц: портфолио, каталог, контакты. Полноценное онлайн-присутствие бизнеса</span></div>
+      </div>
+      <span class="row-price">200 000 ₸</span>
+    </div>
+    <div class="row">
+      <div style="flex:1">
+        <div class="row-name"><span class="kk">Интернет-дүкен</span><span class="ru">Интернет-магазин</span></div>
+        <div class="row-desc"><span class="kk">Тауар сату, себет, төлем жүйесі — бәрі дайын, іске қосып сата бастайсыз</span><span class="ru">Продажа товаров, корзина, оплата — всё готово, сразу начинаете продавать</span></div>
+      </div>
+      <span class="row-price">350 000 ₸</span>
+    </div>
+  </section>
+
+  <!-- SAAS + AI -->
+  <div class="two-col">
+    <section class="section">
+      <div class="section-head">
+        <span class="section-title">SaaS</span>
+        <div class="section-rule"></div>
+      </div>
+      <div class="row">
+        <div style="flex:1">
+          <div class="row-name"><span class="kk">Дайын платформа</span><span class="ru">Готовая платформа</span></div>
+          <div class="row-desc"><span class="kk">Пайдаланып жатқан SaaS жүйеңіздің ай сайынғы техқолдау төлемі</span><span class="ru">Ежемесячная оплата за поддержку уже работающей SaaS-системы</span></div>
+        </div>
+        <span class="row-price">50 000 ₸/ай</span>
+      </div>
+      <div class="row">
+        <div style="flex:1">
+          <div class="row-name"><span class="kk">Жасап беру</span><span class="ru">Разработка</span></div>
+          <div class="row-desc"><span class="kk">Жазылым немесе көп пайдаланушыға арналған толыққанды веб-жүйе</span><span class="ru">Полноценная веб-система с подпиской или для множества пользователей</span></div>
+        </div>
+        <span class="row-price">от 500 000 ₸</span>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <span class="section-title">
+          <span class="kk">Автоматизация</span>
+          <span class="ru">Автоматизация</span>
+        </span>
+        <div class="section-rule"></div>
+      </div>
+      <div class="row">
+        <div style="flex:1">
+          <div class="row-name">AI <span class="kk">автоматизация</span><span class="ru">автоматизация</span></div>
+          <div class="row-desc"><span class="kk">Қайталанатын жұмысты автоматтандыру — AI өзі сорттайды, жауап береді, жібереді</span><span class="ru">Автоматизация рутины — AI сам сортирует, отвечает, отправляет. Экономит время</span></div>
+        </div>
+        <span class="row-price">от 150 000 ₸</span>
+      </div>
+      <div class="row">
+        <div style="flex:1">
+          <div class="row-name">CRM <span class="kk">интеграция</span><span class="ru">интеграция</span></div>
+          <div class="row-desc"><span class="kk">Клиенттер базасы өздігінен жиналады — кім жазды, не сұрады, қандай кезеңде</span><span class="ru">База клиентов ведётся автоматически — кто написал, что спросил, на каком этапе</span></div>
+        </div>
+        <span class="row-price">80 000 ₸</span>
+      </div>
+    </section>
+  </div>
+
+  <!-- ДИЗАЙН -->
+  <section class="section">
+    <div class="section-head">
+      <span class="section-title">
+        <span class="kk">Графикалық дизайн · Figma</span>
+        <span class="ru">Графический дизайн · Figma</span>
+      </span>
+      <div class="section-rule"></div>
+    </div>
+
+    <div class="row">
+      <div style="flex:1">
+        <div class="row-name"><span class="kk">Прайс-лист (авторлық)</span><span class="ru">Прайс-лист (авторский)</span></div>
+        <div class="row-desc"><span class="kk">Осы сияқты — брендіңізге сай кәсіби дизайнмен жасалған прайс-лист</span><span class="ru">Такой же — прайс с фирменным дизайном под ваш бренд</span></div>
+      </div>
+      <span class="row-price">25 000 ₸</span>
+    </div>
+    <div class="row">
+      <div style="flex:1">
+        <div class="row-name"><span class="kk">Коммерциялық ұсыныс</span><span class="ru">Коммерческое предложение</span></div>
+        <div class="row-desc"><span class="kk">Клиентке жіберетін ресми ұсыныс — не береміз, қанша тұрады, неге бізді таңдасын</span><span class="ru">Официальное предложение для клиента — что даём, сколько стоит, почему выбрать вас</span></div>
+      </div>
+      <span class="row-price">35 000 ₸</span>
+    </div>
+    <div class="row">
+      <div style="flex:1">
+        <div class="row-name"><span class="kk">Презентация (10 слайд)</span><span class="ru">Презентация (10 слайдов)</span></div>
+        <div class="row-desc"><span class="kk">Инвестор, серіктес немесе клиентке арналған кәсіби, визуалды күшті презентация</span><span class="ru">Профессиональная, визуально сильная презентация для инвестора, партнёра или клиента</span></div>
+      </div>
+      <span class="row-price">50 000 ₸</span>
+    </div>
+    <div class="row">
+      <div style="flex:1">
+        <div class="row-name"><span class="kk">Визит карточка</span><span class="ru">Визитная карточка</span></div>
+        <div class="row-desc"><span class="kk">Цифрлы немесе басып шығаратын — логотип, байланыс, брендке сай стиль</span><span class="ru">Цифровая или печатная — логотип, контакты, фирменный стиль бренда</span></div>
+      </div>
+      <span class="row-price">15 000 ₸</span>
+    </div>
+    <div class="row">
+      <div style="flex:1">
+        <div class="row-name"><span class="kk">Корпоративті стиль пакеті</span><span class="ru">Пакет корпоративного стиля</span></div>
+        <div class="row-desc"><span class="kk">Логотип, түстер, қаріп, шаблондар — брендіңіздің толық визуалды кітапшасы</span><span class="ru">Логотип, цвета, шрифты, шаблоны — полная визуальная книга бренда</span></div>
+      </div>
+      <span class="row-price">от 120 000 ₸</span>
+    </div>
+  </section>
+
+  <!-- ҚОЛДАУ -->
+  <section class="section">
+    <div class="section-head">
+      <span class="section-title">
+        <span class="kk">Қолдау · Упаковка</span>
+        <span class="ru">Поддержка · Упаковка</span>
+      </span>
+      <div class="section-rule"></div>
+    </div>
+
+    <div class="row">
+      <div style="flex:1">
+        <div class="row-name"><span class="kk">Айлық қолдау</span><span class="ru">Ежемесячная поддержка</span></div>
+        <div class="row-desc"><span class="kk">Ай сайын: қателерді түзету, жаңарту, сұрақтарға жауап — өнімің тұрақты жұмыс істейді</span><span class="ru">Каждый месяц: исправление ошибок, обновления, ответы на вопросы — продукт работает стабильно</span></div>
+      </div>
+      <span class="row-price">20 000 ₸/ай</span>
+    </div>
+    <div class="row">
+      <div style="flex:1">
+        <div class="row-name"><span class="kk">3 айлық қолдау</span><span class="ru">Поддержка 3 месяца</span></div>
+        <div class="row-desc"><span class="kk">3 айға тұрақты бақылау, жаңарту, техқолдау — ай сайынғыдан тиімдірек</span><span class="ru">3 месяца мониторинга, обновлений, техподдержки — выгоднее ежемесячной оплаты</span></div>
+      </div>
+      <span class="row-price">50 000 ₸</span>
+    </div>
+    <div class="row">
+      <div style="flex:1">
+        <div class="row-name"><span class="kk">Админ панель (сайт / дүкен)</span><span class="ru">Админ панель (сайт / магазин)</span></div>
+        <div class="row-desc"><span class="kk">Сайтты коднсыз өзіңіз басқарасыз — тауар, баға, мазмұн өзгерту оңай</span><span class="ru">Управляете сайтом без кода — товары, цены, контент меняете сами</span></div>
+      </div>
+      <span class="row-price">60 000 ₸</span>
+    </div>
+    <div class="row">
+      <div style="flex:1">
+        <div class="row-name"><span class="kk">Админ панель (бот)</span><span class="ru">Админ панель (бот)</span></div>
+        <div class="row-desc"><span class="kk">Ботты браузер арқылы басқару — мәтін өзгерту, статистика, тапсырыстарды көру</span><span class="ru">Управление ботом через браузер — тексты, статистика, просмотр и обработка заявок</span></div>
+      </div>
+      <span class="row-price">40 000 ₸</span>
+    </div>
+    <div class="row">
+      <div style="flex:1">
+        <div class="row-name"><span class="kk">Упаковка / Документация</span><span class="ru">Упаковка / Документация</span></div>
+        <div class="row-desc"><span class="kk">Өніміңізді клиентке дайын тапсыру: нұсқаулық, сипаттама, баптаулар — бәрі ретімен</span><span class="ru">Сдача продукта в готовом виде: инструкция, описание, настройки — всё по порядку</span></div>
+      </div>
+      <span class="row-price">40 000 ₸</span>
+    </div>
+    <div class="row">
+      <div style="flex:1">
+        <div class="row-name"><span class="kk">Консалтинг</span><span class="ru">Консалтинг</span></div>
+        <div class="row-desc"><span class="kk">Бір сессия — сұрақтарға жауап, стратегия, бизнес бағыты бойынша кеңес</span><span class="ru">Одна сессия — ответы на вопросы, стратегия, вектор развития бизнеса</span></div>
+      </div>
+      <span class="row-price">30 000 ₸/сессия</span>
+    </div>
+  </section>
+
+  <!-- SPECIAL OFFER -->
+  <div class="offer">
+    <div class="offer-diamond">
+      <span class="kk">◆ Арнайы ұсыныс — 21 күн ◆</span>
+      <span class="ru">◆ Специальное предложение — 21 день ◆</span>
+    </div>
+
+    <p class="offer-tag">
+      <span class="kk">Жеке · Шектеулі орын</span>
+      <span class="ru">Индивидуально · Ограниченные места</span>
+    </p>
+
+    <h2 class="offer-title">
+      <span class="kk">Монетизация бойынша<br><em>жеке кеңес</em></span>
+      <span class="ru">Индивидуальная консультация<br><em>по монетизации</em></span>
+    </h2>
+
+    <p class="offer-desc">
+      <span class="kk">Бизнесіңіздің ағымдағы жағдайын талдаймыз, табысты арттыру бағыттарын бірге анықтаймыз. Тек сізге арналған стратегия.</span>
+      <span class="ru">Анализируем текущее состояние вашего бизнеса, вместе определяем направления роста дохода. Стратегия разработана только для вас.</span>
+    </p>
+
+    <div class="offer-pricing">
+      <div class="offer-main-price">25 000 <sup>₸</sup></div>
+      <div class="offer-after">
+        <span class="kk">21 күннен кейін<br><s>30 000 ₸</s></span>
+        <span class="ru">После 21 дня<br><s>30 000 ₸</s></span>
+      </div>
+    </div>
+
+    <p class="offer-note">
+      <span class="kk">⬡ Орын саны санаулы ⬡</span>
+      <span class="ru">⬡ Количество мест ограничено ⬡</span>
+    </p>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-vline"></div>
+    <p class="footer-contact">@mirka_digital</p>
+    <p class="footer-note">
+      <span class="kk">Барлық бағалар келісіммен өзгеруі мүмкін</span>
+      <span class="ru">Все цены могут быть изменены по договорённости</span>
+    </p>
+  </footer>
+
+</div>
+
+<script>
+  function setLang(lang) {
+    document.documentElement.setAttribute('data-lang', lang);
+    document.getElementById('btn-kk').classList.toggle('active', lang === 'kk');
+    document.getElementById('btn-ru').classList.toggle('active', lang === 'ru');
+  }
+
+  function toggleTheme() {
+    const html = document.documentElement;
+    const btn = document.getElementById('btn-theme');
+    if (html.getAttribute('data-theme') === 'dark') {
+      html.setAttribute('data-theme', 'light');
+      btn.textContent = '☾ Қараңғы';
+    } else {
+      html.setAttribute('data-theme', 'dark');
+      btn.textContent = '☀ Жарық';
+    }
+  }
+</script>
+
+</body>
+</html>
