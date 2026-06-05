@@ -4,664 +4,1085 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MirKa Digital — Прототип каталогы</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0d0d1a; color: white; min-height: 100vh; }
-
-  .hero {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 40%, #f64f59 100%);
-    padding: 64px 24px 80px; text-align: center; position: relative; overflow: hidden;
+  :root {
+    --purple: #764ba2;
+    --blue: #667eea;
+    --red: #f64f59;
+    --grad: linear-gradient(135deg, #667eea 0%, #764ba2 55%, #f64f59 100%);
+    --text: #1a1a2e;
+    --text-mid: #4a4a6a;
+    --text-light: #8888aa;
+    --bg: #f7f7fb;
+    --card: #ffffff;
+    --border: rgba(118,75,162,0.12);
   }
-  .hero::before {
-    content: ''; position: absolute; inset: 0;
-    background: radial-gradient(ellipse at 30% 50%, rgba(255,255,255,0.1) 0%, transparent 60%);
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--grad);
+    padding: 80px 64px 96px;
+    position: relative; overflow: hidden;
+  }
+  .hero::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 500 500' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
     pointer-events: none;
   }
-  .hero-badge { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; opacity: 0.7; margin-bottom: 18px; }
-  .hero h1 { font-size: 44px; font-weight: 800; line-height: 1.1; margin-bottom: 14px; }
-  .hero h1 span { opacity: 0.65; font-weight: 300; display: block; }
-  .hero-sub { font-size: 16px; opacity: 0.85; max-width: 500px; margin: 0 auto 32px; line-height: 1.7; }
-  .hero-note {
-    display: inline-block; background: rgba(255,255,255,0.15);
-    border: 1px solid rgba(255,255,255,0.3); padding: 11px 26px;
-    border-radius: 40px; font-size: 14px; backdrop-filter: blur(10px);
+
+  .hero-label {
+    font-size: 10px; font-weight: 500;
+    letter-spacing: 0.3em; text-transform: uppercase;
+    color: rgba(255,255,255,0.65);
+    margin-bottom: 24px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .hero-label::before {
+    content: ''; width: 24px; height: 1px; background: rgba(255,255,255,0.5);
   }
 
-  .filter-bar {
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(52px, 8vw, 96px);
+    font-weight: 300; line-height: 1;
+    color: #ffffff; letter-spacing: -0.01em;
+    margin-bottom: 24px;
+  }
+  .hero-title em {
+    font-style: italic;
+    opacity: 0.85;
+  }
+
+  .hero-sub {
+    font-size: 15px; font-weight: 300; line-height: 1.7;
+    color: rgba(255,255,255,0.75); max-width: 420px;
+  }
+
+  .hero-count {
+    position: absolute; right: 64px; bottom: 80px;
+    text-align: right;
+  }
+  .hero-count-n {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 72px; font-weight: 300; line-height: 1;
+    color: rgba(255,255,255,0.18);
+  }
+  .hero-count-label {
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+  }
+
+  /* ── FILTER ── */
+  .filter-wrap {
     position: sticky; top: 0; z-index: 100;
-    background: rgba(13,13,26,0.95); border-bottom: 1px solid rgba(255,255,255,0.07);
-    padding: 14px 24px; display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;
-    backdrop-filter: blur(20px);
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 2px 16px rgba(102,126,234,0.10);
   }
+  .filter-bar {
+    display: flex; gap: 6px; padding: 12px 64px;
+    overflow-x: auto; scrollbar-width: none;
+  }
+  .filter-bar::-webkit-scrollbar { display: none; }
+
   .filter-btn {
-    padding: 7px 18px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.12);
-    background: transparent; color: rgba(255,255,255,0.55); font-size: 12px;
-    cursor: pointer; transition: all 0.2s; font-family: inherit;
+    padding: 7px 18px; border-radius: 100px;
+    border: 1.5px solid var(--border);
+    background: #fff; color: var(--text-mid);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px; font-weight: 500;
+    cursor: pointer; white-space: nowrap;
+    transition: all 0.18s ease;
   }
-  .filter-btn:hover { border-color: rgba(102,126,234,0.5); color: rgba(255,255,255,0.85); }
+  .filter-btn:hover {
+    border-color: var(--purple);
+    color: var(--purple);
+  }
   .filter-btn.active {
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    border-color: transparent; color: white; font-weight: 600;
+    background: var(--grad);
+    color: #fff; border-color: transparent;
+    box-shadow: 0 3px 12px rgba(118,75,162,0.3);
   }
 
-  .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
-  .section { padding: 52px 0 8px; }
-  .section-header {
-    font-size: 12px; letter-spacing: 3px; text-transform: uppercase;
-    color: rgba(255,255,255,0.35); margin-bottom: 22px;
-    display: flex; align-items: center; gap: 12px;
+  /* ── CATALOG ── */
+  .catalog { max-width: 1280px; margin: 0 auto; padding: 0 64px 80px; }
+
+  /* ── SECTION ── */
+  .cat-section { padding-top: 64px; }
+
+  .cat-header {
+    display: flex; align-items: baseline; gap: 16px;
+    margin-bottom: 28px; padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
   }
-  .section-header::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.07); }
+  .cat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px; color: var(--text-light);
+    font-weight: 400; letter-spacing: 0.1em;
+  }
+  .cat-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(26px, 3.5vw, 40px);
+    font-weight: 400; color: var(--text);
+    line-height: 1;
+  }
+  .cat-title em { font-style: italic; color: var(--purple); }
 
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 18px; }
+  /* ── GRID ── */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+  }
 
+  /* ── CARD ── */
   .card {
-    background: rgba(255,255,255,0.035); border: 1px solid rgba(255,255,255,0.07);
-    border-radius: 16px; overflow: hidden;
-    transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+    background: var(--card);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    overflow: hidden;
     display: flex; flex-direction: column;
+    transition: transform 0.22s ease, box-shadow 0.22s ease;
   }
   .card:hover {
-    transform: translateY(-5px); box-shadow: 0 24px 60px rgba(102,126,234,0.2);
-    border-color: rgba(102,126,234,0.35);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(118,75,162,0.15);
   }
 
   .card-thumb {
-    height: 175px; display: flex; align-items: flex-end; padding: 18px;
-    position: relative; overflow: hidden;
+    height: 180px; position: relative; overflow: hidden;
   }
-  .card-emoji {
-    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -60%);
-    font-size: 52px; opacity: 0.35; pointer-events: none;
+  .card-thumb-bg {
+    position: absolute; inset: 0;
+    transition: transform 0.5s ease;
   }
-  .card-meta { position: relative; z-index: 1; }
-  .card-cat { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.65; margin-bottom: 5px; }
-  .card-name { font-size: 19px; font-weight: 700; line-height: 1.2; }
-
-  .card-body { padding: 16px; flex: 1; display: flex; flex-direction: column; }
-
-  .tags { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 11px; }
-  .tag {
-    padding: 3px 9px; border-radius: 10px; font-size: 10px;
-    background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.5);
-    border: 1px solid rgba(255,255,255,0.09);
+  .card:hover .card-thumb-bg { transform: scale(1.06); }
+  .card-thumb-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(20,10,40,0.7) 0%, transparent 55%);
+  }
+  .card-thumb-label {
+    position: absolute; bottom: 16px; left: 20px; right: 20px; z-index: 1;
+  }
+  .card-cat {
+    font-size: 9px; font-weight: 500; letter-spacing: 0.25em;
+    text-transform: uppercase; color: rgba(255,255,255,0.65);
+    margin-bottom: 4px; display: block;
+  }
+  .card-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px; font-weight: 400; color: #fff; line-height: 1.1;
   }
 
-  .card-desc { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.6; margin-bottom: 16px; flex: 1; }
+  .card-body {
+    padding: 20px 20px 0; flex: 1; display: flex; flex-direction: column; gap: 12px;
+  }
+  .card-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .card-tag {
+    font-size: 10px; font-weight: 500; letter-spacing: 0.05em;
+    padding: 3px 9px; border-radius: 6px;
+    background: rgba(118,75,162,0.07);
+    color: var(--purple); border: 1px solid rgba(118,75,162,0.15);
+  }
+  .card-desc {
+    font-size: 13px; line-height: 1.7;
+    color: var(--text-mid); font-weight: 300;
+  }
+
+  .bot-feature-list {
+    display: flex; flex-direction: column; gap: 5px;
+    padding: 10px 12px; border-radius: 10px;
+    background: rgba(118,75,162,0.05);
+    border: 1px solid var(--border);
+  }
+  .bot-feature {
+    font-size: 12px; font-weight: 400;
+    color: var(--text-mid); line-height: 1.4;
+  }
 
   .card-footer {
     display: flex; justify-content: space-between; align-items: center;
-    padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.06); margin-top: auto;
-    gap: 8px;
+    padding: 16px 20px;
+    margin-top: auto;
+    border-top: 1px solid var(--border);
   }
-  .price-label { font-size: 9px; color: rgba(255,255,255,0.35); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; }
-  .price-amount { font-size: 19px; font-weight: 800; color: #a78bfa; }
-  .price-from { font-size: 9px; color: rgba(255,255,255,0.35); margin-left: 2px; }
-
-  .btn-preview {
-    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
-    color: rgba(255,255,255,0.75); padding: 8px 14px; border-radius: 20px;
-    font-size: 12px; font-weight: 500; cursor: pointer; transition: all 0.2s; font-family: inherit;
-    white-space: nowrap;
+  .price-wrap {}
+  .price-from {
+    font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--text-light); margin-bottom: 2px;
   }
-  .btn-preview:hover { background: rgba(255,255,255,0.14); color: white; }
-
-  .btn-select {
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    border: none; color: white; padding: 8px 16px; border-radius: 20px;
-    font-size: 12px; font-weight: 600; cursor: pointer; font-family: inherit;
-    text-decoration: none; display: inline-block; white-space: nowrap;
-    transition: opacity 0.2s;
+  .price-amount {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px; font-weight: 400;
+    background: var(--grad); -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; background-clip: text;
+    line-height: 1;
   }
-  .btn-select:hover { opacity: 0.85; }
+  .card-actions { display: flex; gap: 8px; align-items: center; }
 
-  /* PREVIEW MODAL */
-  .modal-overlay {
-    display: none; position: fixed; inset: 0; z-index: 1000;
-    background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
-    align-items: center; justify-content: center; padding: 20px;
-  }
-  .modal-overlay.open { display: flex; }
-
-  .modal {
-    background: #12121f; border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 20px; width: 100%; max-width: 1100px;
-    height: 90vh; display: flex; flex-direction: column; overflow: hidden;
-  }
-
-  .modal-header {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,0.07);
+  .btn-eye {
+    width: 36px; height: 36px; border-radius: 50%;
+    border: 1.5px solid var(--border);
+    background: transparent; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--purple); transition: all 0.18s ease;
     flex-shrink: 0;
   }
-  .modal-title { font-size: 15px; font-weight: 600; }
-  .modal-subtitle { font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 2px; }
-
-  .modal-actions { display: flex; gap: 10px; align-items: center; }
+  .btn-eye svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 1.5; }
+  .btn-eye:hover { background: var(--grad); color: #fff; border-color: transparent; }
+  .btn-eye:hover svg { stroke: #fff; }
 
   .btn-open {
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    border: none; color: white; padding: 8px 18px; border-radius: 20px;
-    font-size: 12px; font-weight: 600; cursor: pointer; font-family: inherit;
-    text-decoration: none; display: inline-block;
+    padding: 8px 16px; border-radius: 8px;
+    border: none; background: var(--grad);
+    color: #fff; font-family: 'DM Sans', sans-serif;
+    font-size: 12px; font-weight: 500;
+    cursor: pointer; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 6px;
+    transition: opacity 0.18s ease;
   }
+  .btn-open:hover { opacity: 0.88; }
 
-  .btn-close {
-    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
-    color: rgba(255,255,255,0.6); width: 36px; height: 36px; border-radius: 50%;
-    font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center;
-    font-family: inherit; transition: all 0.2s; flex-shrink: 0;
+  .btn-contact {
+    padding: 8px 16px; border-radius: 8px;
+    border: 1.5px solid var(--border);
+    background: transparent; color: var(--purple);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px; font-weight: 500;
+    cursor: pointer; text-decoration: none;
+    display: inline-flex; align-items: center;
+    transition: all 0.18s ease;
   }
-  .btn-close:hover { background: rgba(255,255,255,0.15); color: white; }
+  .btn-contact:hover { background: var(--grad); color: #fff; border-color: transparent; }
 
-  .modal-browser {
-    background: #1a1a2e; padding: 10px 16px; border-bottom: 1px solid rgba(255,255,255,0.05);
-    display: flex; align-items: center; gap: 10px; flex-shrink: 0;
+  /* ── FOOTER ── */
+  .site-footer {
+    background: var(--grad);
+    padding: 64px;
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 32px; flex-wrap: wrap;
   }
-  .browser-dots { display: flex; gap: 5px; }
-  .browser-dot { width: 10px; height: 10px; border-radius: 50%; }
-  .browser-url {
-    flex: 1; background: rgba(255,255,255,0.06); border-radius: 8px;
-    padding: 5px 12px; font-size: 11px; color: rgba(255,255,255,0.4);
+  .footer-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 36px; font-weight: 300; color: #fff;
+    margin-bottom: 8px;
   }
+  .footer-note {
+    font-size: 13px; font-weight: 300;
+    color: rgba(255,255,255,0.7); line-height: 1.7;
+    max-width: 360px;
+  }
+  .footer-btn {
+    padding: 16px 36px; border-radius: 12px;
+    background: rgba(255,255,255,0.15);
+    border: 1.5px solid rgba(255,255,255,0.3);
+    color: #fff; font-family: 'DM Sans', sans-serif;
+    font-size: 13px; font-weight: 500;
+    text-decoration: none;
+    transition: background 0.18s ease;
+    white-space: nowrap;
+  }
+  .footer-btn:hover { background: rgba(255,255,255,0.25); }
 
-  .modal-iframe { flex: 1; border: none; width: 100%; background: white; }
-
-  /* FOOTER */
-  .footer {
-    text-align: center; padding: 56px 24px 48px;
-    border-top: 1px solid rgba(255,255,255,0.06); margin-top: 48px;
+  /* ── MODAL ── */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0; z-index: 1000;
+    background: rgba(10,5,30,0.85); backdrop-filter: blur(12px);
+    align-items: center; justify-content: center; padding: 24px;
   }
-  .footer-title { font-size: 22px; font-weight: 700; margin-bottom: 10px; }
-  .footer-text { font-size: 14px; color: rgba(255,255,255,0.45); line-height: 1.8; max-width: 440px; margin: 0 auto 28px; }
-  .footer-contact {
-    display: inline-flex; align-items: center; gap: 10px;
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    padding: 13px 30px; border-radius: 40px;
-    font-size: 15px; font-weight: 600; text-decoration: none; color: white;
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: #fff; border-radius: 16px;
+    width: 100%; max-width: 1100px; height: 88vh;
+    display: flex; flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.4);
   }
+  .modal-top {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 20px; border-bottom: 1px solid #eee; flex-shrink: 0;
+    background: #fafafa;
+  }
+  .modal-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px; color: var(--text);
+  }
+  .modal-controls { display: flex; align-items: center; gap: 10px; }
+  .modal-link {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.1em;
+    background: var(--grad); -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; background-clip: text;
+    text-decoration: none;
+  }
+  .modal-close {
+    width: 32px; height: 32px; border-radius: 50%;
+    border: 1px solid #ddd; background: transparent;
+    color: #888; cursor: pointer; font-size: 14px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s; font-family: inherit;
+  }
+  .modal-close:hover { background: #f5f5f5; color: #333; }
+  .modal-bar {
+    background: #f0f0f0; padding: 8px 16px;
+    display: flex; align-items: center; gap: 10px;
+    border-bottom: 1px solid #e8e8e8; flex-shrink: 0;
+  }
+  .modal-dots { display: flex; gap: 5px; }
+  .modal-dot { width: 9px; height: 9px; border-radius: 50%; }
+  .modal-url {
+    flex: 1; background: rgba(0,0,0,0.06); border-radius: 6px;
+    padding: 4px 10px; font-size: 11px; color: #999; font-family: monospace;
+  }
+  .modal-iframe { flex: 1; border: none; width: 100%; }
 
-  @media (max-width: 600px) {
-    .hero h1 { font-size: 30px; }
-    .grid { grid-template-columns: 1fr; }
-    .filter-bar { gap: 6px; }
-    .filter-btn { padding: 6px 12px; font-size: 11px; }
-    .modal { height: 95vh; border-radius: 12px; }
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .hero { padding: 56px 24px 72px; }
+    .hero-count { display: none; }
+    .filter-bar { padding: 12px 24px; }
+    .catalog { padding: 0 24px 60px; }
+    .cat-section { padding-top: 48px; }
+    .card-grid { grid-template-columns: 1fr; }
+    .site-footer { padding: 48px 24px; flex-direction: column; align-items: flex-start; }
   }
 </style>
 </head>
 <body>
 
-<div class="hero">
-  <div class="hero-badge">MirKa Digital · 2026</div>
-  <h1>Веб-прототиптер<br><span>каталогы</span></h1>
-  <p class="hero-sub">Өз бизнесіңізге сәйкес стильді таңдаңыз. Таңдаған прототип негізінде сайтыңызды немесе ботыңызды жасаймыз.</p>
-  <div class="hero-note">👁 Прototipті ашып қараңыз → ұнаса хабарласыңыз</div>
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-label">MirKa Digital · 2026</div>
+  <h1 class="hero-title">
+    Прототип<br><em>каталогы</em>
+  </h1>
+  <p class="hero-sub">
+    Өз бизнесіңізге сәйкес стильді таңдаңыз.<br>
+    Таңдаған прототип негізінде<br>
+    сайт немесе бот жасаймыз.
+  </p>
+  <div class="hero-count">
+    <div class="hero-count-n">15</div>
+    <div class="hero-count-label">прототип</div>
+  </div>
+</section>
+
+<!-- ── FILTER ── -->
+<div class="filter-wrap">
+  <nav class="filter-bar">
+    <button class="filter-btn active" onclick="filterCat('all',this)">Барлығы</button>
+    <button class="filter-btn" onclick="filterCat('wellness',this)">Сұлулық</button>
+    <button class="filter-btn" onclick="filterCat('coaching',this)">Коучинг</button>
+    <button class="filter-btn" onclick="filterCat('food',this)">Тамақ</button>
+    <button class="filter-btn" onclick="filterCat('ecommerce',this)">Дүкен</button>
+    <button class="filter-btn" onclick="filterCat('saas',this)">SaaS / IT</button>
+    <button class="filter-btn" onclick="filterCat('bot',this)">Бот</button>
+    <button class="filter-btn" onclick="filterCat('smm',this)">SMM</button>
+    <button class="filter-btn" onclick="filterCat('construction',this)">Құрылыс</button>
+  </nav>
 </div>
 
-<div class="filter-bar">
-  <button class="filter-btn active" onclick="filterCat('all', this)">Барлығы</button>
-  <button class="filter-btn" onclick="filterCat('wellness', this)">💆 Сұлулық</button>
-  <button class="filter-btn" onclick="filterCat('coaching', this)">🎯 Коучинг</button>
-  <button class="filter-btn" onclick="filterCat('food', this)">☕ Тамақ</button>
-  <button class="filter-btn" onclick="filterCat('ecommerce', this)">🛍️ Дүкен</button>
-  <button class="filter-btn" onclick="filterCat('saas', this)">📊 SaaS / IT</button>
-  <button class="filter-btn" onclick="filterCat('bot', this)">🤖 Бот</button>
-  <button class="filter-btn" onclick="filterCat('smm', this)">📱 SMM</button>
-  <button class="filter-btn" onclick="filterCat('construction', this)">🏗️ Құрылыс</button>
-</div>
-
-<div class="container">
+<!-- ── CATALOG ── -->
+<main class="catalog">
 
   <!-- 1. WELLNESS -->
-  <div class="section" data-cat="wellness">
-    <div class="section-header">💆 Сұлулық / SPA / Wellness</div>
-    <div class="grid">
+  <section class="cat-section" data-cat="wellness">
+    <div class="cat-header">
+      <span class="cat-num">01</span>
+      <h2 class="cat-title">Сұлулық / <em>SPA</em></h2>
+    </div>
+    <div class="card-grid">
 
-      <div class="card">
-        <div class="card-thumb" style="background: linear-gradient(135deg, #c471ed 0%, #f64f59 100%);">
-          <div class="card-emoji">🌸</div>
-          <div class="card-meta">
-            <div class="card-cat">Сұлулық / SPA</div>
+      <article class="card">
+        <div class="card-thumb">
+          <div class="card-thumb-bg" style="background: linear-gradient(135deg, #2d1b4e 0%, #7b2fa8 50%, #c45cd4 100%);"></div>
+          <div class="card-thumb-overlay"></div>
+          <div class="card-thumb-label">
+            <span class="card-cat">Сұлулық / SPA</span>
             <div class="card-name">LUMIÈRE SPA</div>
           </div>
         </div>
         <div class="card-body">
-          <div class="tags"><span class="tag">HTML</span><span class="tag">Мобильді</span><span class="tag">Дайын</span></div>
-          <div class="card-desc">Элегантты, минималистік стиль. Онлайн бронь, бағалар, фото галерея бөлімдері бар.</div>
-          <div class="card-footer">
-            <div>
-              <div class="price-label">бастапқы баға</div>
-              <div class="price-amount">₸80,000<span class="price-from"> бастап</span></div>
-            </div>
-            <div style="display:flex;gap:6px;">
-              <button class="btn-preview" onclick="openPreview('lumiere/index.html', 'LUMIÈRE SPA', 'mirka-catalog.vercel.app/lumiere')">👁 Көру</button>
-              <a class="btn-select" href="lumiere/" target="_blank">Ашу ↗</a>
-            </div>
+          <div class="card-tags">
+            <span class="card-tag">HTML</span>
+            <span class="card-tag">Мобильді</span>
+            <span class="card-tag">Дайын</span>
+          </div>
+          <p class="card-desc">Элегантты, минималистік. Онлайн бронь, бағалар, фото галерея бөлімдері бар.</p>
+        </div>
+        <div class="card-footer">
+          <div class="price-wrap">
+            <div class="price-from">Бастапқы баға</div>
+            <div class="price-amount">₸80,000</div>
+          </div>
+          <div class="card-actions">
+            <button class="btn-eye" onclick="openPreview('lumiere/index.html','LUMIÈRE SPA','mirka-catalog.vercel.app/lumiere')" title="Алдын ала қарау">
+              <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+            <a class="btn-open" href="lumiere/index.html" target="_blank">Ашу ↗</a>
           </div>
         </div>
-      </div>
+      </article>
 
-      <div class="card">
-        <div class="card-thumb" style="background: linear-gradient(135deg, #667eea 0%, #c471ed 100%);">
-          <div class="card-emoji">💅</div>
-          <div class="card-meta">
-            <div class="card-cat">Сұлулық салоны</div>
+      <article class="card">
+        <div class="card-thumb">
+          <div class="card-thumb-bg" style="background: linear-gradient(135deg, #1a1035 0%, #4a2080 50%, #8855cc 100%);"></div>
+          <div class="card-thumb-overlay"></div>
+          <div class="card-thumb-label">
+            <span class="card-cat">Сұлулық салоны</span>
             <div class="card-name">Мода Салон</div>
           </div>
         </div>
         <div class="card-body">
-          <div class="tags"><span class="tag">HTML</span><span class="tag">Галерея</span><span class="tag">Стильді</span></div>
-          <div class="card-desc">Заманауи дизайн. Онлайн жазылу, қызметтер каталогы, фото галерея.</div>
-          <div class="card-footer">
-            <div>
-              <div class="price-label">бастапқы баға</div>
-              <div class="price-amount">₸100,000<span class="price-from"> бастап</span></div>
-            </div>
-            <div style="display:flex;gap:6px;">
-              <button class="btn-preview" onclick="openPreview('moda-salon/index.html', 'Мода Салон', 'mirka-catalog.vercel.app/moda-salon')">👁 Көру</button>
-              <a class="btn-select" href="moda-salon/" target="_blank">Ашу ↗</a>
-            </div>
+          <div class="card-tags">
+            <span class="card-tag">HTML</span>
+            <span class="card-tag">Галерея</span>
+            <span class="card-tag">Анимация</span>
+          </div>
+          <p class="card-desc">Заманауи дизайн. Онлайн жазылу, қызметтер каталогы, фото галерея.</p>
+        </div>
+        <div class="card-footer">
+          <div class="price-wrap">
+            <div class="price-from">Бастапқы баға</div>
+            <div class="price-amount">₸100,000</div>
+          </div>
+          <div class="card-actions">
+            <button class="btn-eye" onclick="openPreview('moda-salon/index.html','Мода Салон','mirka-catalog.vercel.app/moda-salon')" title="Алдын ала қарау">
+              <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+            <a class="btn-open" href="moda-salon/index.html" target="_blank">Ашу ↗</a>
           </div>
         </div>
-      </div>
+      </article>
+
+      <article class="card">
+        <div class="card-thumb">
+          <div class="card-thumb-bg" style="background: linear-gradient(135deg, #0c1912 0%, #1a3626 50%, #3d6b4f 100%);"></div>
+          <div class="card-thumb-overlay"></div>
+          <div class="card-thumb-label">
+            <span class="card-cat">Botanical Skincare</span>
+            <div class="card-name">Aizhan</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-tags">
+            <span class="card-tag">HTML</span>
+            <span class="card-tag">Орман жасыл</span>
+            <span class="card-tag">Алтын акцент</span>
+          </div>
+          <p class="card-desc">Ботаника тері күтімі бренді үшін. Cormorant Garamond + Jost. Крем, жасыл, алтын — табиғи люкс стиль.</p>
+        </div>
+        <div class="card-footer">
+          <div class="price-wrap">
+            <div class="price-from">Бастапқы баға</div>
+            <div class="price-amount">₸100,000</div>
+          </div>
+          <div class="card-actions">
+            <button class="btn-eye" onclick="openPreview('aizhan/index.html','Aizhan Botanical','mirka-catalog.vercel.app/aizhan')" title="Алдын ала қарау">
+              <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+            <a class="btn-open" href="aizhan/index.html" target="_blank">Ашу ↗</a>
+          </div>
+        </div>
+      </article>
 
     </div>
-  </div>
+  </section>
 
   <!-- 2. COACHING -->
-  <div class="section" data-cat="coaching">
-    <div class="section-header">🎯 Коучинг / Бизнес тренер</div>
-    <div class="grid">
+  <section class="cat-section" data-cat="coaching">
+    <div class="cat-header">
+      <span class="cat-num">02</span>
+      <h2 class="cat-title">Коучинг / <em>Бизнес</em></h2>
+    </div>
+    <div class="card-grid">
 
-      <div class="card">
-        <div class="card-thumb" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);">
-          <div class="card-emoji">🎯</div>
-          <div class="card-meta">
-            <div class="card-cat">Коучинг лендинг</div>
+      <article class="card">
+        <div class="card-thumb">
+          <div class="card-thumb-bg" style="background: linear-gradient(135deg, #0d2b1a 0%, #1a6640 50%, #2db87a 100%);"></div>
+          <div class="card-thumb-overlay"></div>
+          <div class="card-thumb-label">
+            <span class="card-cat">Коучинг лендинг</span>
             <div class="card-name">ERMEK COACH</div>
           </div>
         </div>
         <div class="card-body">
-          <div class="tags"><span class="tag">HTML</span><span class="tag">Кейстер</span><span class="tag">Пакеттер</span></div>
-          <div class="card-desc">Лид магнит + нәтиже кейстері + пакеттер. Жеке коуч пен бизнес-тренерлерге арналған.</div>
-          <div class="card-footer">
-            <div>
-              <div class="price-label">бастапқы баға</div>
-              <div class="price-amount">₸80,000<span class="price-from"> бастап</span></div>
-            </div>
-            <div style="display:flex;gap:6px;">
-              <button class="btn-preview" onclick="openPreview('ermek/index.html', 'ERMEK COACH', 'mirka-catalog.vercel.app/ermek')">👁 Көру</button>
-              <a class="btn-select" href="ermek/" target="_blank">Ашу ↗</a>
-            </div>
+          <div class="card-tags">
+            <span class="card-tag">HTML</span>
+            <span class="card-tag">Кейстер</span>
+            <span class="card-tag">Пакеттер</span>
+          </div>
+          <p class="card-desc">Лид магнит + нәтиже кейстері + пакеттер. Жеке коуч пен бизнес-тренерлерге.</p>
+        </div>
+        <div class="card-footer">
+          <div class="price-wrap">
+            <div class="price-from">Бастапқы баға</div>
+            <div class="price-amount">₸80,000</div>
+          </div>
+          <div class="card-actions">
+            <button class="btn-eye" onclick="openPreview('ermek/index.html','ERMEK COACH','mirka-catalog.vercel.app/ermek')" title="Алдын ала қарау">
+              <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+            <a class="btn-open" href="ermek/index.html" target="_blank">Ашу ↗</a>
           </div>
         </div>
-      </div>
+      </article>
 
-      <div class="card">
-        <div class="card-thumb" style="background: linear-gradient(135deg, #f7971e 0%, #ffd200 100%);">
-          <div class="card-emoji">💼</div>
-          <div class="card-meta">
-            <div class="card-cat">Бизнес коуч</div>
+      <article class="card">
+        <div class="card-thumb">
+          <div class="card-thumb-bg" style="background: linear-gradient(135deg, #052010 0%, #0f5c2a 50%, #16a34a 100%);"></div>
+          <div class="card-thumb-overlay"></div>
+          <div class="card-thumb-label">
+            <span class="card-cat">Бизнес стартап</span>
+            <div class="card-name">MethodStart</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-tags">
+            <span class="card-tag">HTML</span>
+            <span class="card-tag">Tailwind</span>
+            <span class="card-tag">Пакеттер</span>
+          </div>
+          <p class="card-desc">«Бизнесті іске қосудың логистикасы» — бизнес мектебі немесе онлайн курс үшін. Жасыл + ақ, пакеттер бөлімі бар.</p>
+        </div>
+        <div class="card-footer">
+          <div class="price-wrap">
+            <div class="price-from">Бастапқы баға</div>
+            <div class="price-amount">₸80,000</div>
+          </div>
+          <div class="card-actions">
+            <button class="btn-eye" onclick="openPreview('methodstart/index.html','MethodStart','mirka-catalog.vercel.app/methodstart')" title="Алдын ала қарау">
+              <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+            <a class="btn-open" href="methodstart/index.html" target="_blank">Ашу ↗</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-thumb">
+          <div class="card-thumb-bg" style="background: linear-gradient(135deg, #1a1000 0%, #5c3d00 50%, #b87a00 100%);"></div>
+          <div class="card-thumb-overlay"></div>
+          <div class="card-thumb-label">
+            <span class="card-cat">Бизнес консультант</span>
             <div class="card-name">YERMEEK</div>
           </div>
         </div>
         <div class="card-body">
-          <div class="tags"><span class="tag">HTML</span><span class="tag">Консалтинг</span><span class="tag">Толық</span></div>
-          <div class="card-desc">Кейстер, қызметтер, байланыс формасы. Консультант пен бизнес-тренерлерге.</div>
-          <div class="card-footer">
-            <div>
-              <div class="price-label">бастапқы баға</div>
-              <div class="price-amount">₸80,000<span class="price-from"> бастап</span></div>
-            </div>
-            <div style="display:flex;gap:6px;">
-              <button class="btn-preview" onclick="openPreview('yermeek/index.html', 'YERMEEK', 'mirka-catalog.vercel.app/yermeek')">👁 Көру</button>
-              <a class="btn-select" href="yermeek/" target="_blank">Ашу ↗</a>
-            </div>
+          <div class="card-tags">
+            <span class="card-tag">HTML</span>
+            <span class="card-tag">Консалтинг</span>
+            <span class="card-tag">Толық</span>
+          </div>
+          <p class="card-desc">Кейстер, қызметтер, байланыс формасы. Консультант пен бизнес-тренерлерге.</p>
+        </div>
+        <div class="card-footer">
+          <div class="price-wrap">
+            <div class="price-from">Бастапқы баға</div>
+            <div class="price-amount">₸80,000</div>
+          </div>
+          <div class="card-actions">
+            <button class="btn-eye" onclick="openPreview('yermeek/index.html','YERMEEK','mirka-catalog.vercel.app/yermeek')" title="Алдын ала қарау">
+              <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+            <a class="btn-open" href="yermeek/index.html" target="_blank">Ашу ↗</a>
           </div>
         </div>
-      </div>
+      </article>
 
     </div>
-  </div>
+  </section>
 
   <!-- 3. FOOD -->
-  <div class="section" data-cat="food">
-    <div class="section-header">☕ Кафе / Мейрамхана / Food</div>
-    <div class="grid">
+  <section class="cat-section" data-cat="food">
+    <div class="cat-header">
+      <span class="cat-num">03</span>
+      <h2 class="cat-title">Кафе / <em>Мейрамхана</em></h2>
+    </div>
+    <div class="card-grid">
 
-      <div class="card">
-        <div class="card-thumb" style="background: linear-gradient(135deg, #6b3a2a 0%, #c0672b 50%, #e8a94b 100%);">
-          <div class="card-emoji">☕</div>
-          <div class="card-meta">
-            <div class="card-cat">Кафе / Мейрамхана</div>
-            <div class="card-name">Bodrum Кафе</div>
+      <article class="card">
+        <div class="card-thumb">
+          <div class="card-thumb-bg" style="background: linear-gradient(135deg, #2a1200 0%, #7a3300 50%, #cc6600 100%);"></div>
+          <div class="card-thumb-overlay"></div>
+          <div class="card-thumb-label">
+            <span class="card-cat">Кафе · Актобе</span>
+            <div class="card-name">Bodrum</div>
           </div>
         </div>
         <div class="card-body">
-          <div class="tags"><span class="tag">HTML</span><span class="tag">Мәзір</span><span class="tag">Атмосфера</span></div>
-          <div class="card-desc">Атмосфералық дизайн. Мәзір, фото галерея, үстел брондау, жұмыс уақыты бөлімдері.</div>
-          <div class="card-footer">
-            <div>
-              <div class="price-label">бастапқы баға</div>
-              <div class="price-amount">₸80,000<span class="price-from"> бастап</span></div>
-            </div>
-            <div style="display:flex;gap:6px;">
-              <button class="btn-preview" onclick="openPreview('bodrum/index.html', 'Bodrum Кафе', 'mirka-catalog.vercel.app/bodrum')">👁 Көру</button>
-              <a class="btn-select" href="bodrum/" target="_blank">Ашу ↗</a>
-            </div>
+          <div class="card-tags">
+            <span class="card-tag">HTML</span>
+            <span class="card-tag">Корзина</span>
+            <span class="card-tag">Бронь</span>
+            <span class="card-tag">WhatsApp</span>
+          </div>
+          <p class="card-desc">Мәзір, онлайн тапсырыс, корзина, үстел брондау, WhatsApp интеграция.</p>
+        </div>
+        <div class="card-footer">
+          <div class="price-wrap">
+            <div class="price-from">Бастапқы баға</div>
+            <div class="price-amount">₸80,000</div>
+          </div>
+          <div class="card-actions">
+            <button class="btn-eye" onclick="openPreview('bodrum/index.html','Bodrum Кафе','mirka-catalog.vercel.app/bodrum')" title="Алдын ала қарау">
+              <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+            <a class="btn-open" href="bodrum/index.html" target="_blank">Ашу ↗</a>
           </div>
         </div>
-      </div>
+      </article>
 
     </div>
-  </div>
+  </section>
 
-  <!-- 4. E-COMMERCE -->
-  <div class="section" data-cat="ecommerce">
-    <div class="section-header">🛍️ Онлайн дүкен / E-commerce</div>
-    <div class="grid">
+  <!-- 4. ECOMMERCE -->
+  <section class="cat-section" data-cat="ecommerce">
+    <div class="cat-header">
+      <span class="cat-num">04</span>
+      <h2 class="cat-title">Онлайн / <em>Дүкен</em></h2>
+    </div>
+    <div class="card-grid">
 
-      <div class="card">
-        <div class="card-thumb" style="background: linear-gradient(135deg, #3d5a80 0%, #98c1d9 100%);">
-          <div class="card-emoji">🛋️</div>
-          <div class="card-meta">
-            <div class="card-cat">Мебель / Интерьер</div>
+      <article class="card">
+        <div class="card-thumb">
+          <div class="card-thumb-bg" style="background: linear-gradient(135deg, #0a1535 0%, #1a3585 50%, #2255cc 100%);"></div>
+          <div class="card-thumb-overlay"></div>
+          <div class="card-thumb-label">
+            <span class="card-cat">Мебель / Интерьер</span>
             <div class="card-name">Мебель Дүкен</div>
           </div>
         </div>
         <div class="card-body">
-          <div class="tags"><span class="tag">HTML</span><span class="tag">Каталог</span><span class="tag">Баға</span></div>
-          <div class="card-desc">Өнім каталогы, сүзгі, бағалар. Мебель, декор, интерьер дүкендеріне сәйкес.</div>
-          <div class="card-footer">
-            <div>
-              <div class="price-label">бастапқы баға</div>
-              <div class="price-amount">₸100,000<span class="price-from"> бастап</span></div>
-            </div>
-            <div style="display:flex;gap:6px;">
-              <button class="btn-preview" onclick="openPreview('mebel/index.html', 'Мебель Дүкен', 'mirka-catalog.vercel.app/mebel')">👁 Көру</button>
-              <a class="btn-select" href="mebel/" target="_blank">Ашу ↗</a>
-            </div>
+          <div class="card-tags">
+            <span class="card-tag">HTML</span>
+            <span class="card-tag">Каталог</span>
+            <span class="card-tag">Сүзгі</span>
+          </div>
+          <p class="card-desc">Өнім каталогы, сүзгі, бағалар. Мебель, декор, интерьер дүкендеріне сәйкес.</p>
+        </div>
+        <div class="card-footer">
+          <div class="price-wrap">
+            <div class="price-from">Бастапқы баға</div>
+            <div class="price-amount">₸100,000</div>
+          </div>
+          <div class="card-actions">
+            <button class="btn-eye" onclick="openPreview('mebel/index.html','Мебель Дүкен','mirka-catalog.vercel.app/mebel')" title="Алдын ала қарау">
+              <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+            <a class="btn-open" href="mebel/index.html" target="_blank">Ашу ↗</a>
           </div>
         </div>
-      </div>
+      </article>
 
-      <div class="card">
-        <div class="card-thumb" style="background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%);">
-          <div class="card-emoji">🛍️</div>
-          <div class="card-meta">
-            <div class="card-cat">Онлайн дүкен</div>
+      <article class="card">
+        <div class="card-thumb">
+          <div class="card-thumb-bg" style="background: linear-gradient(135deg, #2a0515 0%, #800f38 50%, #cc1a55 100%);"></div>
+          <div class="card-thumb-overlay"></div>
+          <div class="card-thumb-label">
+            <span class="card-cat">Онлайн дүкен</span>
             <div class="card-name">Интернет Магазин</div>
           </div>
         </div>
         <div class="card-body">
-          <div class="tags"><span class="tag">Next.js</span><span class="tag">Себет</span><span class="tag">Kaspi Pay</span></div>
-          <div class="card-desc">Толыққанды онлайн дүкен. Себет, сүзгі, Kaspi төлем интеграциясы бар.</div>
-          <div class="card-footer">
-            <div>
-              <div class="price-label">бастапқы баға</div>
-              <div class="price-amount">₸200,000<span class="price-from"> бастап</span></div>
-            </div>
-            <div style="display:flex;gap:6px;">
-              <button class="btn-preview" onclick="openPreview('', 'Интернет Магазин', '')">👁 Сұрау</button>
-              <a class="btn-select" href="https://t.me/mirka_digital" target="_blank">Сұрау →</a>
-            </div>
+          <div class="card-tags">
+            <span class="card-tag">Next.js</span>
+            <span class="card-tag">Себет</span>
+            <span class="card-tag">Kaspi Pay</span>
+          </div>
+          <p class="card-desc">Толыққанды онлайн дүкен. Себет, сүзгі, Kaspi төлем интеграциясы бар.</p>
+        </div>
+        <div class="card-footer">
+          <div class="price-wrap">
+            <div class="price-from">Бастапқы баға</div>
+            <div class="price-amount">₸200,000</div>
+          </div>
+          <div class="card-actions">
+            <a class="btn-contact" href="https://t.me/mirka_digital" target="_blank">Сұрау →</a>
           </div>
         </div>
-      </div>
+      </article>
 
     </div>
-  </div>
+  </section>
 
-  <!-- 5. SAAS / IT -->
-  <div class="section" data-cat="saas">
-    <div class="section-header">📊 SaaS / Дашборд / IT</div>
-    <div class="grid">
+  <!-- 5. SAAS -->
+  <section class="cat-section" data-cat="saas">
+    <div class="cat-header">
+      <span class="cat-num">05</span>
+      <h2 class="cat-title">SaaS / <em>IT</em></h2>
+    </div>
+    <div class="card-grid">
 
-      <div class="card">
-        <div class="card-thumb" style="background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);">
-          <div class="card-emoji">📊</div>
-          <div class="card-meta">
-            <div class="card-cat">SaaS дашборд</div>
-            <div class="card-name">Dashboard SAAS</div>
+      <article class="card">
+        <div class="card-thumb">
+          <div class="card-thumb-bg" style="background: linear-gradient(135deg, #040d20 0%, #0a2560 50%, #1040aa 100%);"></div>
+          <div class="card-thumb-overlay"></div>
+          <div class="card-thumb-label">
+            <span class="card-cat">SaaS дашборд</span>
+            <div class="card-name">Dashboard</div>
           </div>
         </div>
         <div class="card-body">
-          <div class="tags"><span class="tag">HTML</span><span class="tag">Аналитика</span><span class="tag">Диаграмма</span></div>
-          <div class="card-desc">Метрика, диаграммалар, кестелер. IT компаниялар мен SaaS стартаптарға.</div>
-          <div class="card-footer">
-            <div>
-              <div class="price-label">бастапқы баға</div>
-              <div class="price-amount">₸150,000<span class="price-from"> бастап</span></div>
-            </div>
-            <div style="display:flex;gap:6px;">
-              <button class="btn-preview" onclick="openPreview('dashboard/index.html', 'Dashboard SAAS', 'mirka-catalog.vercel.app/dashboard')">👁 Көру</button>
-              <a class="btn-select" href="dashboard/" target="_blank">Ашу ↗</a>
-            </div>
+          <div class="card-tags">
+            <span class="card-tag">HTML</span>
+            <span class="card-tag">Аналитика</span>
+            <span class="card-tag">Диаграмма</span>
+          </div>
+          <p class="card-desc">Метрика, диаграммалар, кестелер. IT компаниялар мен SaaS стартаптарға.</p>
+        </div>
+        <div class="card-footer">
+          <div class="price-wrap">
+            <div class="price-from">Бастапқы баға</div>
+            <div class="price-amount">₸150,000</div>
+          </div>
+          <div class="card-actions">
+            <button class="btn-eye" onclick="openPreview('dashboard/index.html','Dashboard','mirka-catalog.vercel.app/dashboard')" title="Алдын ала қарау">
+              <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+            <a class="btn-open" href="dashboard/index.html" target="_blank">Ашу ↗</a>
           </div>
         </div>
-      </div>
+      </article>
 
-      <div class="card">
-        <div class="card-thumb" style="background: linear-gradient(135deg, #4776e6 0%, #8e54e9 100%);">
-          <div class="card-emoji">🤖</div>
-          <div class="card-meta">
-            <div class="card-cat">AI / IT Агентство</div>
+      <article class="card">
+        <div class="card-thumb">
+          <div class="card-thumb-bg" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 55%, #f64f59 100%);"></div>
+          <div class="card-thumb-overlay"></div>
+          <div class="card-thumb-label">
+            <span class="card-cat">AI / IT Агентство</span>
             <div class="card-name">MirKa Digital</div>
           </div>
         </div>
         <div class="card-body">
-          <div class="tags"><span class="tag">HTML</span><span class="tag">AI бейнесі</span><span class="tag">Агентство</span></div>
-          <div class="card-desc">AI агентство немесе IT компания үшін. Технологиялық, минималистік дизайн.</div>
-          <div class="card-footer">
-            <div>
-              <div class="price-label">бастапқы баға</div>
-              <div class="price-amount">₸150,000<span class="price-from"> бастап</span></div>
-            </div>
-            <div style="display:flex;gap:6px;">
-              <button class="btn-preview" onclick="openPreview('mirka-digital/index.html', 'MirKa Digital', 'mirka-catalog.vercel.app/mirka-digital')">👁 Көру</button>
-              <a class="btn-select" href="mirka-digital/" target="_blank">Ашу ↗</a>
-            </div>
+          <div class="card-tags">
+            <span class="card-tag">HTML</span>
+            <span class="card-tag">AI бейнесі</span>
+            <span class="card-tag">Агентство</span>
+          </div>
+          <p class="card-desc">AI агентство немесе IT компания үшін. Технологиялық, минималистік дизайн.</p>
+        </div>
+        <div class="card-footer">
+          <div class="price-wrap">
+            <div class="price-from">Бастапқы баға</div>
+            <div class="price-amount">₸150,000</div>
+          </div>
+          <div class="card-actions">
+            <button class="btn-eye" onclick="openPreview('mirka-digital/index.html','MirKa Digital','mirka-catalog.vercel.app/mirka-digital')" title="Алдын ала қарау">
+              <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+            <a class="btn-open" href="mirka-digital/index.html" target="_blank">Ашу ↗</a>
           </div>
         </div>
-      </div>
+      </article>
 
     </div>
-  </div>
+  </section>
 
   <!-- 6. BOT -->
-  <div class="section" data-cat="bot">
-    <div class="section-header">🤖 Telegram Бот / CRM</div>
-    <div class="grid">
+  <section class="cat-section" data-cat="bot">
+    <div class="cat-header">
+      <span class="cat-num">06</span>
+      <h2 class="cat-title">Telegram / <em>Бот</em></h2>
+    </div>
+    <div class="card-grid">
 
-      <div class="card">
-        <div class="card-thumb" style="background: linear-gradient(135deg, #1a9fd8 0%, #0088cc 100%);">
-          <div class="card-emoji">💬</div>
-          <div class="card-meta">
-            <div class="card-cat">Telegram бот</div>
-            <div class="card-name">AI Ассистент Бот</div>
+      <!-- AI FAQ бот -->
+      <article class="card">
+        <div class="card-thumb">
+          <div class="card-thumb-bg" style="background: linear-gradient(135deg, #042040 0%, #0a5090 50%, #1080d0 100%);"></div>
+          <div class="card-thumb-overlay"></div>
+          <div class="card-thumb-label">
+            <span class="card-cat">Telegram · AI бот</span>
+            <div class="card-name">AI Ассистент</div>
           </div>
         </div>
         <div class="card-body">
-          <div class="tags"><span class="tag">Python</span><span class="tag">Claude AI</span><span class="tag">24/7</span></div>
-          <div class="card-desc">Клиент сұрақтарына автоматты жауап, FAQ, лид жинау. Ұйықтамай жұмыс жасайды.</div>
-          <div class="card-footer">
-            <div>
-              <div class="price-label">бастапқы баға</div>
-              <div class="price-amount">₸100,000<span class="price-from"> бастап</span></div>
-            </div>
-            <a class="btn-select" href="https://t.me/mirka_digital" target="_blank">Сұрау →</a>
+          <div class="card-tags">
+            <span class="card-tag">Python</span>
+            <span class="card-tag">Gemini / Claude AI</span>
+            <span class="card-tag">24/7</span>
+          </div>
+          <p class="card-desc">
+            Клиент сұрақтарына AI арқылы автоматты жауап береді.<br>
+            FAQ, лид жинау, онбординг — адамсыз жұмыс жасайды.
+          </p>
+          <div class="bot-feature-list">
+            <div class="bot-feature">✦ Сұрақ-жауап (FAQ)</div>
+            <div class="bot-feature">✦ Лид жинау + хабарлама</div>
+            <div class="bot-feature">✦ AI жауап (Gemini / Claude)</div>
           </div>
         </div>
-      </div>
+        <div class="card-footer">
+          <div class="price-wrap">
+            <div class="price-from">Бастапқы баға</div>
+            <div class="price-amount">₸100,000</div>
+          </div>
+          <div class="card-actions">
+            <a class="btn-contact" href="https://t.me/mirka_digital" target="_blank">Сұрау →</a>
+          </div>
+        </div>
+      </article>
 
-      <div class="card">
-        <div class="card-thumb" style="background: linear-gradient(135deg, #e40046 0%, #ff6b6b 100%);">
-          <div class="card-emoji">💳</div>
-          <div class="card-meta">
-            <div class="card-cat">Kaspi / Төлем бот</div>
+      <!-- Kaspi бот -->
+      <article class="card">
+        <div class="card-thumb">
+          <div class="card-thumb-bg" style="background: linear-gradient(135deg, #1a0600 0%, #8b2500 50%, #e84c00 100%);"></div>
+          <div class="card-thumb-overlay"></div>
+          <div class="card-thumb-label">
+            <span class="card-cat">Kaspi · Төлем бот</span>
             <div class="card-name">Kaspi Bot</div>
           </div>
         </div>
         <div class="card-body">
-          <div class="tags"><span class="tag">JavaScript</span><span class="tag">Kaspi QR</span><span class="tag">Чек</span></div>
-          <div class="card-desc">Kaspi арқылы төлем қабылдау, чек жіберу, тапсырыс тізімін автоматты жүргізу.</div>
-          <div class="card-footer">
-            <div>
-              <div class="price-label">бастапқы баға</div>
-              <div class="price-amount">₸120,000<span class="price-from"> бастап</span></div>
-            </div>
-            <a class="btn-select" href="https://t.me/mirka_digital" target="_blank">Сұрау →</a>
+          <div class="card-tags">
+            <span class="card-tag">JavaScript</span>
+            <span class="card-tag">Kaspi QR</span>
+            <span class="card-tag">Чек</span>
+          </div>
+          <p class="card-desc">
+            Kaspi QR арқылы төлем қабылдап, PDF чек автоматты жіберіледі.<br>
+            Онлайн сатушылар мен онлайн курс иелеріне.
+          </p>
+          <div class="bot-feature-list">
+            <div class="bot-feature">✦ Kaspi QR верификация</div>
+            <div class="bot-feature">✦ PDF чек / гайд жіберу</div>
+            <div class="bot-feature">✦ Тапсырыс тізімі автоматты</div>
           </div>
         </div>
-      </div>
+        <div class="card-footer">
+          <div class="price-wrap">
+            <div class="price-from">Бастапқы баға</div>
+            <div class="price-amount">₸120,000</div>
+          </div>
+          <div class="card-actions">
+            <a class="btn-contact" href="https://t.me/mirka_digital" target="_blank">Сұрау →</a>
+          </div>
+        </div>
+      </article>
 
-      <div class="card">
-        <div class="card-thumb" style="background: linear-gradient(135deg, #134e5e 0%, #71b280 100%);">
-          <div class="card-emoji">📋</div>
-          <div class="card-meta">
-            <div class="card-cat">CRM / Автоматизация</div>
+      <!-- CRM бот -->
+      <article class="card">
+        <div class="card-thumb">
+          <div class="card-thumb-bg" style="background: linear-gradient(135deg, #071a0a 0%, #145c20 50%, #22a038 100%);"></div>
+          <div class="card-thumb-overlay"></div>
+          <div class="card-thumb-label">
+            <span class="card-cat">CRM · Админ бот</span>
             <div class="card-name">Bot-CRM</div>
           </div>
         </div>
         <div class="card-body">
-          <div class="tags"><span class="tag">Python</span><span class="tag">CRM</span><span class="tag">Есептер</span></div>
-          <div class="card-desc">Клиент базасы, тапсырыс қабылдау, жеткізу статусы, күнделікті есептер.</div>
-          <div class="card-footer">
-            <div>
-              <div class="price-label">бастапқы баға</div>
-              <div class="price-amount">₸150,000<span class="price-from"> бастап</span></div>
-            </div>
-            <a class="btn-select" href="https://t.me/mirka_digital" target="_blank">Сұрау →</a>
+          <div class="card-tags">
+            <span class="card-tag">Python</span>
+            <span class="card-tag">Railway</span>
+            <span class="card-tag">Жазылулар</span>
+          </div>
+          <p class="card-desc">
+            Бизнес иесіне арналған жеке админ боты.<br>
+            Жазылулар, күнделікті есеп, клиент базасы — бәрі Telegram-да.
+          </p>
+          <div class="bot-feature-list">
+            <div class="bot-feature">✦ /today /week — жазылулар</div>
+            <div class="bot-feature">✦ Клиент базасы + статистика</div>
+            <div class="bot-feature">✦ Күнделікті есеп автоматты</div>
           </div>
         </div>
-      </div>
+        <div class="card-footer">
+          <div class="price-wrap">
+            <div class="price-from">Бастапқы баға</div>
+            <div class="price-amount">₸150,000</div>
+          </div>
+          <div class="card-actions">
+            <a class="btn-contact" href="https://t.me/mirka_digital" target="_blank">Сұрау →</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Лид бот -->
+      <article class="card">
+        <div class="card-thumb">
+          <div class="card-thumb-bg" style="background: linear-gradient(135deg, #1a0030 0%, #5c0080 50%, #9b00cc 100%);"></div>
+          <div class="card-thumb-overlay"></div>
+          <div class="card-thumb-label">
+            <span class="card-cat">Маркетинг · Лид бот</span>
+            <div class="card-name">Лид Жинаушы</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-tags">
+            <span class="card-tag">Python</span>
+            <span class="card-tag">Онбординг</span>
+            <span class="card-tag">Хабарлама</span>
+          </div>
+          <p class="card-desc">
+            Клиент боты ашқанда автоматты онбординг жүреді.<br>
+            Байланыс жинап, иеге хабарлайды. Коуч, салон, курс иелеріне.
+          </p>
+          <div class="bot-feature-list">
+            <div class="bot-feature">✦ Онбординг + форма жинау</div>
+            <div class="bot-feature">✦ Иеге лезде хабарлама</div>
+            <div class="bot-feature">✦ Жауап мәтіндері баптауға оңай</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="price-wrap">
+            <div class="price-from">Бастапқы баға</div>
+            <div class="price-amount">₸80,000</div>
+          </div>
+          <div class="card-actions">
+            <a class="btn-contact" href="https://t.me/mirka_digital" target="_blank">Сұрау →</a>
+          </div>
+        </div>
+      </article>
 
     </div>
-  </div>
+  </section>
 
   <!-- 7. SMM -->
-  <div class="section" data-cat="smm">
-    <div class="section-header">📱 SMM / Маркетинг / Контент</div>
-    <div class="grid">
+  <section class="cat-section" data-cat="smm">
+    <div class="cat-header">
+      <span class="cat-num">07</span>
+      <h2 class="cat-title">SMM / <em>Маркетинг</em></h2>
+    </div>
+    <div class="card-grid">
 
-      <div class="card">
-        <div class="card-thumb" style="background: linear-gradient(135deg, #f953c6 0%, #b91d73 100%);">
-          <div class="card-emoji">📱</div>
-          <div class="card-meta">
-            <div class="card-cat">SMM / Маркетинг</div>
+      <article class="card">
+        <div class="card-thumb">
+          <div class="card-thumb-bg" style="background: linear-gradient(135deg, #28042a 0%, #7a1080 50%, #cc22cc 100%);"></div>
+          <div class="card-thumb-overlay"></div>
+          <div class="card-thumb-label">
+            <span class="card-cat">SMM · Маркетинг</span>
             <div class="card-name">SMM Маркетолог</div>
           </div>
         </div>
         <div class="card-body">
-          <div class="tags"><span class="tag">Next.js</span><span class="tag">Портфолио</span><span class="tag">Кейстер</span></div>
-          <div class="card-desc">SMM маман немесе маркетолог үшін жеке лендинг. Кейстер, баға пакеттері.</div>
-          <div class="card-footer">
-            <div>
-              <div class="price-label">бастапқы баға</div>
-              <div class="price-amount">₸80,000<span class="price-from"> бастап</span></div>
-            </div>
-            <a class="btn-select" href="https://t.me/mirka_digital" target="_blank">Сұрау →</a>
+          <div class="card-tags">
+            <span class="card-tag">Next.js</span>
+            <span class="card-tag">Портфолио</span>
+            <span class="card-tag">Кейстер</span>
+          </div>
+          <p class="card-desc">SMM маман немесе маркетолог үшін жеке лендинг. Кейстер, баға пакеттері.</p>
+        </div>
+        <div class="card-footer">
+          <div class="price-wrap">
+            <div class="price-from">Бастапқы баға</div>
+            <div class="price-amount">₸80,000</div>
+          </div>
+          <div class="card-actions">
+            <a class="btn-contact" href="https://t.me/mirka_digital" target="_blank">Сұрау →</a>
           </div>
         </div>
-      </div>
+      </article>
 
     </div>
-  </div>
+  </section>
 
   <!-- 8. CONSTRUCTION -->
-  <div class="section" data-cat="construction">
-    <div class="section-header">🏗️ Құрылыс / Жылжымайтын мүлік</div>
-    <div class="grid">
+  <section class="cat-section" data-cat="construction">
+    <div class="cat-header">
+      <span class="cat-num">08</span>
+      <h2 class="cat-title">Құрылыс / <em>Ремонт</em></h2>
+    </div>
+    <div class="card-grid">
 
-      <div class="card">
-        <div class="card-thumb" style="background: linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 50%, #2a2010 100%); border-bottom: 1px solid rgba(201,168,76,0.2);">
-          <div class="card-emoji">🏗️</div>
-          <div class="card-meta">
-            <div class="card-cat" style="color: #c9a84c;">Ремонт / Құрылыс</div>
+      <article class="card">
+        <div class="card-thumb">
+          <div class="card-thumb-bg" style="background: linear-gradient(135deg, #0d0d00 0%, #3a3500 50%, #7a7000 100%);"></div>
+          <div class="card-thumb-overlay"></div>
+          <div class="card-thumb-label">
+            <span class="card-cat">Ремонт · Премиум</span>
             <div class="card-name">RenovPro</div>
           </div>
         </div>
         <div class="card-body">
-          <div class="tags">
-            <span class="tag">HTML</span>
-            <span class="tag" style="border-color:rgba(201,168,76,0.4);color:#c9a84c;">Премиум</span>
-            <span class="tag">Смета</span>
-            <span class="tag">Портфолио</span>
+          <div class="card-tags">
+            <span class="card-tag">HTML</span>
+            <span class="card-tag">Смета</span>
+            <span class="card-tag">Портфолио</span>
+            <span class="card-tag">Алтын стиль</span>
           </div>
-          <div class="card-desc">Қара + алтын стиль. Смета калькулятор, жасалған жұмыстар галереясы, кейстер, байланыс формасы.</div>
-          <div class="card-footer">
-            <div>
-              <div class="price-label">бастапқы баға</div>
-              <div class="price-amount">₸100,000<span class="price-from"> бастап</span></div>
-            </div>
-            <div style="display:flex;gap:6px;">
-              <button class="btn-preview" onclick="openPreview('renovpro/index.html', 'RenovPro', 'mirka-catalog.vercel.app/renovpro')">👁 Көру</button>
-              <a class="btn-select" href="renovpro/" target="_blank">Ашу ↗</a>
-            </div>
+          <p class="card-desc">Смета калькулятор, жасалған жұмыстар галереясы, кейстер, байланыс формасы.</p>
+        </div>
+        <div class="card-footer">
+          <div class="price-wrap">
+            <div class="price-from">Бастапқы баға</div>
+            <div class="price-amount">₸100,000</div>
+          </div>
+          <div class="card-actions">
+            <button class="btn-eye" onclick="openPreview('renovpro/index.html','RenovPro','mirka-catalog.vercel.app/renovpro')" title="Алдын ала қарау">
+              <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+            <a class="btn-open" href="renovpro/index.html" target="_blank">Ашу ↗</a>
           </div>
         </div>
-      </div>
+      </article>
 
     </div>
+  </section>
+
+</main>
+
+<!-- ── FOOTER ── -->
+<footer class="site-footer">
+  <div>
+    <div class="footer-brand">MirKa Digital</div>
+    <p class="footer-note">
+      Бағалар бастапқы нұсқа үшін.<br>
+      Нақты баға жобаны талқылағаннан кейін белгіленеді.<br>
+      Таңдаған прототипіңіздің атауын жазып хабарласыңыз.
+    </p>
   </div>
+  <a class="footer-btn" href="https://t.me/mirka_digital" target="_blank">Хабарласу →</a>
+</footer>
 
-</div>
-
-<!-- FOOTER -->
-<div class="footer">
-  <div class="footer-title">Таңдадыңыз ба?</div>
-  <div class="footer-text">
-    Бағалар бастапқы нұсқа үшін. Нақты баға жобаны талқылағаннан кейін белгіленеді.<br>
-    Таңдаған прототипіңіздің атауын жазып, хабарласыңыз.
-  </div>
-  <a class="footer-contact" href="https://t.me/mirka_digital">💬 @mirka_digital-ке жазыңыз</a>
-</div>
-
-<!-- PREVIEW MODAL -->
-<div class="modal-overlay" id="modalOverlay" onclick="closeOnOverlay(event)">
+<!-- ── MODAL ── -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeOnBg(event)">
   <div class="modal">
-    <div class="modal-header">
-      <div>
-        <div class="modal-title" id="modalTitle">Прototip</div>
-        <div class="modal-subtitle" id="modalSubtitle"></div>
-      </div>
-      <div class="modal-actions">
-        <a class="btn-open" id="modalOpenBtn" href="#" target="_blank">Жаңа қойындыда ашу ↗</a>
-        <button class="btn-close" onclick="closeModal()">✕</button>
+    <div class="modal-top">
+      <div class="modal-name" id="modalName"></div>
+      <div class="modal-controls">
+        <a class="modal-link" id="modalLink" href="#" target="_blank">Жаңа қойындыда ↗</a>
+        <button class="modal-close" onclick="closeModal()">✕</button>
       </div>
     </div>
-    <div class="modal-browser">
-      <div class="browser-dots">
-        <div class="browser-dot" style="background:#ff5f57"></div>
-        <div class="browser-dot" style="background:#febc2e"></div>
-        <div class="browser-dot" style="background:#28c840"></div>
+    <div class="modal-bar">
+      <div class="modal-dots">
+        <div class="modal-dot" style="background:#ff5f57"></div>
+        <div class="modal-dot" style="background:#febc2e"></div>
+        <div class="modal-dot" style="background:#28c840"></div>
       </div>
-      <div class="browser-url" id="modalUrl">mirka-catalog.vercel.app/...</div>
+      <div class="modal-url" id="modalUrl"></div>
     </div>
-    <iframe class="modal-iframe" id="modalIframe" src="" title="Прototip алдын ала қарау"></iframe>
+    <iframe class="modal-iframe" id="modalIframe" src="" title="Прототип"></iframe>
   </div>
 </div>
 
 <script>
   function filterCat(cat, btn) {
-    document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+    document.querySelectorAll('.filter-btn').forEach(function(b){ b.classList.remove('active'); });
     btn.classList.add('active');
-    document.querySelectorAll('.section[data-cat]').forEach(function(s) {
+    document.querySelectorAll('.cat-section[data-cat]').forEach(function(s){
       s.style.display = (cat === 'all' || s.getAttribute('data-cat') === cat) ? '' : 'none';
     });
   }
 
-  function openPreview(path, name, urlDisplay) {
-    if (!path) {
-      window.open('https://t.me/mirka_digital', '_blank');
-      return;
-    }
-    document.getElementById('modalTitle').textContent = name;
-    document.getElementById('modalSubtitle').textContent = 'Прototip алдын ала қарау';
-    document.getElementById('modalUrl').textContent = urlDisplay || path;
+  function openPreview(path, name, url) {
+    document.getElementById('modalName').textContent = name;
+    document.getElementById('modalUrl').textContent = url;
     document.getElementById('modalIframe').src = path;
-    document.getElementById('modalOpenBtn').href = path;
+    document.getElementById('modalLink').href = path;
     document.getElementById('modalOverlay').classList.add('open');
     document.body.style.overflow = 'hidden';
   }
@@ -672,13 +1093,11 @@
     document.body.style.overflow = '';
   }
 
-  function closeOnOverlay(e) {
+  function closeOnBg(e) {
     if (e.target === document.getElementById('modalOverlay')) closeModal();
   }
 
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') closeModal();
-  });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeModal(); });
 </script>
 
 </body>
