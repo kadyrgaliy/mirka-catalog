@@ -297,6 +297,38 @@
   }
   .footer-btn:hover { background: rgba(255,255,255,0.25); }
 
+  .footer-bottom {
+    background: rgba(0,0,0,0.2);
+    padding: 20px 64px;
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 20px; flex-wrap: wrap;
+  }
+  .footer-links { display: flex; gap: 24px; }
+  .footer-links a {
+    font-size: 12px; color: rgba(255,255,255,0.5);
+    text-decoration: none; font-weight: 400;
+    transition: color 0.18s;
+  }
+  .footer-links a:hover { color: rgba(255,255,255,0.9); }
+
+  .consent-wrap {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 20px 64px 0;
+  }
+  .consent-wrap input[type="checkbox"] {
+    width: 16px; height: 16px; margin-top: 2px;
+    accent-color: #fff; cursor: pointer; flex-shrink: 0;
+  }
+  .consent-label {
+    font-size: 12px; line-height: 1.6;
+    color: rgba(255,255,255,0.55); font-weight: 300;
+  }
+  .consent-label a {
+    color: rgba(255,255,255,0.8);
+    text-decoration: underline; text-underline-offset: 2px;
+  }
+  .consent-label a:hover { color: #fff; }
+
   /* ── MODAL ── */
   .modal-overlay {
     display: none; position: fixed; inset: 0; z-index: 1000;
@@ -357,6 +389,8 @@
     .cat-section { padding-top: 48px; }
     .card-grid { grid-template-columns: 1fr; }
     .site-footer { padding: 48px 24px; flex-direction: column; align-items: flex-start; }
+    .footer-bottom { padding: 16px 24px; flex-direction: column; gap: 10px; }
+    .consent-wrap { padding: 16px 24px 0; }
   }
 </style>
 </head>
@@ -1035,16 +1069,36 @@
 </main>
 
 <!-- ── FOOTER ── -->
-<footer class="site-footer">
-  <div>
-    <div class="footer-brand">MirKa Digital</div>
-    <p class="footer-note">
-      Бағалар бастапқы нұсқа үшін.<br>
-      Нақты баға жобаны талқылағаннан кейін белгіленеді.<br>
-      Таңдаған прототипіңіздің атауын жазып хабарласыңыз.
-    </p>
+<footer>
+  <div class="site-footer">
+    <div>
+      <div class="footer-brand">MirKa Digital</div>
+      <p class="footer-note">
+        Бағалар бастапқы нұсқа үшін.<br>
+        Нақты баға жобаны талқылағаннан кейін белгіленеді.<br>
+        Таңдаған прототипіңіздің атауын жазып хабарласыңыз.
+      </p>
+    </div>
+    <a class="footer-btn" href="https://t.me/mirka_digital" target="_blank">Хабарласу →</a>
   </div>
-  <a class="footer-btn" href="https://t.me/mirka_digital" target="_blank">Хабарласу →</a>
+
+  <div class="consent-wrap">
+    <input type="checkbox" id="consent" checked>
+    <label class="consent-label" for="consent">
+      Хабарласу арқылы мен <a href="/offer" target="_blank">Публичная офертамен</a> және
+      <a href="/privacy" target="_blank">Құпиялылық саясатымен</a> таныстым және келісемін.
+      Жеке деректерімді өңдеуге рұқсат беремін.
+    </label>
+  </div>
+
+  <div class="footer-bottom">
+    <span style="font-size:12px;color:rgba(255,255,255,0.35);">© 2026 MirKa Digital</span>
+    <div class="footer-links">
+      <a href="/offer" target="_blank">Публичная оферта</a>
+      <a href="/privacy" target="_blank">Құпиялылық саясаты</a>
+      <a href="https://t.me/mirka_digital" target="_blank">@mirka_digital</a>
+    </div>
+  </div>
 </footer>
 
 <!-- ── MODAL ── -->
