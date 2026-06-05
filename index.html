@@ -575,22 +575,30 @@
     <div class="grid">
 
       <div class="card">
-        <div class="card-thumb" style="background: linear-gradient(135deg, #485563 0%, #29323c 100%);">
+        <div class="card-thumb" style="background: linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 50%, #2a2010 100%); border-bottom: 1px solid rgba(201,168,76,0.2);">
           <div class="card-emoji">🏗️</div>
           <div class="card-meta">
-            <div class="card-cat">Құрылыс / Ремонт</div>
-            <div class="card-name">Құрылыс Компания</div>
+            <div class="card-cat" style="color: #c9a84c;">Ремонт / Құрылыс</div>
+            <div class="card-name">RenovPro</div>
           </div>
         </div>
         <div class="card-body">
-          <div class="tags"><span class="tag">HTML</span><span class="tag">Портфолио</span><span class="tag">Сертификат</span></div>
-          <div class="card-desc">Жасалған жобалар портфолиосы, қызметтер, сертификаттар, байланыс формасы.</div>
+          <div class="tags">
+            <span class="tag">HTML</span>
+            <span class="tag" style="border-color:rgba(201,168,76,0.4);color:#c9a84c;">Премиум</span>
+            <span class="tag">Смета</span>
+            <span class="tag">Портфолио</span>
+          </div>
+          <div class="card-desc">Қара + алтын стиль. Смета калькулятор, жасалған жұмыстар галереясы, кейстер, байланыс формасы.</div>
           <div class="card-footer">
             <div>
               <div class="price-label">бастапқы баға</div>
               <div class="price-amount">₸100,000<span class="price-from"> бастап</span></div>
             </div>
-            <a class="btn-select" href="https://t.me/mirka_digital" target="_blank">Сұрау →</a>
+            <div style="display:flex;gap:6px;">
+              <button class="btn-preview" onclick="openPreview('renovpro/', 'RenovPro', 'mirka-catalog.vercel.app/renovpro')">👁 Көру</button>
+              <a class="btn-select" href="renovpro/" target="_blank">Ашу ↗</a>
+            </div>
           </div>
         </div>
       </div>

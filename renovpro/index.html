@@ -1,0 +1,2108 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RenovPro — Ремонт квартир с понятной сметой</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #0d0d0d;
+      --dark: #141414;
+      --dark2: #1a1a1a;
+      --dark3: #222222;
+      --gold: #c9a84c;
+      --gold-light: #e2c06a;
+      --gold-dark: #9e7c2e;
+      --white: #ffffff;
+      --gray: #888888;
+      --gray-light: #cccccc;
+      --gray-pale: #f5f5f5;
+      --border: rgba(201,168,76,0.2);
+      --radius: 12px;
+      --radius-lg: 20px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--black);
+      color: var(--white);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 60px;
+      background: rgba(13,13,13,0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      transition: padding 0.3s;
+    }
+
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 0.5px;
+    }
+
+    .nav-logo span { color: var(--gold); }
+
+    .nav-links {
+      display: flex; gap: 36px; list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none; color: var(--gray-light);
+      font-size: 14px; font-weight: 500;
+      letter-spacing: 0.3px;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--gold); }
+
+    .nav-cta {
+      background: var(--gold);
+      color: var(--black);
+      padding: 10px 24px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .nav-cta:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+    /* ─── LANG SWITCHER ─── */
+    .lang-switcher {
+      display: flex; align-items: center; gap: 4px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 4px;
+    }
+
+    .lang-btn {
+      padding: 6px 12px;
+      border-radius: 5px;
+      font-size: 13px; font-weight: 600;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      color: var(--gray);
+      letter-spacing: 0.3px;
+      transition: all 0.2s;
+    }
+
+    .lang-btn:hover { color: var(--white); }
+
+    .lang-btn.active {
+      background: var(--gold);
+      color: var(--black);
+    }
+
+    /* ─── HERO ─── */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex; align-items: center;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute; inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1800&q=85&auto=format&fit=crop');
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.3);
+    }
+
+    .hero-bg::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(13,13,13,0.7) 0%, rgba(13,13,13,0.2) 100%);
+    }
+
+    .hero-content {
+      position: relative; z-index: 2;
+      max-width: 780px;
+      padding: 0 60px;
+      margin-top: 80px;
+    }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(201,168,76,0.15);
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      padding: 8px 18px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--gold);
+      letter-spacing: 0.5px;
+      margin-bottom: 28px;
+    }
+
+    .hero-badge::before {
+      content: '';
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--gold);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .hero-title {
+      font-size: clamp(42px, 5.5vw, 72px);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -1.5px;
+      margin-bottom: 24px;
+    }
+
+    .hero-title span { color: var(--gold); }
+
+    .hero-sub {
+      font-size: 18px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.7);
+      max-width: 540px;
+      line-height: 1.7;
+      margin-bottom: 40px;
+    }
+
+    .hero-actions {
+      display: flex; align-items: center; gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--gold);
+      color: var(--black);
+      padding: 16px 36px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 700;
+      text-decoration: none;
+      letter-spacing: 0.2px;
+      transition: all 0.2s;
+      border: none; cursor: pointer;
+    }
+
+    .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 12px 40px rgba(201,168,76,0.3); }
+
+    .btn-secondary {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: transparent;
+      color: var(--white);
+      padding: 15px 28px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 500;
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.2);
+      transition: all 0.2s;
+    }
+
+    .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
+
+    .hero-stats {
+      position: absolute; bottom: 60px; left: 60px; right: 60px;
+      display: flex; gap: 0;
+      z-index: 2;
+    }
+
+    .stat-item {
+      flex: 1;
+      padding: 28px 36px;
+      border-right: 1px solid rgba(255,255,255,0.08);
+      background: rgba(13,13,13,0.7);
+      backdrop-filter: blur(20px);
+    }
+
+    .stat-item:first-child { border-radius: 12px 0 0 12px; }
+    .stat-item:last-child { border-right: none; border-radius: 0 12px 12px 0; }
+
+    .stat-num {
+      font-size: 36px;
+      font-weight: 800;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .stat-label {
+      font-size: 13px;
+      color: var(--gray);
+      font-weight: 400;
+    }
+
+    /* ─── SECTION BASE ─── */
+    section { padding: 100px 60px; }
+
+    .section-label {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-size: clamp(32px, 4vw, 52px);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -1px;
+      margin-bottom: 20px;
+    }
+
+    .section-sub {
+      font-size: 17px;
+      color: rgba(255,255,255,0.55);
+      max-width: 520px;
+      line-height: 1.7;
+    }
+
+    /* ─── CALCULATOR ─── */
+    #calculator {
+      background: var(--dark2);
+      padding: 100px 60px;
+    }
+
+    .calc-wrapper {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .calc-header {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: end;
+      margin-bottom: 60px;
+    }
+
+    .calc-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: start;
+    }
+
+    .calc-form {
+      background: var(--dark3);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius-lg);
+      padding: 40px;
+    }
+
+    .form-group {
+      margin-bottom: 28px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      color: var(--gray-light);
+      margin-bottom: 12px;
+    }
+
+    .option-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .option-btn {
+      padding: 10px 8px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 8px;
+      color: var(--gray-light);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.15s;
+    }
+
+    .option-btn:hover { border-color: rgba(201,168,76,0.4); color: var(--white); }
+    .option-btn.active {
+      background: rgba(201,168,76,0.12);
+      border-color: var(--gold);
+      color: var(--gold);
+      font-weight: 600;
+    }
+
+    .option-grid-2 { grid-template-columns: 1fr 1fr; }
+
+    .range-wrapper { position: relative; }
+
+    input[type="range"] {
+      width: 100%;
+      -webkit-appearance: none;
+      height: 4px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 2px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px; height: 20px;
+      background: var(--gold);
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 0 0 4px rgba(201,168,76,0.15);
+    }
+
+    .range-value {
+      text-align: right;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+
+    .toggle-group {
+      display: flex; flex-direction: column; gap: 10px;
+    }
+
+    .toggle-item {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 16px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .toggle-item:hover { border-color: rgba(201,168,76,0.3); }
+    .toggle-item.active { background: rgba(201,168,76,0.08); border-color: var(--gold); }
+
+    .toggle-label { font-size: 14px; font-weight: 500; color: var(--gray-light); }
+    .toggle-item.active .toggle-label { color: var(--gold); }
+
+    .toggle-switch {
+      width: 40px; height: 22px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 11px;
+      position: relative;
+      transition: background 0.2s;
+    }
+
+    .toggle-item.active .toggle-switch { background: var(--gold); }
+
+    .toggle-switch::after {
+      content: '';
+      position: absolute;
+      top: 3px; left: 3px;
+      width: 16px; height: 16px;
+      background: white;
+      border-radius: 50%;
+      transition: transform 0.2s;
+    }
+
+    .toggle-item.active .toggle-switch::after { transform: translateX(18px); }
+
+    /* Result card */
+    .calc-result {
+      background: linear-gradient(145deg, #1a1a1a, #111111);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 40px;
+      position: sticky;
+      top: 100px;
+    }
+
+    .result-label {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+
+    .result-price {
+      font-size: 46px;
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -2px;
+      margin-bottom: 6px;
+    }
+
+    .result-range {
+      font-size: 14px;
+      color: var(--gray);
+      margin-bottom: 28px;
+    }
+
+    .result-meta {
+      display: flex; gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .meta-card {
+      flex: 1;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 10px;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .meta-val {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 4px;
+    }
+
+    .meta-key {
+      font-size: 12px;
+      color: var(--gray);
+    }
+
+    .result-stages {
+      margin-bottom: 32px;
+    }
+
+    .stages-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--gray-light);
+      margin-bottom: 14px;
+      letter-spacing: 0.3px;
+    }
+
+    .stage-row {
+      display: flex; align-items: center;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      font-size: 13px;
+    }
+
+    .stage-row:last-child { border-bottom: none; }
+
+    .stage-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--gold);
+      flex-shrink: 0;
+    }
+
+    .stage-name { color: var(--gray-light); flex: 1; }
+    .stage-price { color: var(--white); font-weight: 600; }
+
+    .result-note {
+      font-size: 12px;
+      color: var(--gray);
+      padding: 12px 16px;
+      background: rgba(201,168,76,0.06);
+      border-radius: 8px;
+      border-left: 2px solid var(--gold);
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    /* ─── ADVANTAGES ─── */
+    #advantages {
+      background: var(--black);
+    }
+
+    .adv-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin-top: 60px;
+      border: 2px solid rgba(255,255,255,0.04);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+
+    .adv-card {
+      background: var(--dark2);
+      padding: 44px 36px;
+      border-right: 2px solid rgba(255,255,255,0.04);
+      border-bottom: 2px solid rgba(255,255,255,0.04);
+      transition: background 0.3s;
+    }
+
+    .adv-card:hover { background: var(--dark3); }
+
+    .adv-icon {
+      width: 52px; height: 52px;
+      background: rgba(201,168,76,0.1);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px;
+      margin-bottom: 24px;
+    }
+
+    .adv-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      line-height: 1.3;
+    }
+
+    .adv-text {
+      font-size: 14px;
+      color: var(--gray);
+      line-height: 1.7;
+    }
+
+    /* ─── CASES ─── */
+    #cases {
+      background: var(--dark2);
+    }
+
+    .cases-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 60px;
+    }
+
+    .case-card {
+      background: var(--dark3);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .case-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.4);
+    }
+
+    .case-images {
+      position: relative;
+      overflow: hidden;
+      height: 220px;
+    }
+
+    .case-before, .case-after {
+      position: absolute; inset: 0;
+      background-size: cover;
+      background-position: center;
+      transition: opacity 0.4s;
+    }
+
+    .case-after { opacity: 0; }
+    .case-card:hover .case-after { opacity: 1; }
+    .case-card:hover .case-before { opacity: 0; }
+
+    .case-overlay {
+      position: absolute; top: 12px; left: 12px;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 6px;
+      padding: 5px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+
+    .case-card:hover .case-overlay { content: ''; }
+
+    .case-hint {
+      position: absolute; top: 12px; right: 12px;
+      background: rgba(201,168,76,0.15);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 5px 10px;
+      font-size: 11px;
+      color: var(--gold);
+    }
+
+    .case-body { padding: 24px; }
+
+    .case-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .case-title {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      line-height: 1.3;
+    }
+
+    .case-metrics {
+      display: flex; gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .metric-pill {
+      display: flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-size: 13px;
+    }
+
+    .metric-pill span:first-child { color: var(--gray); }
+    .metric-pill span:last-child { font-weight: 600; }
+
+    .case-roi {
+      background: rgba(201,168,76,0.08);
+      border: 1px solid rgba(201,168,76,0.2);
+      border-radius: 8px;
+      padding: 12px 16px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+
+    .roi-label { font-size: 12px; color: var(--gray); }
+    .roi-value { font-size: 16px; font-weight: 700; color: var(--gold); }
+
+    /* ─── PROCESS ─── */
+    #process { background: var(--black); }
+
+    .process-track {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0;
+      margin-top: 70px;
+      position: relative;
+    }
+
+    .process-track::before {
+      content: '';
+      position: absolute;
+      top: 36px;
+      left: 10%;
+      right: 10%;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+      opacity: 0.3;
+    }
+
+    .process-step {
+      text-align: center;
+      padding: 0 20px;
+      position: relative;
+    }
+
+    .step-num {
+      width: 72px; height: 72px;
+      background: var(--dark3);
+      border: 2px solid var(--border);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--gold);
+      margin: 0 auto 24px;
+      position: relative;
+      z-index: 1;
+      transition: all 0.3s;
+    }
+
+    .process-step:hover .step-num {
+      background: var(--gold);
+      color: var(--black);
+      border-color: var(--gold);
+      transform: scale(1.1);
+    }
+
+    .step-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .step-text {
+      font-size: 13px;
+      color: var(--gray);
+      line-height: 1.6;
+    }
+
+    /* ─── FOR WHOM ─── */
+    #segments { background: var(--dark2); }
+
+    .seg-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 60px;
+    }
+
+    .seg-card {
+      position: relative;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      cursor: pointer;
+      height: 420px;
+    }
+
+    .seg-bg {
+      position: absolute; inset: 0;
+      background-size: cover;
+      background-position: center;
+      transition: transform 0.5s;
+    }
+
+    .seg-card:hover .seg-bg { transform: scale(1.05); }
+
+    .seg-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.3) 60%, transparent 100%);
+    }
+
+    .seg-content {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 32px;
+    }
+
+    .seg-icon {
+      font-size: 28px;
+      margin-bottom: 12px;
+    }
+
+    .seg-title {
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .seg-text {
+      font-size: 14px;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .seg-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      color: var(--gold);
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .seg-link::after { content: '→'; transition: transform 0.2s; }
+    .seg-card:hover .seg-link::after { transform: translateX(4px); }
+
+    /* ─── COMPARE ─── */
+    #compare { background: var(--black); }
+
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 60px;
+    }
+
+    .compare-table th {
+      padding: 20px 24px;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 700;
+      border-bottom: 2px solid rgba(255,255,255,0.06);
+    }
+
+    .compare-table th:first-child { text-align: left; font-size: 13px; color: var(--gray); font-weight: 500; }
+
+    .th-basic { color: var(--gray-light); }
+    .th-comfort { color: var(--white); }
+
+    .th-premium {
+      color: var(--gold);
+      position: relative;
+    }
+
+    .th-badge {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--black);
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-left: 8px;
+      letter-spacing: 0.5px;
+    }
+
+    .compare-table td {
+      padding: 16px 24px;
+      font-size: 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      text-align: center;
+    }
+
+    .compare-table td:first-child { text-align: left; color: var(--gray-light); }
+
+    .compare-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .td-premium { background: rgba(201,168,76,0.04); }
+
+    .check { color: var(--gold); font-size: 16px; }
+    .dash { color: rgba(255,255,255,0.15); font-size: 16px; }
+
+    .price-row td { font-size: 18px; font-weight: 700; }
+    .price-row .td-premium { color: var(--gold); }
+
+    /* ─── FLIPPING ─── */
+    #flipping { background: var(--dark2); }
+
+    .flip-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      margin-top: 60px;
+    }
+
+    .flip-img {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .flip-img img {
+      width: 100%;
+      height: 480px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .flip-badge {
+      position: absolute; bottom: 24px; left: 24px;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 20px;
+    }
+
+    .badge-val {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--gold);
+      line-height: 1;
+    }
+
+    .badge-label { font-size: 12px; color: var(--gray); margin-top: 4px; }
+
+    .flip-points { list-style: none; }
+    .flip-points li {
+      display: flex; gap: 16px;
+      padding: 20px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .flip-points li:last-child { border-bottom: none; }
+
+    .point-icon {
+      width: 40px; height: 40px;
+      background: rgba(201,168,76,0.1);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .point-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .point-text {
+      font-size: 13px;
+      color: var(--gray);
+      line-height: 1.6;
+    }
+
+    /* ─── CTA FINAL ─── */
+    #cta {
+      background: var(--black);
+      position: relative;
+      overflow: hidden;
+    }
+
+    #cta::before {
+      content: '';
+      position: absolute;
+      top: -200px; left: 50%;
+      transform: translateX(-50%);
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .cta-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .cta-title {
+      font-size: clamp(38px, 5vw, 64px);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -2px;
+      margin-bottom: 20px;
+    }
+
+    .cta-title span { color: var(--gold); }
+
+    .cta-sub {
+      font-size: 18px;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 56px;
+    }
+
+    .contact-form {
+      background: var(--dark2);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius-lg);
+      padding: 48px;
+      text-align: left;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .input-group {
+      display: flex; flex-direction: column; gap: 8px;
+    }
+
+    .input-group label {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      color: var(--gray);
+      text-transform: uppercase;
+    }
+
+    .input-group input, .input-group select {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 8px;
+      padding: 14px 18px;
+      color: var(--white);
+      font-size: 15px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .input-group input::placeholder { color: rgba(255,255,255,0.25); }
+
+    .input-group input:focus, .input-group select:focus {
+      border-color: var(--gold);
+    }
+
+    .input-group select {
+      cursor: pointer;
+      appearance: none;
+    }
+
+    .input-group select option {
+      background: var(--dark3);
+      color: var(--white);
+    }
+
+    .form-consent {
+      margin-top: 20px;
+    }
+
+    .consent-label {
+      display: flex; align-items: flex-start; gap: 12px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .consent-label input[type="checkbox"] {
+      display: none;
+    }
+
+    .consent-box {
+      flex-shrink: 0;
+      width: 20px; height: 20px;
+      border: 2px solid rgba(255,255,255,0.2);
+      border-radius: 5px;
+      background: rgba(255,255,255,0.04);
+      margin-top: 1px;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+      position: relative;
+    }
+
+    .consent-label:hover .consent-box {
+      border-color: var(--gold);
+    }
+
+    .consent-label input:checked ~ .consent-box {
+      background: var(--gold);
+      border-color: var(--gold);
+    }
+
+    .consent-label input:checked ~ .consent-box::after {
+      content: '';
+      display: block;
+      width: 5px; height: 9px;
+      border: 2px solid var(--black);
+      border-top: none; border-left: none;
+      transform: rotate(45deg) translate(-1px, -1px);
+    }
+
+    .consent-text {
+      font-size: 13px;
+      color: var(--gray);
+      line-height: 1.6;
+    }
+
+    .consent-text a {
+      color: var(--gold);
+      text-decoration: none;
+    }
+
+    .consent-text a:hover { text-decoration: underline; }
+
+    .form-submit {
+      margin-top: 20px;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--dark2);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 60px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 60px;
+      margin-bottom: 48px;
+    }
+
+    .footer-brand p {
+      font-size: 14px;
+      color: var(--gray);
+      line-height: 1.7;
+      margin-top: 16px;
+      max-width: 280px;
+    }
+
+    .footer-col h4 {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--gray-light);
+      margin-bottom: 20px;
+    }
+
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 10px; }
+
+    .footer-col ul a {
+      text-decoration: none;
+      color: var(--gray);
+      font-size: 14px;
+      transition: color 0.2s;
+    }
+
+    .footer-col ul a:hover { color: var(--gold); }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding-top: 24px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+
+    .footer-bottom p {
+      font-size: 13px;
+      color: var(--gray);
+    }
+
+    /* ─── TOAST ─── */
+    .toast {
+      position: fixed;
+      bottom: 30px; right: 30px;
+      background: var(--dark3);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 24px;
+      display: flex; align-items: center; gap: 12px;
+      z-index: 1000;
+      transform: translateY(80px);
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      max-width: 360px;
+    }
+
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast-icon { font-size: 20px; }
+    .toast-text { font-size: 14px; font-weight: 500; line-height: 1.4; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 1024px) {
+      nav { padding: 16px 30px; }
+      .nav-links { display: none; }
+      section { padding: 70px 30px; }
+      #calculator { padding: 70px 30px; }
+      .hero-content { padding: 0 30px; }
+      .hero-stats { left: 30px; right: 30px; bottom: 30px; }
+      .calc-header { grid-template-columns: 1fr; gap: 30px; }
+      .calc-grid { grid-template-columns: 1fr; }
+      .adv-grid { grid-template-columns: 1fr 1fr; }
+      .cases-grid { grid-template-columns: 1fr; }
+      .process-track { grid-template-columns: 1fr; gap: 30px; }
+      .process-track::before { display: none; }
+      .seg-grid { grid-template-columns: 1fr; }
+      .flip-grid { grid-template-columns: 1fr; gap: 40px; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 600px) {
+      .hero-title { font-size: 36px; }
+      .stat-item { padding: 16px 20px; }
+      .stat-num { font-size: 24px; }
+      .adv-grid { grid-template-columns: 1fr; }
+      .seg-card { height: 320px; }
+      footer { padding: 40px 30px; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .hero-stats { flex-direction: column; }
+      .stat-item:first-child { border-radius: 12px 12px 0 0; }
+      .stat-item:last-child { border-radius: 0 0 12px 12px; }
+      .stat-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── NAV ─── -->
+<nav>
+  <div class="nav-logo">Renov<span>Pro</span></div>
+  <ul class="nav-links">
+    <li><a href="#calculator" data-i18n="nav-calc">Калькулятор</a></li>
+    <li><a href="#cases" data-i18n="nav-cases">Кейсы</a></li>
+    <li><a href="#process" data-i18n="nav-process">Процесс</a></li>
+    <li><a href="#flipping" data-i18n="nav-flip">Флиппинг</a></li>
+    <li><a href="#cta" data-i18n="nav-contacts">Контакты</a></li>
+  </ul>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <div class="lang-switcher">
+      <button class="lang-btn active" data-lang="ru" onclick="setLang('ru')">RU</button>
+      <button class="lang-btn" data-lang="kz" onclick="setLang('kz')">ҚАЗ</button>
+    </div>
+    <a href="#cta" class="nav-cta" data-i18n="nav-cta">Получить смету</a>
+  </div>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-badge" data-i18n="hero-badge">Ремонт премиум-класса</div>
+    <h1 class="hero-title" data-i18n="hero-title">
+      Ремонт квартир<br/>с понятной <span>сметой за 2 минуты</span>
+    </h1>
+    <p class="hero-sub" data-i18n="hero-sub">
+      Рассчитайте стоимость ремонта онлайн и получите точный план работ — без звонков, без ожидания
+    </p>
+    <div class="hero-actions">
+      <a href="#calculator" class="btn-primary">
+        <span data-i18n="hero-btn1">Рассчитать стоимость</span>
+        <span>↓</span>
+      </a>
+      <a href="#cases" class="btn-secondary">
+        <span data-i18n="hero-btn2">Смотреть кейсы</span>
+      </a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat-item">
+      <div class="stat-num">120+</div>
+      <div class="stat-label" data-i18n="stat1">Завершённых проектов</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" data-i18n="stat2-num">8 лет</div>
+      <div class="stat-label" data-i18n="stat2">На рынке ремонта</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">98%</div>
+      <div class="stat-label" data-i18n="stat3">Сдача в срок</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">₸0</div>
+      <div class="stat-label" data-i18n="stat4">Скрытых платежей</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CALCULATOR ─── -->
+<section id="calculator">
+  <div class="calc-wrapper">
+    <div class="calc-header">
+      <div>
+        <div class="section-label" data-i18n="calc-label">Онлайн-калькулятор</div>
+        <h2 class="section-title" data-i18n="calc-title">Узнайте стоимость<br/>вашего ремонта</h2>
+      </div>
+      <p class="section-sub" data-i18n="calc-sub">Выберите параметры — и за секунды получите реалистичный диапазон цен и сроков без звонков</p>
+    </div>
+
+    <div class="calc-grid">
+      <!-- FORM -->
+      <div class="calc-form">
+
+        <div class="form-group">
+          <div class="form-label" data-i18n="form-type">Тип недвижимости</div>
+          <div class="option-grid">
+            <button class="option-btn active" data-i18n="opt-new" onclick="setOption(this,'type','new')">Новостройка</button>
+            <button class="option-btn" data-i18n="opt-sec" onclick="setOption(this,'type','secondary')">Вторичка</button>
+            <button class="option-btn" data-i18n="opt-com" onclick="setOption(this,'type','commercial')">Коммерция</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="range-value" id="areaDisplay">55 м²</div>
+          <div class="form-label" data-i18n="form-area">Площадь помещения</div>
+          <div class="range-wrapper">
+            <input type="range" min="20" max="300" value="55" id="areaRange" oninput="updateArea(this.value)" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="form-label" data-i18n="form-rtype">Тип ремонта</div>
+          <div class="option-grid">
+            <button class="option-btn" data-i18n="opt-basic" onclick="setOption(this,'rtype','basic')">Базовый</button>
+            <button class="option-btn active" data-i18n="opt-comfort" onclick="setOption(this,'rtype','comfort')">Комфорт</button>
+            <button class="option-btn" data-i18n="opt-premium" onclick="setOption(this,'rtype','premium')">Премиум</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="form-label" data-i18n="form-state">Состояние объекта</div>
+          <div class="option-grid">
+            <button class="option-btn active" data-i18n="opt-rough" onclick="setOption(this,'state','rough')">Черновая</button>
+            <button class="option-btn" data-i18n="opt-partial" onclick="setOption(this,'state','partial')">Частично</button>
+            <button class="option-btn" data-i18n="opt-demo" onclick="setOption(this,'state','demo')">Под демонтаж</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="form-label" data-i18n="form-extra">Дополнительно</div>
+          <div class="toggle-group">
+            <div class="toggle-item" id="toggle-design" onclick="toggleExtra('design')">
+              <span class="toggle-label" data-i18n="extra-design">Дизайн-проект</span>
+              <div class="toggle-switch"></div>
+            </div>
+            <div class="toggle-item" id="toggle-furniture" onclick="toggleExtra('furniture')">
+              <span class="toggle-label" data-i18n="extra-furn">Меблировка</span>
+              <div class="toggle-switch"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RESULT -->
+      <div class="calc-result" id="calcResult">
+        <div class="result-label" data-i18n="result-label">Предварительная смета</div>
+        <div class="result-price" id="resultPrice">₸8 250 000</div>
+        <div class="result-range" id="resultRange">диапазон: ₸7 500 000 – ₸9 200 000</div>
+
+        <div class="result-meta">
+          <div class="meta-card">
+            <div class="meta-val" id="metaDays">35 дн.</div>
+            <div class="meta-key" data-i18n="meta-days">Срок работ</div>
+          </div>
+          <div class="meta-card">
+            <div class="meta-val" id="metaArea">55 м²</div>
+            <div class="meta-key" data-i18n="meta-area">Площадь</div>
+          </div>
+          <div class="meta-card">
+            <div class="meta-val" id="metaPerM">150К</div>
+            <div class="meta-key" data-i18n="meta-perm">За м²</div>
+          </div>
+        </div>
+
+        <div class="result-stages">
+          <div class="stages-title" data-i18n="stages-title">Этапы работ</div>
+          <div class="stage-row"><div class="stage-dot"></div><span class="stage-name" data-i18n="stage1">Демонтаж и подготовка</span><span class="stage-price" id="s1">₸620К</span></div>
+          <div class="stage-row"><div class="stage-dot"></div><span class="stage-name" data-i18n="stage2">Черновые работы</span><span class="stage-price" id="s2">₸2 100К</span></div>
+          <div class="stage-row"><div class="stage-dot"></div><span class="stage-name" data-i18n="stage3">Электрика и сантехника</span><span class="stage-price" id="s3">₸1 480К</span></div>
+          <div class="stage-row"><div class="stage-dot"></div><span class="stage-name" data-i18n="stage4">Отделка и финиш</span><span class="stage-price" id="s4">₸3 200К</span></div>
+          <div class="stage-row"><div class="stage-dot"></div><span class="stage-name" data-i18n="stage5">Материалы</span><span class="stage-price" id="s5">₸850К</span></div>
+        </div>
+
+        <div class="result-note" data-i18n="result-note">
+          💡 Точная смета — после бесплатного выезда замерщика. Итоговая цена отличается не более чем на 5%.
+        </div>
+
+        <button class="btn-primary" style="width:100%;justify-content:center;" onclick="scrollToContact()" data-i18n="calc-cta">
+          Получить точную смету →
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── ADVANTAGES ─── -->
+<section id="advantages">
+  <div class="section-label" data-i18n="adv-label">Почему RenovPro</div>
+  <h2 class="section-title" data-i18n="adv-title">6 причин выбрать нас</h2>
+  <div class="adv-grid">
+    <div class="adv-card">
+      <div class="adv-icon">📋</div>
+      <div class="adv-title" data-i18n="adv1-t">Фиксированная смета</div>
+      <div class="adv-text" data-i18n="adv1-x">Подписываем договор с точными ценами. Никаких доплат в процессе и неожиданных расходов — цена зафиксирована.</div>
+    </div>
+    <div class="adv-card">
+      <div class="adv-icon">⏱</div>
+      <div class="adv-title" data-i18n="adv2-t">Соблюдение сроков</div>
+      <div class="adv-text" data-i18n="adv2-x">98% объектов сдаём в оговорённый срок. Штраф за каждый день просрочки — прописан в договоре.</div>
+    </div>
+    <div class="adv-card">
+      <div class="adv-icon">🔍</div>
+      <div class="adv-title" data-i18n="adv3-t">Прозрачный процесс</div>
+      <div class="adv-text" data-i18n="adv3-x">Еженедельные фотоотчёты, доступ к смете онлайн, личный менеджер — вы контролируете каждый этап.</div>
+    </div>
+    <div class="adv-card">
+      <div class="adv-icon">🏆</div>
+      <div class="adv-title" data-i18n="adv4-t">Контроль качества</div>
+      <div class="adv-text" data-i18n="adv4-x">Собственная служба контроля качества. Двухлетняя гарантия на все виды работ.</div>
+    </div>
+    <div class="adv-card">
+      <div class="adv-icon">📈</div>
+      <div class="adv-title" data-i18n="adv5-t">Экспертиза в флиппинге</div>
+      <div class="adv-text" data-i18n="adv5-x">Знаем, какие решения увеличивают стоимость квартиры — делаем ремонт, который даёт возврат инвестиций.</div>
+    </div>
+    <div class="adv-card">
+      <div class="adv-icon">🤝</div>
+      <div class="adv-title" data-i18n="adv6-t">Один договор на всё</div>
+      <div class="adv-text" data-i18n="adv6-x">Работы, материалы, дизайн — один подрядчик, одна ответственность, одна точка контакта.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CASES ─── -->
+<section id="cases">
+  <div class="section-label" data-i18n="cases-label">Портфолио</div>
+  <h2 class="section-title" data-i18n="cases-title">Реализованные проекты</h2>
+  <p class="section-sub" data-i18n="cases-sub">Наведите на карточку, чтобы увидеть результат</p>
+  <div class="cases-grid">
+
+    <div class="case-card">
+      <div class="case-images">
+        <div class="case-before" style="background-image: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=700&q=80&auto=format&fit=crop')"></div>
+        <div class="case-after" style="background-image: url('https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=700&q=80&auto=format&fit=crop')"></div>
+        <div class="case-overlay" data-i18n="before">До</div>
+        <div class="case-hint" data-i18n="hover-hint">Hover → После</div>
+      </div>
+      <div class="case-body">
+        <div class="case-tag" data-i18n="tag-flip">Флиппинг</div>
+        <div class="case-title" data-i18n="case1-title">3-комнатная, ЖК "Комфорт Таун"</div>
+        <div class="case-metrics">
+          <div class="metric-pill"><span data-i18n="m-area">Площадь</span><span>72 м²</span></div>
+          <div class="metric-pill"><span data-i18n="m-term">Срок</span><span data-i18n="c1-days">42 дня</span></div>
+          <div class="metric-pill"><span data-i18n="m-budget">Бюджет</span><span>₸9.2М</span></div>
+        </div>
+        <div class="case-roi">
+          <span class="roi-label" data-i18n="roi1-l">Прирост стоимости</span>
+          <span class="roi-value">+₸18.5М (+67%)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="case-card">
+      <div class="case-images">
+        <div class="case-before" style="background-image: url('https://images.unsplash.com/photo-1484154218962-a197022b5858?w=700&q=80&auto=format&fit=crop')"></div>
+        <div class="case-after" style="background-image: url('https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=700&q=80&auto=format&fit=crop')"></div>
+        <div class="case-overlay" data-i18n="before">До</div>
+        <div class="case-hint" data-i18n="hover-hint">Hover → После</div>
+      </div>
+      <div class="case-body">
+        <div class="case-tag" data-i18n="tag-prem">Премиум отделка</div>
+        <div class="case-title" data-i18n="case2-title">2-комнатная новостройка, 47 м²</div>
+        <div class="case-metrics">
+          <div class="metric-pill"><span data-i18n="m-area">Площадь</span><span>47 м²</span></div>
+          <div class="metric-pill"><span data-i18n="m-term">Срок</span><span data-i18n="c2-days">35 дней</span></div>
+          <div class="metric-pill"><span data-i18n="m-budget">Бюджет</span><span>₸7.8М</span></div>
+        </div>
+        <div class="case-roi">
+          <span class="roi-label" data-i18n="roi2-l">Доход от аренды</span>
+          <span class="roi-value">+₸420К/мес</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="case-card">
+      <div class="case-images">
+        <div class="case-before" style="background-image: url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=700&q=80&auto=format&fit=crop')"></div>
+        <div class="case-after" style="background-image: url('https://images.unsplash.com/photo-1600210492493-0946911123ea?w=700&q=80&auto=format&fit=crop')"></div>
+        <div class="case-overlay" data-i18n="before">До</div>
+        <div class="case-hint" data-i18n="hover-hint">Hover → После</div>
+      </div>
+      <div class="case-body">
+        <div class="case-tag" data-i18n="tag-self">Под себя</div>
+        <div class="case-title" data-i18n="case3-title">4-комнатная, вторичка, 95 м²</div>
+        <div class="case-metrics">
+          <div class="metric-pill"><span data-i18n="m-area">Площадь</span><span>95 м²</span></div>
+          <div class="metric-pill"><span data-i18n="m-term">Срок</span><span data-i18n="c3-days">58 дней</span></div>
+          <div class="metric-pill"><span data-i18n="m-budget">Бюджет</span><span>₸14.6М</span></div>
+        </div>
+        <div class="case-roi">
+          <span class="roi-label" data-i18n="roi3-l">Оценка роста стоимости</span>
+          <span class="roi-value">+₸22М (+41%)</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─── PROCESS ─── -->
+<section id="process">
+  <div class="section-label" data-i18n="proc-label">Как мы работаем</div>
+  <h2 class="section-title" data-i18n="proc-title">5 шагов до готовой квартиры</h2>
+  <div class="process-track">
+    <div class="process-step">
+      <div class="step-num">1</div>
+      <div class="step-title" data-i18n="p1-t">Заявка и расчёт</div>
+      <div class="step-text" data-i18n="p1-x">Онлайн-калькулятор или звонок. Предварительная смета за 2 минуты.</div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">2</div>
+      <div class="step-title" data-i18n="p2-t">Бесплатный замер</div>
+      <div class="step-text" data-i18n="p2-x">Выезд специалиста. Точный обмер и фиксация состояния объекта.</div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">3</div>
+      <div class="step-title" data-i18n="p3-t">Договор и смета</div>
+      <div class="step-text" data-i18n="p3-x">Фиксируем цену, срок и объём работ. Подписываем договор без скрытых условий.</div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">4</div>
+      <div class="step-title" data-i18n="p4-t">Ремонт</div>
+      <div class="step-text" data-i18n="p4-x">Работы по плану с еженедельными фотоотчётами. Личный прораб на объекте.</div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">5</div>
+      <div class="step-title" data-i18n="p5-t">Сдача объекта</div>
+      <div class="step-text" data-i18n="p5-x">Принимаете квартиру с чек-листом. Гарантия 2 года. Устраним замечания бесплатно.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOR WHOM ─── -->
+<section id="segments">
+  <div class="section-label" data-i18n="seg-label">Для кого</div>
+  <h2 class="section-title" data-i18n="seg-title">Под каждую цель — своё решение</h2>
+  <div class="seg-grid">
+
+    <div class="seg-card">
+      <div class="seg-bg" style="background-image: url('https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=700&q=80&auto=format&fit=crop')"></div>
+      <div class="seg-overlay"></div>
+      <div class="seg-content">
+        <div class="seg-icon">🏠</div>
+        <div class="seg-title" data-i18n="s1-t">Для себя</div>
+        <div class="seg-text" data-i18n="s1-x">Ремонт, в котором будет приятно жить. Продуманные детали, качественные материалы, комфортный процесс.</div>
+        <a href="#calculator" class="seg-link" data-i18n="s1-link">Рассчитать стоимость</a>
+      </div>
+    </div>
+
+    <div class="seg-card">
+      <div class="seg-bg" style="background-image: url('https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=700&q=80&auto=format&fit=crop')"></div>
+      <div class="seg-overlay"></div>
+      <div class="seg-content">
+        <div class="seg-icon">🔑</div>
+        <div class="seg-title" data-i18n="s2-t">Под аренду</div>
+        <div class="seg-text" data-i18n="s2-x">Надёжные материалы, функциональный дизайн. Максимальная арендная ставка при минимальном бюджете.</div>
+        <a href="#calculator" class="seg-link" data-i18n="s2-link">Рассчитать доходность</a>
+      </div>
+    </div>
+
+    <div class="seg-card">
+      <div class="seg-bg" style="background-image: url('https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=700&q=80&auto=format&fit=crop')"></div>
+      <div class="seg-overlay"></div>
+      <div class="seg-content">
+        <div class="seg-icon">📈</div>
+        <div class="seg-title" data-i18n="s3-t">Флиппинг</div>
+        <div class="seg-text" data-i18n="s3-x">Знаем, что увеличивает цену объекта. Ремонт за 35–50 дней с ROI от 40% — опыт 40+ инвест-проектов.</div>
+        <a href="#flipping" class="seg-link" data-i18n="s3-link">Узнать о флиппинге</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─── COMPARE ─── -->
+<section id="compare">
+  <div class="section-label" data-i18n="cmp-label">Сравнение пакетов</div>
+  <h2 class="section-title" data-i18n="cmp-title">Выберите свой уровень</h2>
+  <table class="compare-table">
+    <thead>
+      <tr>
+        <th></th>
+        <th class="th-basic" data-i18n="opt-basic">Базовый</th>
+        <th class="th-comfort" data-i18n="opt-comfort">Комфорт</th>
+        <th class="th-premium"><span data-i18n="opt-premium">Премиум</span> <span class="th-badge" data-i18n="cmp-hit">ХИТ</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td data-i18n="cmp-r1">Стоимость за м²</td>
+        <td>₸90 000 – 120 000</td>
+        <td>₸140 000 – 180 000</td>
+        <td class="td-premium">₸220 000 – 320 000</td>
+      </tr>
+      <tr>
+        <td data-i18n="cmp-r2">Сроки (60 м²)</td>
+        <td data-i18n="cmp-r2b">45–55 дней</td>
+        <td data-i18n="cmp-r2c">40–50 дней</td>
+        <td class="td-premium" data-i18n="cmp-r2d">35–45 дней</td>
+      </tr>
+      <tr>
+        <td data-i18n="cmp-r3">Материалы</td>
+        <td data-i18n="cmp-r3b">Эконом-класс</td>
+        <td data-i18n="cmp-r3c">Средний сегмент</td>
+        <td class="td-premium" data-i18n="cmp-r3d">Премиум бренды</td>
+      </tr>
+      <tr>
+        <td data-i18n="extra-design">Дизайн-проект</td>
+        <td><span class="dash">—</span></td>
+        <td><span class="check" data-i18n="cmp-base-dp">✓ Базовый</span></td>
+        <td class="td-premium"><span class="check" data-i18n="cmp-full-dp">✓ Полный</span></td>
+      </tr>
+      <tr>
+        <td data-i18n="cmp-r5">Личный менеджер</td>
+        <td><span class="dash">—</span></td>
+        <td><span class="check">✓</span></td>
+        <td class="td-premium"><span class="check">✓ 24/7</span></td>
+      </tr>
+      <tr>
+        <td data-i18n="cmp-r6">Фотоотчёты</td>
+        <td data-i18n="cmp-r6b">Еженедельно</td>
+        <td data-i18n="cmp-r6c">Ежедневно</td>
+        <td class="td-premium" data-i18n="cmp-r6d">В режиме реального времени</td>
+      </tr>
+      <tr>
+        <td data-i18n="extra-furn">Меблировка</td>
+        <td><span class="dash">—</span></td>
+        <td data-i18n="cmp-opt">Опционально</td>
+        <td class="td-premium"><span class="check" data-i18n="cmp-incl">✓ Включено</span></td>
+      </tr>
+      <tr>
+        <td data-i18n="cmp-r8">Гарантия</td>
+        <td data-i18n="cmp-r8b">1 год</td>
+        <td data-i18n="cmp-r8c">2 года</td>
+        <td class="td-premium" data-i18n="cmp-r8d">3 года</td>
+      </tr>
+      <tr class="price-row">
+        <td data-i18n="cmp-r9">Пример (55 м²)</td>
+        <td>от ₸5.5М</td>
+        <td>от ₸8.2М</td>
+        <td class="td-premium">от ₸13.5М</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ─── FLIPPING ─── -->
+<section id="flipping">
+  <div class="section-label" data-i18n="flip-label">Инвестиционный ремонт</div>
+  <h2 class="section-title" data-i18n="flip-title">Флиппинг с гарантией ROI</h2>
+  <p class="section-sub" data-i18n="flip-sub">40+ проектов. Знаем, что реально поднимает цену квартиры на рынке Казахстана.</p>
+  <div class="flip-grid">
+    <div class="flip-img">
+      <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=900&q=85&auto=format&fit=crop" alt="Флиппинг результат" />
+      <div class="flip-badge">
+        <div class="badge-val">+47%</div>
+        <div class="badge-label" data-i18n="flip-badge-l">Средний рост стоимости</div>
+      </div>
+    </div>
+    <ul class="flip-points">
+      <li>
+        <div class="point-icon">📊</div>
+        <div>
+          <div class="point-title" data-i18n="fp1-t">Анализ рынка до старта</div>
+          <div class="point-text" data-i18n="fp1-x">Оцениваем потенциал объекта и рассчитываем ROI ещё до покупки квартиры. Поможем выбрать объект с максимальным потенциалом.</div>
+        </div>
+      </li>
+      <li>
+        <div class="point-icon">⚡</div>
+        <div>
+          <div class="point-title" data-i18n="fp2-t">Скорость — ваш доход</div>
+          <div class="point-text" data-i18n="fp2-x">Каждый день простоя — потеря денег. Сдаём флиппинг-объекты за 35–50 дней. Ни один проект не сорвал срок продажи.</div>
+        </div>
+      </li>
+      <li>
+        <div class="point-icon">🎯</div>
+        <div>
+          <div class="point-title" data-i18n="fp3-t">Решения, которые продают</div>
+          <div class="point-text" data-i18n="fp3-x">Знаем, что покупатель хочет видеть. Не тратим бюджет на лишнее — вкладываем в то, что поднимает цену: кухня, санузел, отделка.</div>
+        </div>
+      </li>
+      <li>
+        <div class="point-icon">📦</div>
+        <div>
+          <div class="point-title" data-i18n="fp4-t">Под ключ для инвестора</div>
+          <div class="point-text" data-i18n="fp4-x">Ремонт + меблировка + фотосессия + помощь с продажей. Вы передаёте нам ключи — мы возвращаем готовый продукт.</div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ─── FINAL CTA ─── -->
+<section id="cta">
+  <div class="cta-inner">
+    <div class="section-label" data-i18n="cta-label">Начать сейчас</div>
+    <h2 class="cta-title" data-i18n="cta-title">Получите расчёт стоимости<br/><span>вашего ремонта</span></h2>
+    <p class="cta-sub" data-i18n="cta-sub">Заполните форму — перезвоним в течение 30 минут</p>
+    <div class="contact-form">
+      <div class="form-row">
+        <div class="input-group">
+          <label data-i18n="f-name">Имя</label>
+          <input type="text" id="fname" data-i18n-ph="ph-name" placeholder="Ваше имя" />
+        </div>
+        <div class="input-group">
+          <label data-i18n="f-phone">Телефон</label>
+          <input type="tel" id="fphone" placeholder="+7 (___) ___-__-__" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="input-group">
+          <label data-i18n="f-area">Площадь (м²)</label>
+          <input type="number" id="farea" data-i18n-ph="ph-area" placeholder="Например: 65" />
+        </div>
+        <div class="input-group">
+          <label data-i18n="form-rtype">Тип ремонта</label>
+          <select id="ftype">
+            <option value="" data-i18n="sel-default">Выберите тип</option>
+            <option data-i18n="opt-basic">Базовый</option>
+            <option data-i18n="opt-comfort">Комфорт</option>
+            <option data-i18n="opt-premium">Премиум</option>
+            <option>Флиппинг</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-consent">
+        <label class="consent-label" id="consentLabel">
+          <input type="checkbox" id="consentCheck" onchange="toggleSubmit()" />
+          <span class="consent-box"></span>
+          <span class="consent-text" data-i18n="consent-text">Я согласен(а) с <a href="privacy.html" target="_blank">политикой конфиденциальности</a> и даю согласие на обработку персональных данных</span>
+        </label>
+      </div>
+      <div class="form-submit">
+        <button class="btn-primary" id="submitBtn" onclick="submitForm()" disabled style="opacity:0.45;cursor:not-allowed;" data-i18n="submit-btn">
+          Отправить заявку →
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="nav-logo">Renov<span style="color:var(--gold)">Pro</span></div>
+      <p data-i18n="footer-desc">Строительная компания с фокусом на качество, скорость и прозрачность. Ремонт квартир, дизайн и флиппинг в Астане.</p>
+    </div>
+    <div class="footer-col">
+      <h4 data-i18n="fc-services">Услуги</h4>
+      <ul>
+        <li><a href="#" data-i18n="fs1">Ремонт квартир</a></li>
+        <li><a href="#" data-i18n="extra-design">Дизайн-проект</a></li>
+        <li><a href="#">Флиппинг</a></li>
+        <li><a href="#" data-i18n="fs4">Коммерческие объекты</a></li>
+        <li><a href="#" data-i18n="extra-furn">Меблировка</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 data-i18n="fc-company">Компания</h4>
+      <ul>
+        <li><a href="#" data-i18n="fc1">О нас</a></li>
+        <li><a href="#" data-i18n="cases-label">Портфолио</a></li>
+        <li><a href="#" data-i18n="fc3">Отзывы</a></li>
+        <li><a href="#" data-i18n="fc4">Вакансии</a></li>
+        <li><a href="#" data-i18n="fc5">Блог</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 data-i18n="nav-contacts">Контакты</h4>
+      <ul>
+        <li><a href="#">+7 (717) 000-00-00</a></li>
+        <li><a href="#">info@renovpro.kz</a></li>
+        <li><a href="#" data-i18n="footer-addr">Астана, ул. Кабанбай батыра 1</a></li>
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">WhatsApp</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p data-i18n="copyright">© 2025 RenovPro. Все права защищены.</p>
+    <p>
+      <a href="privacy.html" style="color:var(--gray);text-decoration:none;transition:color 0.2s" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--gray)'" data-i18n="link-privacy">Политика конфиденциальности</a>
+      ·
+      <a href="oferta.html" style="color:var(--gray);text-decoration:none;transition:color 0.2s" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--gray)'" data-i18n="link-oferta">Договор оферты</a>
+    </p>
+  </div>
+</footer>
+
+<!-- ─── TOAST ─── -->
+<div class="toast" id="toast">
+  <div class="toast-icon">✅</div>
+  <div class="toast-text" id="toastText">Заявка отправлена! Перезвоним в течение 30 минут.</div>
+</div>
+
+<script>
+  // ─── TRANSLATIONS ───
+  const T = {
+    ru: {
+      'nav-calc':'Калькулятор','nav-cases':'Кейсы','nav-process':'Процесс',
+      'nav-flip':'Флиппинг','nav-contacts':'Контакты','nav-cta':'Получить смету',
+      'hero-badge':'Ремонт премиум-класса',
+      'hero-title':'Ремонт квартир<br/>с понятной <span>сметой за 2 минуты</span>',
+      'hero-sub':'Рассчитайте стоимость ремонта онлайн и получите точный план работ — без звонков, без ожидания',
+      'hero-btn1':'Рассчитать стоимость','hero-btn2':'Смотреть кейсы',
+      'stat1':'Завершённых проектов','stat2-num':'8 лет','stat2':'На рынке ремонта',
+      'stat3':'Сдача в срок','stat4':'Скрытых платежей',
+      'calc-label':'Онлайн-калькулятор',
+      'calc-title':'Узнайте стоимость<br/>вашего ремонта',
+      'calc-sub':'Выберите параметры — и за секунды получите реалистичный диапазон цен и сроков без звонков',
+      'form-type':'Тип недвижимости','opt-new':'Новостройка','opt-sec':'Вторичка','opt-com':'Коммерция',
+      'form-area':'Площадь помещения','form-rtype':'Тип ремонта',
+      'opt-basic':'Базовый','opt-comfort':'Комфорт','opt-premium':'Премиум',
+      'form-state':'Состояние объекта','opt-rough':'Черновая','opt-partial':'Частично','opt-demo':'Под демонтаж',
+      'form-extra':'Дополнительно','extra-design':'Дизайн-проект','extra-furn':'Меблировка',
+      'result-label':'Предварительная смета',
+      'meta-days':'Срок работ','meta-area':'Площадь','meta-perm':'За м²',
+      'stages-title':'Этапы работ',
+      'stage1':'Демонтаж и подготовка','stage2':'Черновые работы',
+      'stage3':'Электрика и сантехника','stage4':'Отделка и финиш','stage5':'Материалы',
+      'result-note':'💡 Точная смета — после бесплатного выезда замерщика. Итоговая цена отличается не более чем на 5%.',
+      'calc-cta':'Получить точную смету →',
+      'range-word':'диапазон','days-word':'дн.',
+      'adv-label':'Почему RenovPro','adv-title':'6 причин выбрать нас',
+      'adv1-t':'Фиксированная смета','adv1-x':'Подписываем договор с точными ценами. Никаких доплат в процессе и неожиданных расходов — цена зафиксирована.',
+      'adv2-t':'Соблюдение сроков','adv2-x':'98% объектов сдаём в оговорённый срок. Штраф за каждый день просрочки — прописан в договоре.',
+      'adv3-t':'Прозрачный процесс','adv3-x':'Еженедельные фотоотчёты, доступ к смете онлайн, личный менеджер — вы контролируете каждый этап.',
+      'adv4-t':'Контроль качества','adv4-x':'Собственная служба контроля качества. Двухлетняя гарантия на все виды работ.',
+      'adv5-t':'Экспертиза в флиппинге','adv5-x':'Знаем, какие решения увеличивают стоимость квартиры — делаем ремонт, который даёт возврат инвестиций.',
+      'adv6-t':'Один договор на всё','adv6-x':'Работы, материалы, дизайн — один подрядчик, одна ответственность, одна точка контакта.',
+      'cases-label':'Портфолио','cases-title':'Реализованные проекты',
+      'cases-sub':'Наведите на карточку, чтобы увидеть результат',
+      'before':'До','hover-hint':'Hover → После',
+      'tag-flip':'Флиппинг','tag-prem':'Премиум отделка','tag-self':'Под себя',
+      'case1-title':'3-комнатная, ЖК "Комфорт Таун"',
+      'case2-title':'2-комнатная новостройка, 47 м²',
+      'case3-title':'4-комнатная, вторичка, 95 м²',
+      'm-area':'Площадь','m-term':'Срок','m-budget':'Бюджет',
+      'c1-days':'42 дня','c2-days':'35 дней','c3-days':'58 дней',
+      'roi1-l':'Прирост стоимости','roi2-l':'Доход от аренды','roi3-l':'Оценка роста стоимости',
+      'proc-label':'Как мы работаем','proc-title':'5 шагов до готовой квартиры',
+      'p1-t':'Заявка и расчёт','p1-x':'Онлайн-калькулятор или звонок. Предварительная смета за 2 минуты.',
+      'p2-t':'Бесплатный замер','p2-x':'Выезд специалиста. Точный обмер и фиксация состояния объекта.',
+      'p3-t':'Договор и смета','p3-x':'Фиксируем цену, срок и объём работ. Подписываем договор без скрытых условий.',
+      'p4-t':'Ремонт','p4-x':'Работы по плану с еженедельными фотоотчётами. Личный прораб на объекте.',
+      'p5-t':'Сдача объекта','p5-x':'Принимаете квартиру с чек-листом. Гарантия 2 года. Устраним замечания бесплатно.',
+      'seg-label':'Для кого','seg-title':'Под каждую цель — своё решение',
+      's1-t':'Для себя','s1-x':'Ремонт, в котором будет приятно жить. Продуманные детали, качественные материалы, комфортный процесс.','s1-link':'Рассчитать стоимость',
+      's2-t':'Под аренду','s2-x':'Надёжные материалы, функциональный дизайн. Максимальная арендная ставка при минимальном бюджете.','s2-link':'Рассчитать доходность',
+      's3-t':'Флиппинг','s3-x':'Знаем, что увеличивает цену объекта. Ремонт за 35–50 дней с ROI от 40% — опыт 40+ инвест-проектов.','s3-link':'Узнать о флиппинге',
+      'cmp-label':'Сравнение пакетов','cmp-title':'Выберите свой уровень','cmp-hit':'ХИТ',
+      'cmp-r1':'Стоимость за м²','cmp-r2':'Сроки (60 м²)','cmp-r2b':'45–55 дней','cmp-r2c':'40–50 дней','cmp-r2d':'35–45 дней',
+      'cmp-r3':'Материалы','cmp-r3b':'Эконом-класс','cmp-r3c':'Средний сегмент','cmp-r3d':'Премиум бренды',
+      'cmp-base-dp':'✓ Базовый','cmp-full-dp':'✓ Полный',
+      'cmp-r5':'Личный менеджер','cmp-r6':'Фотоотчёты','cmp-r6b':'Еженедельно','cmp-r6c':'Ежедневно','cmp-r6d':'В режиме реального времени',
+      'cmp-opt':'Опционально','cmp-incl':'✓ Включено',
+      'cmp-r8':'Гарантия','cmp-r8b':'1 год','cmp-r8c':'2 года','cmp-r8d':'3 года','cmp-r9':'Пример (55 м²)',
+      'flip-label':'Инвестиционный ремонт','flip-title':'Флиппинг с гарантией ROI',
+      'flip-sub':'40+ проектов. Знаем, что реально поднимает цену квартиры на рынке Казахстана.',
+      'flip-badge-l':'Средний рост стоимости',
+      'fp1-t':'Анализ рынка до старта','fp1-x':'Оцениваем потенциал объекта и рассчитываем ROI ещё до покупки квартиры. Поможем выбрать объект с максимальным потенциалом.',
+      'fp2-t':'Скорость — ваш доход','fp2-x':'Каждый день простоя — потеря денег. Сдаём флиппинг-объекты за 35–50 дней. Ни один проект не сорвал срок продажи.',
+      'fp3-t':'Решения, которые продают','fp3-x':'Знаем, что покупатель хочет видеть. Не тратим бюджет на лишнее — вкладываем в то, что поднимает цену: кухня, санузел, отделка.',
+      'fp4-t':'Под ключ для инвестора','fp4-x':'Ремонт + меблировка + фотосессия + помощь с продажей. Вы передаёте нам ключи — мы возвращаем готовый продукт.',
+      'cta-label':'Начать сейчас',
+      'cta-title':'Получите расчёт стоимости<br/><span>вашего ремонта</span>',
+      'cta-sub':'Заполните форму — перезвоним в течение 30 минут',
+      'f-name':'Имя','ph-name':'Ваше имя','f-phone':'Телефон','f-area':'Площадь (м²)','ph-area':'Например: 65',
+      'sel-default':'Выберите тип',
+      'consent-text':'Я согласен(а) с <a href="privacy.html" target="_blank">политикой конфиденциальности</a> и даю согласие на обработку персональных данных',
+      'submit-btn':'Отправить заявку →',
+      'footer-desc':'Строительная компания с фокусом на качество, скорость и прозрачность. Ремонт квартир, дизайн и флиппинг в Астане.',
+      'fc-services':'Услуги','fs1':'Ремонт квартир','fs4':'Коммерческие объекты',
+      'fc-company':'Компания','fc1':'О нас','fc3':'Отзывы','fc4':'Вакансии','fc5':'Блог',
+      'footer-addr':'Астана, ул. Кабанбай батыра 1',
+      'copyright':'© 2025 RenovPro. Все права защищены.',
+      'link-privacy':'Политика конфиденциальности','link-oferta':'Договор оферты',
+      'toast-msg':'Заявка отправлена! Перезвоним в течение 30 минут.',
+      'alert-fill':'Пожалуйста, заполните имя и телефон'
+    },
+    kz: {
+      'nav-calc':'Калькулятор','nav-cases':'Кейстер','nav-process':'Процесс',
+      'nav-flip':'Флиппинг','nav-contacts':'Байланыс','nav-cta':'Смета алу',
+      'hero-badge':'Премиум деңгейіндегі жөндеу',
+      'hero-title':'2 минутта анық<br/><span>сметамен пәтер жөндеу</span>',
+      'hero-sub':'Жөндеу құнын онлайн есептеп, нақты жұмыс жоспарын алыңыз — қоңырауларсыз, күтусіз',
+      'hero-btn1':'Құнды есептеу','hero-btn2':'Кейстерді қарау',
+      'stat1':'Аяқталған жоба','stat2-num':'8 жыл','stat2':'Нарықта',
+      'stat3':'Мерзімде тапсыру','stat4':'Жасырын төлем',
+      'calc-label':'Онлайн-калькулятор',
+      'calc-title':'Жөндеу құнын<br/>біліңіз',
+      'calc-sub':'Параметрлерді таңдаңыз — секундтар ішінде нақты баға диапазоны мен мерзімдерін алыңыз',
+      'form-type':'Жылжымайтын мүлік түрі','opt-new':'Жаңа үй','opt-sec':'Қайталама','opt-com':'Коммерция',
+      'form-area':'Үй-жай ауданы','form-rtype':'Жөндеу түрі',
+      'opt-basic':'Базалық','opt-comfort':'Комфорт','opt-premium':'Премиум',
+      'form-state':'Объект жай-күйі','opt-rough':'Қара жұмыс','opt-partial':'Ішінара','opt-demo':'Бұзуға',
+      'form-extra':'Қосымша','extra-design':'Дизайн-жоба','extra-furn':'Жиһаз',
+      'result-label':'Алдын ала смета',
+      'meta-days':'Жұмыс мерзімі','meta-area':'Аудан','meta-perm':'м² үшін',
+      'stages-title':'Жұмыс кезеңдері',
+      'stage1':'Бұзу және дайындық','stage2':'Қара жұмыстар',
+      'stage3':'Электрика және сантехника','stage4':'Өңдеу және финиш','stage5':'Материалдар',
+      'result-note':'💡 Дәл смета — өлшеуші маман тегін барғаннан кейін. Түпкілікті баға 5%-дан аспай өзгереді.',
+      'calc-cta':'Дәл смета алу →',
+      'range-word':'диапазон','days-word':'күн',
+      'adv-label':'Неліктен RenovPro','adv-title':'Бізді таңдаудың 6 себебі',
+      'adv1-t':'Бекітілген смета','adv1-x':'Нақты бағалармен шарт жасаймыз. Процесте ешқандай қосымша төлем жоқ — баға тіркелген.',
+      'adv2-t':'Мерзімді сақтау','adv2-x':'Объектілердің 98%-ын келісілген мерзімде тапсырамыз. Кешіктірген күн үшін айыппұл шартта жазылған.',
+      'adv3-t':'Мөлдір процесс','adv3-x':'Апта сайынғы фотоесептер, онлайн сметаға қол жетімділік, жеке менеджер — сіз әр кезеңді бақылайсыз.',
+      'adv4-t':'Сапа бақылауы','adv4-x':'Өзіміздің сапа бақылау қызметі. Барлық жұмыс түрлеріне 2 жыл кепілдік.',
+      'adv5-t':'Флиппингтегі тәжірибе','adv5-x':'Пәтер құнын арттыратын шешімдерді білеміз — инвестиция қайтаратын жөндеу жасаймыз.',
+      'adv6-t':'Бір шарт — бәріне','adv6-x':'Жұмыс, материалдар, дизайн — бір мердігер, бір жауапкершілік, бір байланыс нүктесі.',
+      'cases-label':'Портфолио','cases-title':'Іске асырылған жобалар',
+      'cases-sub':'Нәтижені көру үшін картаға апарыңыз',
+      'before':'Дейін','hover-hint':'Hover → Кейін',
+      'tag-flip':'Флиппинг','tag-prem':'Премиум өңдеу','tag-self':'Өзіне',
+      'case1-title':'3 бөлмелі, ЖК "Комфорт Таун"',
+      'case2-title':'2 бөлмелі жаңа үй, 47 м²',
+      'case3-title':'4 бөлмелі, қайталама, 95 м²',
+      'm-area':'Ауданы','m-term':'Мерзімі','m-budget':'Бюджет',
+      'c1-days':'42 күн','c2-days':'35 күн','c3-days':'58 күн',
+      'roi1-l':'Құн өсімі','roi2-l':'Жалдам табысы','roi3-l':'Болжамды өсім',
+      'proc-label':'Қалай жұмыс істейміз','proc-title':'Дайын пәтерге дейін 5 қадам',
+      'p1-t':'Өтінім және есеп','p1-x':'Онлайн-калькулятор немесе қоңырау. 2 минутта алдын ала смета.',
+      'p2-t':'Тегін өлшем','p2-x':'Маман барады. Объектінің нақты өлшемі мен жай-күйін тіркейді.',
+      'p3-t':'Шарт және смета','p3-x':'Бағаны, мерзімді және жұмыс көлемін бекітеміз. Жасырын шарттарсыз шарт жасаймыз.',
+      'p4-t':'Жөндеу','p4-x':'Апта сайынғы фотоесептермен жоспар бойынша жұмыс. Объектіде жеке шебер.',
+      'p5-t':'Объектіні тапсыру','p5-x':'Чек-листпен пәтерді қабылдайсыз. 2 жыл кепілдік. Ескертулерді тегін жоямыз.',
+      'seg-label':'Кімдер үшін','seg-title':'Әр мақсатқа — өз шешімі',
+      's1-t':'Өзіне','s1-x':'Тұруға ыңғайлы жөндеу. Ойластырылған бөлшектер, сапалы материалдар, комфортты процесс.','s1-link':'Құнды есептеу',
+      's2-t':'Жалға беруге','s2-x':'Сенімді материалдар, функционалды дизайн. Минималды бюджетте максималды жалдам ставкасы.','s2-link':'Табыстылықты есептеу',
+      's3-t':'Флиппинг','s3-x':'Объект бағасын не арттыратынын білеміз. ROI 40%+ — 40+ инвест-жобаның тәжірибесі.','s3-link':'Флиппинг туралы',
+      'cmp-label':'Пакеттерді салыстыру','cmp-title':'Өз деңгейіңізді таңдаңыз','cmp-hit':'ХИТ',
+      'cmp-r1':'м² бағасы','cmp-r2':'Мерзімдер (60 м²)','cmp-r2b':'45–55 күн','cmp-r2c':'40–50 күн','cmp-r2d':'35–45 күн',
+      'cmp-r3':'Материалдар','cmp-r3b':'Эконом класс','cmp-r3c':'Орта сегмент','cmp-r3d':'Премиум брендтер',
+      'cmp-base-dp':'✓ Базалық','cmp-full-dp':'✓ Толық',
+      'cmp-r5':'Жеке менеджер','cmp-r6':'Фотоесептер','cmp-r6b':'Апта сайын','cmp-r6c':'Күн сайын','cmp-r6d':'Нақты уақыт режимінде',
+      'cmp-opt':'Қосымша опция','cmp-incl':'✓ Кіреді',
+      'cmp-r8':'Кепілдік','cmp-r8b':'1 жыл','cmp-r8c':'2 жыл','cmp-r8d':'3 жыл','cmp-r9':'Мысал (55 м²)',
+      'flip-label':'Инвестициялық жөндеу','flip-title':'ROI кепілдігімен флиппинг',
+      'flip-sub':'40+ жоба. Қазақстан нарығында пәтер бағасын не арттыратынын білеміз.',
+      'flip-badge-l':'Орташа құн өсімі',
+      'fp1-t':'Старттан бұрын нарық талдауы','fp1-x':'Объект потенциалын бағалап, пәтер сатып алмас бұрын ROI есептейміз. Максималды потенциалы бар объектіні таңдауға көмектесеміз.',
+      'fp2-t':'Жылдамдық — сіздің табысыңыз','fp2-x':'Әр тыныш күн — ақша жоғалту. Флиппинг объектілерін 35–50 күнде тапсырамыз. Бірде-бір жоба мерзімін бұзбады.',
+      'fp3-t':'Сататын шешімдер','fp3-x':'Сатып алушы не көргісі келетінін білеміз. Бюджетті бағаны арттыратынға саламыз: ас үй, санузел, өңдеу.',
+      'fp4-t':'Инвестор үшін кілтке дейін','fp4-x':'Жөндеу + жиһаздандыру + фотосессия + сатуға көмек. Сіз кілтті тапсырасыз — біз дайын өнімді қайтарамыз.',
+      'cta-label':'Қазір бастау',
+      'cta-title':'Жөндеуіңіздің<br/><span>құнын алыңыз</span>',
+      'cta-sub':'Форманы толтырыңыз — 30 минут ішінде қайта қоңырау шаламыз',
+      'f-name':'Аты','ph-name':'Атыңыз','f-phone':'Телефон','f-area':'Аудан (м²)','ph-area':'Мысалы: 65',
+      'sel-default':'Түрін таңдаңыз',
+      'consent-text':'Мен <a href="privacy.html" target="_blank">құпиялылық саясатымен</a> келісемін және жеке деректерді өңдеуге рұқсат беремін',
+      'submit-btn':'Өтінім жіберу →',
+      'footer-desc':'Сапа, жылдамдық және мөлдірлікке бағытталған құрылыс компаниясы. Астанада пәтер жөндеу, дизайн және флиппинг.',
+      'fc-services':'Қызметтер','fs1':'Пәтер жөндеу','fs4':'Коммерциялық объектілер',
+      'fc-company':'Компания','fc1':'Біз туралы','fc3':'Пікірлер','fc4':'Бос орындар','fc5':'Блог',
+      'footer-addr':'Астана, Қабанбай батыр к-сі 1',
+      'copyright':'© 2025 RenovPro. Барлық құқықтар қорғалған.',
+      'link-privacy':'Құпиялылық саясаты','link-oferta':'Оферта шарты',
+      'toast-msg':'Өтінім жіберілді! 30 минут ішінде қайта қоңырау шаламыз.',
+      'alert-fill':'Аты мен телефонды толтырыңыз'
+    }
+  };
+
+  let currentLang = localStorage.getItem('lang') || 'ru';
+
+  function setLang(lang) {
+    currentLang = lang;
+    localStorage.setItem('lang', lang);
+    document.documentElement.lang = lang === 'kz' ? 'kk' : 'ru';
+
+    // Switch button states
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.lang === lang);
+    });
+
+    // Apply translations to all data-i18n elements
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (T[lang][key] !== undefined) {
+        el.innerHTML = T[lang][key];
+      }
+    });
+
+    // Apply placeholder translations
+    document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+      const key = el.getAttribute('data-i18n-ph');
+      if (T[lang][key] !== undefined) {
+        el.placeholder = T[lang][key];
+      }
+    });
+
+    // Update calculator dynamic text
+    updateResult();
+  }
+
+  // ─── CALCULATOR STATE ───
+  const state = {
+    type: 'new',
+    rtype: 'comfort',
+    state: 'rough',
+    area: 55,
+    design: false,
+    furniture: false
+  };
+
+  const baseRates = { basic: 100, comfort: 155, premium: 260 };
+  const typeMulti = { new: 1, secondary: 1.1, commercial: 1.2 };
+  const stateMulti = { rough: 1, partial: 0.85, demo: 1.15 };
+  const extras = { design: 400, furniture: 1800 };
+
+  function calcTotal() {
+    const base = baseRates[state.rtype];
+    const multi = typeMulti[state.type] * stateMulti[state.state];
+    let total = base * multi * state.area;
+    if (state.design) total += extras.design;
+    if (state.furniture) total += extras.furniture;
+    return total;
+  }
+
+  function formatNum(n) {
+    return Math.round(n).toLocaleString('ru-RU');
+  }
+
+  function updateResult() {
+    const total = calcTotal();
+    const low = total * 0.92;
+    const high = total * 1.12;
+    const days = Math.round(state.area * (state.rtype === 'basic' ? 0.8 : state.rtype === 'comfort' ? 0.65 : 0.55) + 10);
+    const perM = total / state.area;
+    const lang = currentLang;
+
+    document.getElementById('resultPrice').textContent = '₸' + formatNum(total) + ' 000';
+    document.getElementById('resultRange').textContent = T[lang]['range-word'] + ': ₸' + formatNum(low) + '000 – ₸' + formatNum(high) + '000';
+    document.getElementById('metaDays').textContent = days + ' ' + T[lang]['days-word'];
+    document.getElementById('metaArea').textContent = state.area + ' м²';
+    document.getElementById('metaPerM').textContent = formatNum(perM) + 'К';
+
+    const pcts = [0.07, 0.26, 0.18, 0.38, 0.11];
+    ['s1','s2','s3','s4','s5'].forEach((id, i) => {
+      document.getElementById(id).textContent = '₸' + formatNum(total * pcts[i]) + 'К';
+    });
+  }
+
+  function setOption(btn, group, val) {
+    btn.closest('.option-grid').querySelectorAll('.option-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    state[group] = val;
+    updateResult();
+  }
+
+  function updateArea(val) {
+    state.area = parseInt(val);
+    document.getElementById('areaDisplay').textContent = val + ' м²';
+    updateResult();
+  }
+
+  function toggleExtra(key) {
+    state[key] = !state[key];
+    document.getElementById('toggle-' + key).classList.toggle('active', state[key]);
+    updateResult();
+  }
+
+  function scrollToContact() {
+    document.getElementById('cta').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function toggleSubmit() {
+    const checked = document.getElementById('consentCheck').checked;
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = !checked;
+    btn.style.opacity = checked ? '1' : '0.45';
+    btn.style.cursor = checked ? 'pointer' : 'not-allowed';
+  }
+
+  function submitForm() {
+    if (!document.getElementById('consentCheck').checked) return;
+    const name = document.getElementById('fname').value.trim();
+    const phone = document.getElementById('fphone').value.trim();
+    if (!name || !phone) {
+      alert(T[currentLang]['alert-fill']);
+      return;
+    }
+    document.getElementById('toastText').textContent = T[currentLang]['toast-msg'];
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 4000);
+    document.getElementById('fname').value = '';
+    document.getElementById('fphone').value = '';
+    document.getElementById('farea').value = '';
+    document.getElementById('ftype').value = '';
+    document.getElementById('consentCheck').checked = false;
+    toggleSubmit();
+  }
+
+  // ─── INIT ───
+  setLang(currentLang);
+
+  window.addEventListener('scroll', () => {
+    const nav = document.querySelector('nav');
+    nav.style.padding = window.scrollY > 60 ? '12px 60px' : '20px 60px';
+  });
+</script>
+</body>
+</html>
