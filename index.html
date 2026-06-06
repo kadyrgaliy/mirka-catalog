@@ -329,6 +329,64 @@
   }
   .consent-label a:hover { color: #fff; }
 
+  /* ── CONSENT MODAL ── */
+  .consent-overlay {
+    display: none; position: fixed; inset: 0; z-index: 1001;
+    background: rgba(10,5,30,0.7); backdrop-filter: blur(8px);
+    align-items: center; justify-content: center; padding: 24px;
+  }
+  .consent-overlay.open { display: flex; }
+  .consent-box {
+    background: #fff; border-radius: 20px;
+    width: 100%; max-width: 440px;
+    padding: 36px; box-shadow: 0 24px 60px rgba(0,0,0,0.25);
+  }
+  .consent-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px; font-weight: 400; color: var(--text);
+    margin-bottom: 8px;
+  }
+  .consent-sub {
+    font-size: 13px; color: var(--text-mid); font-weight: 300;
+    line-height: 1.6; margin-bottom: 24px;
+  }
+  .consent-check {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 16px; border-radius: 10px;
+    background: rgba(118,75,162,0.05);
+    border: 1.5px solid var(--border);
+    margin-bottom: 20px; cursor: pointer;
+  }
+  .consent-check input[type="checkbox"] {
+    width: 16px; height: 16px; margin-top: 2px;
+    accent-color: var(--purple); cursor: pointer; flex-shrink: 0;
+  }
+  .consent-check-label {
+    font-size: 12px; line-height: 1.65; color: var(--text-mid);
+    font-weight: 300; cursor: pointer;
+  }
+  .consent-check-label a {
+    color: var(--purple); text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .consent-actions { display: flex; gap: 10px; }
+  .consent-go {
+    flex: 1; padding: 13px; border-radius: 10px;
+    border: none; background: var(--grad); color: #fff;
+    font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
+    cursor: pointer; opacity: 0.4; pointer-events: none;
+    transition: opacity 0.2s;
+  }
+  .consent-go.ready { opacity: 1; pointer-events: auto; }
+  .consent-cancel {
+    padding: 13px 18px; border-radius: 10px;
+    border: 1.5px solid var(--border); background: transparent;
+    color: var(--text-mid); font-family: 'DM Sans', sans-serif;
+    font-size: 13px; font-weight: 500; cursor: pointer;
+    transition: border-color 0.18s;
+  }
+  .consent-cancel:hover { border-color: var(--purple); color: var(--purple); }
+
   /* ── MODAL ── */
   .modal-overlay {
     display: none; position: fixed; inset: 0; z-index: 1000;
@@ -1093,16 +1151,7 @@
         Таңдаған прототипіңіздің атауын жазып хабарласыңыз.
       </p>
     </div>
-    <a class="footer-btn" href="https://t.me/mirka_digital" target="_blank">Хабарласу →</a>
-  </div>
-
-  <div class="consent-wrap">
-    <input type="checkbox" id="consent" checked>
-    <label class="consent-label" for="consent">
-      Хабарласу арқылы мен <a href="/offer" target="_blank">Публичная офертамен</a> және
-      <a href="/privacy" target="_blank">Құпиялылық саясатымен</a> таныстым және келісемін.
-      Жеке деректерімді өңдеуге рұқсат беремін.
-    </label>
+    <button class="footer-btn" onclick="openConsent()">Хабарласу →</button>
   </div>
 
   <div class="footer-bottom">
@@ -1114,6 +1163,26 @@
     </div>
   </div>
 </footer>
+
+<!-- ── CONSENT MODAL ── -->
+<div class="consent-overlay" id="consentOverlay" onclick="closeConsentBg(event)">
+  <div class="consent-box">
+    <div class="consent-title">Хабарласу</div>
+    <p class="consent-sub">Telegram арқылы байланысуды жалғастыру үшін шарттармен танысып, растаңыз.</p>
+    <label class="consent-check">
+      <input type="checkbox" id="consentCheck" onchange="toggleConsentBtn(this)">
+      <span class="consent-check-label">
+        Мен <a href="/offer" target="_blank" onclick="event.stopPropagation()">Публичная офертамен</a> және
+        <a href="/privacy" target="_blank" onclick="event.stopPropagation()">Құпиялылық саясатымен</a> таныстым,
+        келісемін. Жеке деректерімді өңдеуге рұқсат беремін.
+      </span>
+    </label>
+    <div class="consent-actions">
+      <button class="consent-cancel" onclick="closeConsent()">Болдырмау</button>
+      <button class="consent-go" id="consentGo" onclick="goTelegram()">Telegram-ға өту →</button>
+    </div>
+  </div>
+</div>
 
 <!-- ── MODAL ── -->
 <div class="modal-overlay" id="modalOverlay" onclick="closeOnBg(event)">
@@ -1165,7 +1234,28 @@
     if (e.target === document.getElementById('modalOverlay')) closeModal();
   }
 
-  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeModal(); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') { closeModal(); closeConsent(); } });
+
+  function openConsent() {
+    document.getElementById('consentCheck').checked = false;
+    document.getElementById('consentGo').classList.remove('ready');
+    document.getElementById('consentOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeConsent() {
+    document.getElementById('consentOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function closeConsentBg(e) {
+    if (e.target === document.getElementById('consentOverlay')) closeConsent();
+  }
+  function toggleConsentBtn(cb) {
+    document.getElementById('consentGo').classList.toggle('ready', cb.checked);
+  }
+  function goTelegram() {
+    window.open('https://t.me/mirka_digital', '_blank');
+    closeConsent();
+  }
 </script>
 
 </body>
